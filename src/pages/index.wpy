@@ -1,0 +1,35 @@
+<style lang="scss">
+
+</style>
+<template>
+  <view class="container">
+      <location :cityname.sync="cityname" :cityid.sync="cityid"/>
+      <gird></gird>
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+  import Location from '../components/location'
+  import Grid from '../components/grid'
+  // import Toast from 'wepy-com-toast'
+
+  export default class Index extends wepy.page {
+      config = {
+
+      };
+      components = {
+          location : Location,
+          gird : Grid
+      };
+      data = {
+          cityname : '',
+          cityid : ''
+      }
+      onLoad(){
+          let cityInfo = this.$parent.getloactionInfo();
+          this.cityname  = cityInfo.cityname;
+          this.cityid = cityInfo.cityid;
+      }
+  }
+</script>

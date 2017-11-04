@@ -1,0 +1,17 @@
+
+  <view class="container">
+      
+  <view class="location-warp">
+      <Text class="city-name">{{$location$cityname}}</Text>
+      <view class="search-box">
+          <image src="../images/search.png" class="icon-search" bindtap="$location$search"/>
+          <input type="text" class="city-search" placeholder-style="color:#ccc" placeholder="请输入搜索关键字" bindinput="$location$input" value="{{$location$searchText}}"/>
+      </view>
+  </view>
+
+      
+    <view class="grids">
+        <view>sss</view>
+    </view>
+
+  </view>

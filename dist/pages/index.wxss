@@ -1,0 +1,2 @@
+@import "./../components/grid.wxss";
+@import "./../components/location.wxss";

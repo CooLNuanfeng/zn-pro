@@ -1,0 +1,21 @@
+<template>
+    <view class="grids">
+        <view>sss</view>
+    </view>
+</template>
+
+<script>
+import wepy from 'wepy';
+
+export default class Grid  extends wepy.component{
+
+}
+</script>
+
+<style lang="scss">
+@import "../sass/_mixin.scss";
+.grids{
+    color: $fontBlack;
+    background: #fff;
+}
+</style>

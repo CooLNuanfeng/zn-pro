@@ -1,0 +1,73 @@
+<style lang="scss">
+@import "../sass/_mixin.scss";
+.location-warp{
+    padding: 20rpx 0 30rpx;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: $themeColor;
+}
+.city-name{
+    flex: 1;
+    font-size: 50rpx;
+    color: #fff;
+}
+.search-box{
+    position: relative;
+    flex: 1;
+    padding: 0 50rpx;
+    margin-top: 10rpx;
+}
+.city-search{
+    display: block;
+    width: 580rpx;
+    border-radius: 4rpx;
+    color: $fontBlack;
+    background: #fff;
+    text-align: center;
+    font-size: 26rpx;
+}
+.icon-search{
+    position: absolute;
+    right: 60rpx;
+    top: 6rpx;
+    width: 40rpx;
+    height: 40rpx;
+    z-index: 10;
+}
+</style>
+<template lang="wxml">
+  <view class="location-warp">
+      <Text class="city-name">{{cityname}}</Text>
+      <view class="search-box">
+          <image src="../images/search.png" class="icon-search" @tap="search"></image>
+          <input type="text" class="city-search" placeholder-style="color:#ccc" placeholder="请输入搜索关键字"  @input="input" value="{{searchText}}"/>
+      </view>
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy';
+
+  export default class Location extends wepy.component {
+        data = {
+            searchText : ''
+        }
+        props = {
+            cityname : String,
+            cityid : Number
+        }
+        methods = {
+            input(evt){
+                this.searchText = evt.detail.value;
+            },
+            search(){
+                console.log(this.searchText,'tap');
+            }
+        }
+        onLoad(){
+
+        }
+  }
+</script>
