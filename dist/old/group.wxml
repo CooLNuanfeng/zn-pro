@@ -1,0 +1,15 @@
+
+  <view class="group">
+    <text class="id">{{grouplist.id}}. </text>
+    <text class="name" bindtap="tap">{{grouplist.name}}</text>
+    <view>
+      <block wx:for="{{grouplist.list}}" wx:for-index="index" wx:for-item="item" wx:key="key">
+        
+  <view class="groupitem">
+    --<text class="id">{{item.childid}}.</text>
+    <text class="name" bindtap="$groupitem$tap" data-com-index="{{index}}"> {{item.childname}}</text>
+  </view>
+
+      </block>
+    </view>
+  </view>

@@ -2,3 +2,13 @@
 
 $themeColor : #51e886;
 $fontBlack : #333;
+$red : #e80505;
+
+
+@mixin text-overflow($n:1) {
+    overflow : hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: $n;
+    -webkit-box-orient: vertical;
+}

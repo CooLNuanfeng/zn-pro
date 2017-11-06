@@ -1,1 +1,1 @@
-.grids{color:#333;background:#fff}
+.grids{padding:20rpx 0;color:#333;background:#fff}.grids-flex{display:flex}.grids-item{flex:1;display:flex;padding:20rpx;flex-direction:column;justify-content:center;align-items:center}.grids-item text{font-size:26rpx;color:#51e886}.grids-item image{width:50rpx;height:50rpx;margin-bottom:10rpx}

@@ -1,0 +1,22 @@
+<template >
+    <view class="footer">欢迎来到 {{cityname}}</view>
+</template>
+
+<script>
+import wepy from 'wepy'
+export default class Footer extends wepy.component{
+    props = {
+        cityname : String,
+        cityid : Number
+    }
+}
+</script>
+
+<style lang="scss">
+.footer{
+    padding: 40rpx;
+    font-size: 22rpx;
+    text-align: center;
+    color: #999;
+}
+</style>

@@ -11,7 +11,89 @@
 
       
     <view class="grids">
-        <view>sss</view>
+        <view class="grids-flex">
+            <view class="grids-item">
+                <image src="../images/job.png"/>
+                <text>招聘信息</text>
+            </view>
+            <view class="grids-item">
+                <image src="../images/sale.png"/>
+                <text>打折促销</text>
+            </view>
+            <view class="grids-item">
+                <image src="../images/home.png"/>
+                <text>房屋租售</text>
+            </view>
+            <view class="grids-item">
+                <image src="../images/car.png"/>
+                <text>车辆交易</text>
+            </view>
+            <view class="grids-item">
+                <image src="../images/find.png"/>
+                <text>寻人寻物</text>
+            </view>
+        </view>
+        <view class="grids-flex">
+            <view class="grids-item">
+                <image src="../images/food.png"/>
+                <text>美食推荐</text>
+            </view>
+            <view class="grids-item">
+                <image src="../images/friend.png"/>
+                <text>相亲交友</text>
+            </view>
+            <view class="grids-item">
+                <image src="../images/pet.png"/>
+                <text>宠物领养</text>
+            </view>
+            <view class="grids-item">
+                <image src="../images/edu.png"/>
+                <text>教育培训</text>
+            </view>
+            <view class="grids-item">
+                <image src="../images/other.png"/>
+                <text>其他消息</text>
+            </view>
+        </view>
     </view>
 
+      <view class="index-container">
+          <view class="index-title">最新发布</view>
+          <view class="index-list">
+              <view class="index-flex">
+                  <view class="item-img"><image src="../images/car.png"/></view>
+                  <view class="item-info">
+                      <view class="item-title"><text>图</text>新平佳节快乐姐姐加快拉倒了杰拉德</view>
+                      <view class="item-desc">简单 方便</view>
+                      <view class="item-price">
+                          <text class="price">￥<text class="price-number">123</text>元</text>
+                          <text class="pub-time">2017-10-08</text>
+                      </view>
+                  </view>
+              </view>
+              <view class="index-flex">
+                  <view class="item-img"><image src="../images/food.png"/></view>
+                  <view class="item-info">
+                      <view class="item-title"><text>图</text>新平佳节快乐姐姐加快拉倒了杰拉德新平佳节快乐姐姐加快拉倒了杰拉德新平佳节快乐姐姐加快拉倒了杰拉德</view>
+                      <view class="item-desc">美味 方便 快捷</view>
+                      <view class="item-price">
+                          <text class="price">￥<text class="price-number">123</text>元</text>
+                          <text class="pub-time">2017-10-08</text>
+                      </view>
+                  </view>
+              </view>
+              <view class="index-flex">
+                  <view class="item-img"><image src="../images/other.png"/></view>
+                  <view class="item-info">
+                      <view class="item-title">新平佳节快乐姐姐加快拉倒了杰拉德新平佳节快乐姐姐加快拉倒了杰拉德新平佳节快乐姐姐加快拉倒了杰拉德</view>
+                      <view class="item-price">
+                          <text class="pub-time">2017-10-08</text>
+                      </view>
+                  </view>
+              </view>
+          </view>
+          
+    <view class="footer">欢迎来到 {{$footer$cityname}}</view>
+
+      </view>
   </view>

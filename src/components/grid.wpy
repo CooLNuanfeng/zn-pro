@@ -1,6 +1,49 @@
 <template>
     <view class="grids">
-        <view>sss</view>
+        <view class="grids-flex">
+            <view class="grids-item">
+                <image src="../images/job.png"></image>
+                <text>招聘信息</text>
+            </view>
+            <view class="grids-item">
+                <image src="../images/sale.png"></image>
+                <text>打折促销</text>
+            </view>
+            <view class="grids-item">
+                <image src="../images/home.png"></image>
+                <text>房屋租售</text>
+            </view>
+            <view class="grids-item">
+                <image src="../images/car.png"></image>
+                <text>车辆交易</text>
+            </view>
+            <view class="grids-item">
+                <image src="../images/find.png"></image>
+                <text>寻人寻物</text>
+            </view>
+        </view>
+        <view class="grids-flex">
+            <view class="grids-item">
+                <image src="../images/food.png"></image>
+                <text>美食推荐</text>
+            </view>
+            <view class="grids-item">
+                <image src="../images/friend.png"></image>
+                <text>相亲交友</text>
+            </view>
+            <view class="grids-item">
+                <image src="../images/pet.png"></image>
+                <text>宠物领养</text>
+            </view>
+            <view class="grids-item">
+                <image src="../images/edu.png"></image>
+                <text>教育培训</text>
+            </view>
+            <view class="grids-item">
+                <image src="../images/other.png"></image>
+                <text>其他消息</text>
+            </view>
+        </view>
     </view>
 </template>
 
@@ -15,7 +58,28 @@ export default class Grid  extends wepy.component{
 <style lang="scss">
 @import "../sass/_mixin.scss";
 .grids{
+    padding: 20rpx 0;
     color: $fontBlack;
     background: #fff;
+}
+.grids-flex{
+    display: flex;
+}
+.grids-item{
+    flex: 1;
+    display: flex;
+    padding: 20rpx;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text{
+        font-size: 26rpx;
+        color: $themeColor;
+    }
+    image{
+        width: 50rpx;
+        height: 50rpx;
+        margin-bottom: 10rpx;
+    }
 }
 </style>

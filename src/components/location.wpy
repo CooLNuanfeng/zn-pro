@@ -1,7 +1,7 @@
 <style lang="scss">
 @import "../sass/_mixin.scss";
 .location-warp{
-    padding: 20rpx 0 30rpx;
+    padding: 50rpx 0;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -12,6 +12,7 @@
     flex: 1;
     font-size: 50rpx;
     color: #fff;
+    margin-bottom: 20rpx;
 }
 .search-box{
     position: relative;
@@ -22,6 +23,7 @@
 .city-search{
     display: block;
     width: 580rpx;
+    padding: 10rpx 0;
     border-radius: 4rpx;
     color: $fontBlack;
     background: #fff;
@@ -31,9 +33,9 @@
 .icon-search{
     position: absolute;
     right: 60rpx;
-    top: 6rpx;
-    width: 40rpx;
-    height: 40rpx;
+    top: 8rpx;
+    width: 50rpx;
+    height: 50rpx;
     z-index: 10;
 }
 </style>

@@ -1,0 +1,12 @@
+<template>
+
+</template>
+
+<script>
+import wepy from 'wepy'
+export default class Ad  extends wepy.component{
+}
+</script>
+
+<style lang="scss">
+</style>
