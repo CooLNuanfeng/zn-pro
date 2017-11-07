@@ -12,45 +12,45 @@
       
     <view class="grids">
         <view class="grids-flex">
-            <view class="grids-item">
+            <view class="grids-item" bindtap="$gird$tap" data-wpytap-a="job">
                 <image src="../images/job.png"/>
                 <text>招聘信息</text>
             </view>
-            <view class="grids-item">
+            <view class="grids-item" bindtap="$gird$tap" data-wpytap-a="sale">
                 <image src="../images/sale.png"/>
                 <text>打折促销</text>
             </view>
-            <view class="grids-item">
+            <view class="grids-item" bindtap="$gird$tap" data-wpytap-a="home">
                 <image src="../images/home.png"/>
                 <text>房屋租售</text>
             </view>
-            <view class="grids-item">
+            <view class="grids-item" bindtap="$gird$tap" data-wpytap-a="car">
                 <image src="../images/car.png"/>
                 <text>车辆交易</text>
             </view>
-            <view class="grids-item">
+            <view class="grids-item" bindtap="$gird$tap" data-wpytap-a="find">
                 <image src="../images/find.png"/>
                 <text>寻人寻物</text>
             </view>
         </view>
         <view class="grids-flex">
-            <view class="grids-item">
+            <view class="grids-item" bindtap="$gird$tap" data-wpytap-a="food">
                 <image src="../images/food.png"/>
                 <text>美食推荐</text>
             </view>
-            <view class="grids-item">
+            <view class="grids-item" bindtap="$gird$tap" data-wpytap-a="friend">
                 <image src="../images/friend.png"/>
                 <text>相亲交友</text>
             </view>
-            <view class="grids-item">
+            <view class="grids-item" bindtap="$gird$tap" data-wpytap-a="pet">
                 <image src="../images/pet.png"/>
                 <text>宠物领养</text>
             </view>
-            <view class="grids-item">
+            <view class="grids-item" bindtap="$gird$tap" data-wpytap-a="edu">
                 <image src="../images/edu.png"/>
                 <text>教育培训</text>
             </view>
-            <view class="grids-item">
+            <view class="grids-item" bindtap="$gird$tap" data-wpytap-a="other">
                 <image src="../images/other.png"/>
                 <text>其他消息</text>
             </view>
@@ -92,8 +92,12 @@
                   </view>
               </view>
           </view>
-          
+      </view>
+      
     <view class="footer">欢迎来到 {{$footer$cityname}}</view>
 
+      <view class="publish-btn">
+          <image src="../images/contact.png"/>
+          <image src="../images/publish.png"/>
       </view>
   </view>

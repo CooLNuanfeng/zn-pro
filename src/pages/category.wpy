@@ -1,0 +1,120 @@
+<template>
+    <view class="category">
+        <view class="category-title">
+            <view class="title-l"><text>当前：</text> 招聘信息</view>
+            <view class="title-r active"><image src="../images/arrow.png"></image></view>
+        </view>
+        <view class="category-grid">
+            <view class="active">招聘信息</view>
+            <view>打折促销</view>
+            <view>房屋租售</view>
+            <view>车辆交易</view>
+            <view>寻人寻物</view>
+            <view>美食推荐</view>
+            <view>相亲交友</view>
+            <view>宠物领养</view>
+            <view>教育培训</view>
+            <view>其他消息</view>
+        </view>
+        <nav-bar></nav-bar>
+        <news-list></news-list>
+        <loading :loading="loading"></loading>
+    </view>
+</template>
+
+<script>
+import wepy from 'wepy';
+import NavBar from '../components/navbar';
+import ListNews from '../components/listnews';
+import Loading from '../components/loading';
+
+export default class Category extends wepy.page {
+    config = {};
+    components = {
+        'nav-bar' : NavBar,
+        'news-list': ListNews,
+        'loading': Loading
+    }
+    data = {
+        loading : false
+    }
+    onLoad(options) {
+        console.log('onLoad',options.id);
+    };
+}
+</script>
+
+<style lang="scss">
+@import "../sass/_mixin.scss";
+$height : 60rpx;
+.category{
+    padding-top: $height;
+}
+.category-title{
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: $height;
+    padding: 0 20rpx;
+    background: #fff;
+    border-bottom: 1rpx solid #ebebeb;
+    z-index: 5;
+}
+.title-l{
+    color: $fontBlack;
+    font-weight: bold;
+    font-size: 32rpx;
+    text{
+        color: $themeColor;
+        &::before{
+            content : '';
+            display: inline-block;
+            width: 5rpx;
+            height:  25rpx;
+            background: $themeColor;
+            margin-right: 10rpx;
+        }
+    }
+}
+.title-r{
+    font-size: 24rpx;
+    color: $gray;
+    image{
+        width: 30rpx;
+        height: 30rpx;
+        vertical-align: middle;
+        transition: all .1s linear;
+    }
+    &.active{
+        image{
+            transform: rotate(180deg);
+        }
+    }
+}
+.category-grid{
+    display: none;
+    position: fixed;
+    top: $height;
+    left: 0;
+    right: 0;
+    padding: 10rpx 0;
+    z-index: 5;
+    background: #fff;
+    view{
+        width: 20%;
+        height: 40rpx;
+        display: inline-block;
+        text-align: center;
+        line-height: 40rpx;
+        font-size: 30rpx;
+        color: $fontBlack;
+        &.active{
+            color: $themeColor;
+        }
+    }
+}
+</style>

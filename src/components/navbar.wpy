@@ -1,0 +1,58 @@
+<template>
+    <scroll-view scroll-x class="nav-container">
+        <view class="active">全 部</view>
+        <view>餐饮/酒店</view>
+        <view>销售/客服</view>
+        <view>物业/安保</view>
+        <view>教育/培训</view>
+        <view>行政/人事</view>
+        <view>超市/零售</view>
+        <view>美发/按摩</view>
+        <view>技工/普工</view>
+        <view>物流/仓储</view>
+        <view>化工/能源</view>
+        <view>服装/纺织</view>
+        <view>电气/机械</view>
+        <view>建筑/房产</view>
+    </scroll-view>
+</template>
+
+<script>
+import wepy from 'wepy';
+
+export default class NavBar  extends wepy.component{
+
+}
+</script>
+
+<style lang="scss">
+@import "../sass/_mixin.scss";
+.nav-container{
+    display: flex;
+    align-items: center;
+    height: 81rpx;
+    white-space: nowrap;
+    padding: 15rpx 20rpx;
+    background: #fff;
+    border-bottom: 1rpx solid #ebebeb;
+    box-sizing: border-box;
+    view{
+        display: inline-flex;
+        height: 50rpx;
+        justify-content: center;
+        align-items: center;
+        margin-right: 15rpx;
+        padding: 0 10rpx;
+        font-size: 30rpx;
+        color: $fontBlack;
+        &:last-child{
+            margin-right: 0;
+        }
+        &.active{
+            border-radius: 4rpx;
+            background: $themeColor;
+            color: #fff;
+        }
+    }
+}
+</style>

@@ -37,15 +37,16 @@
                   </view>
               </view>
           </view>
-          <footer :cityname.sync="cityname" :cityid.sync="cityid"/>
+      </view>
+      <footer :cityname.sync="cityname" :cityid.sync="cityid"/>
+      <view class="publish-btn">
+          <image src="../images/contact.png"></image>
+          <image src="../images/publish.png"></image>
       </view>
   </view>
 </template>
 <style lang="scss">
 @import "../sass/_mixin.scss";
-page{
-    background: #f4f4f4;
-}
 .index-title{
     margin-top: 10rpx;
     height: 70rpx;
@@ -103,7 +104,8 @@ page{
 .item-desc{
     padding: 5rpx 0;
     font-size: 26rpx;
-    color: #999;
+    color: $gray;
+    @include text-overflow(1);
 }
 .item-price{
     display: flex;
@@ -119,7 +121,22 @@ page{
 }
 .pub-time{
     font-size: 26rpx;
-    color: #999;
+    color: $gray;
+}
+.publish-btn{
+    position: fixed;
+    right: 20rpx;
+    bottom: 20rpx;
+    width: 100rpx;
+    padding: 10rpx;
+    z-index: 10;
+    box-sizing: border-box;
+    image{
+        width: 80rpx;;
+        height: 80rpx;
+        margin-top: 20rpx;
+        opacity: .6;
+    }
 }
 </style>
 <script>

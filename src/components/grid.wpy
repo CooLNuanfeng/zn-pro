@@ -1,45 +1,45 @@
 <template>
     <view class="grids">
         <view class="grids-flex">
-            <view class="grids-item">
+            <view class="grids-item" @tap="tap('job')">
                 <image src="../images/job.png"></image>
                 <text>招聘信息</text>
             </view>
-            <view class="grids-item">
+            <view class="grids-item" @tap="tap('sale')">
                 <image src="../images/sale.png"></image>
                 <text>打折促销</text>
             </view>
-            <view class="grids-item">
+            <view class="grids-item" @tap="tap('home')">
                 <image src="../images/home.png"></image>
                 <text>房屋租售</text>
             </view>
-            <view class="grids-item">
+            <view class="grids-item" @tap="tap('car')">
                 <image src="../images/car.png"></image>
                 <text>车辆交易</text>
             </view>
-            <view class="grids-item">
+            <view class="grids-item" @tap="tap('find')">
                 <image src="../images/find.png"></image>
                 <text>寻人寻物</text>
             </view>
         </view>
         <view class="grids-flex">
-            <view class="grids-item">
+            <view class="grids-item" @tap="tap('food')">
                 <image src="../images/food.png"></image>
                 <text>美食推荐</text>
             </view>
-            <view class="grids-item">
+            <view class="grids-item" @tap="tap('friend')">
                 <image src="../images/friend.png"></image>
                 <text>相亲交友</text>
             </view>
-            <view class="grids-item">
+            <view class="grids-item" @tap="tap('pet')">
                 <image src="../images/pet.png"></image>
                 <text>宠物领养</text>
             </view>
-            <view class="grids-item">
+            <view class="grids-item" @tap="tap('edu')">
                 <image src="../images/edu.png"></image>
                 <text>教育培训</text>
             </view>
-            <view class="grids-item">
+            <view class="grids-item" @tap="tap('other')">
                 <image src="../images/other.png"></image>
                 <text>其他消息</text>
             </view>
@@ -51,7 +51,13 @@
 import wepy from 'wepy';
 
 export default class Grid  extends wepy.component{
-
+    methods = {
+        tap(params){
+            wx.navigateTo({
+                url : 'category?id='+params
+            });
+        }
+    }
 }
 </script>
 

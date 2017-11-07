@@ -1,0 +1,91 @@
+
+    <view class="category">
+        <view class="category-title">
+            <view class="title-l"><text>当前：</text> 招聘信息</view>
+            <view class="title-r active"><image src="../images/arrow.png"/></view>
+        </view>
+        <view class="category-grid">
+            <view class="active">招聘信息</view>
+            <view>打折促销</view>
+            <view>房屋租售</view>
+            <view>车辆交易</view>
+            <view>寻人寻物</view>
+            <view>美食推荐</view>
+            <view>相亲交友</view>
+            <view>宠物领养</view>
+            <view>教育培训</view>
+            <view>其他消息</view>
+        </view>
+        
+    <scroll-view scroll-x class="nav-container">
+        <view class="active">全 部</view>
+        <view>餐饮/酒店</view>
+        <view>销售/客服</view>
+        <view>物业/安保</view>
+        <view>教育/培训</view>
+        <view>行政/人事</view>
+        <view>超市/零售</view>
+        <view>美发/按摩</view>
+        <view>技工/普工</view>
+        <view>物流/仓储</view>
+        <view>化工/能源</view>
+        <view>服装/纺织</view>
+        <view>电气/机械</view>
+        <view>建筑/房产</view>
+    </scroll-view>
+
+        
+    <view class="list-contaier">
+        <view class="list-flex">
+            <view class="list-title"><text>图</text>距离可垃圾地方李经理卡机法律框架拉动房价看了监考老师放假了是就发即可拉伸减肥的爱是理解对方考虑</view>
+            <view class="list-body">
+                <view class="list-info">
+                    <view>简单 方便 快捷</view>
+                    <view class="list-price">￥<text>1234</text>元</view>
+                    <view class="list-time"><text>发布者: 小程序</text> <text>2017-10-20</text></view>
+                </view>
+                <view class="list-btn">
+                    <view><image src="../images/add-care.png"/> 关注 </view>
+                    <view><image src="../images/phone.png"/> 电话</view>
+                </view>
+            </view>
+        </view>
+        <view class="list-flex">
+            <view class="list-title"><text>图</text>距离可垃圾地方李经理卡机法律框架拉动房价看了监考老师放假了是就发即可拉伸减肥的爱是理解对方考虑</view>
+            <view class="list-body">
+                <view class="list-info">
+                    <view>简单 方便 快捷</view>
+                    <view class="list-price">￥<text>1234</text>元</view>
+                    <view class="list-time">
+                        <text>发布者: 小程序</text>
+                        <text>2017-10-20</text>
+                    </view>
+                </view>
+                <view class="list-btn">
+                    <view><image src="../images/phone.png"/> 电话</view>
+                </view>
+            </view>
+        </view>
+        <view class="list-flex">
+            <view class="list-title"><text>图</text>距离可垃圾地方李经理卡机法律框架拉动房价看了监考老师放假了是就发即可拉伸减肥的爱是理解对方考虑</view>
+            <view class="list-body">
+                <view class="list-info">
+                    <view>简单 方便 快捷</view>
+                    <view class="list-price">￥<text>1234</text>元</view>
+                    <view class="list-time"><text>发布者: 小程序</text> <text>2017-10-20</text></view>
+                </view>
+                <view class="list-btn">
+                    <view><image src="../images/add-care.png"/> 关注 </view>
+                    <view><image src="../images/phone.png"/> 电话</view>
+                </view>
+            </view>
+        </view>
+    </view>
+
+        
+   <view class="loading">
+       <text  wx:if="{{$loading$loading}}">加载中...</text>
+       <text  wx:else>我也是有底线的~</text>
+   </view>
+
+    </view>

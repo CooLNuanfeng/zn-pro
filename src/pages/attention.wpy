@@ -1,0 +1,329 @@
+<template>
+    <view class="attention">
+        <nav-bar></nav-bar>
+        <view class="attention-body">
+            <view class="attention-list">
+
+                <view class="attention-item active" @touchstart="touchstart" @touchmove.stop="touchmove">
+                    <view class="item-att-select active"><text class="select-icon"></text></view>
+                    <view class="item-att-main">
+                        <view class="item-att-l">
+                            <view class="item-att-title"><text>图</text>距离可垃圾地方李经理卡机法律框架拉动房价看了监考老师放假了是就发即可拉伸减肥的爱是理解对方考虑</view>
+                            <view class="item-att-body">
+                                <view class="item-att-info">
+                                    <view>简单 方便 快捷</view>
+                                    <view class="item-att-price">￥<text>1234</text>元</view>
+                                    <view class="item-att-time"><text>发布者: 小程序</text> <text>2017-10-20</text></view>
+                                </view>
+                                <view class="item-att-btn">
+                                    <view><image src="../images/phone.png"></image> 电话</view>
+                                </view>
+                            </view>
+                        </view>
+                        <view class="item-att-r">删除</view>
+                    </view>
+                </view>
+
+                <view class="attention-item delete">
+                    <view class="item-att-select active"><text class="select-icon"></text></view>
+                    <view class="item-att-main">
+                        <view class="item-att-l">
+                            <view class="item-att-title"><text>图</text>距离可垃圾地方李经理卡机法律框架拉动房价看了监考老师放假了是就发即可拉伸减肥的爱是理解对方考虑</view>
+                            <view class="item-att-body">
+                                <view class="item-att-info">
+                                    <view>简单 方便 快捷</view>
+                                    <view class="item-att-price">￥<text>1234</text>元</view>
+                                    <view class="item-att-time"><text>发布者: 小程序</text> <text>2017-10-20</text></view>
+                                </view>
+                                <view class="item-att-btn">
+                                    <view><image src="../images/phone.png"></image> 电话</view>
+                                </view>
+                            </view>
+                        </view>
+                        <view class="item-att-r">删除</view>
+                    </view>
+                </view>
+
+                <view class="attention-item">
+                    <view class="item-att-select active"><text class="select-icon"></text></view>
+                    <view class="item-att-main">
+                        <view class="item-att-l">
+                            <view class="item-att-title"><text>图</text>距离可垃圾地方李经理卡机法律框架拉动房价看了监考老师放假了是就发即可拉伸减肥的爱是理解对方考虑</view>
+                            <view class="item-att-body">
+                                <view class="item-att-info">
+                                    <view>简单 方便 快捷</view>
+                                    <view class="item-att-price">￥<text>1234</text>元</view>
+                                    <view class="item-att-time"><text>发布者: 小程序</text> <text>2017-10-20</text></view>
+                                </view>
+                                <view class="item-att-btn">
+                                    <view><image src="../images/phone.png"></image> 电话</view>
+                                </view>
+                            </view>
+                        </view>
+                        <view class="item-att-r">删除</view>
+                    </view>
+                </view>
+
+            </view>
+        </view>
+        <view class="attention-btn active">
+            <view class="select-l"><text class="select-icon"></text>全选</view>
+            <view class="select-m">取消</view>
+            <view class="select-r">删除</view>
+        </view>
+        <view class="attention-edit"><image src="../images/delete.png"></image></view>
+    </view>
+</template>
+
+<script>
+import wepy from 'wepy';
+import ListNews from '../components/listnews';
+import NavBar from '../components/navbar';
+
+export default class Attention extends wepy.page {
+    config = {};
+    components = {
+        'nav-bar' : NavBar
+    };
+    data = {
+        startX : 0,
+        startY: 0
+    }
+    methods = {
+        touchstart(e){
+            this.startX = e.changedTouches[0].clientX;
+            this.startY = e.changedTouches[0].clientY;
+            console.log('touchstart',e);
+        },
+        touchmove(e){
+            var that = this,
+              index = e.currentTarget.dataset.index,//当前索引
+              startX = that.startX,//开始X坐标
+              startY = that.startY,//开始Y坐标
+              touchMoveX = e.changedTouches[0].clientX,//滑动变化坐标
+              touchMoveY = e.changedTouches[0].clientY,//滑动变化坐标
+              //获取滑动角度
+              angle = that.angle({ X: startX, Y: startY }, { X: touchMoveX, Y: touchMoveY });
+              //滑动超过30度角 return
+              if (Math.abs(angle) > 30) return;
+              if (touchMoveX > startX){//右滑
+                  console.log('touchmove right');
+              }else {//左滑
+                  console.log('touchmove left');
+              }
+        },
+    }
+    angle(start, end) {
+       var _X = end.X - start.X,
+         _Y = end.Y - start.Y
+       //返回角度 /Math.atan()返回数字的反正切值
+       return 360 * Math.atan(_Y / _X) / (2 * Math.PI);
+    }
+}
+</script>
+
+<style lang="scss">
+@import "../sass/_mixin.scss";
+.attention{
+    overflow-x: hidden;
+}
+.attention-body{
+    padding-bottom: 80rpx;
+}
+.attention-item{
+    margin-left: -70rpx;
+    margin-right: -120rpx;
+    display: flex;
+    padding: 20rpx 0 0;
+    background: #fff;
+    transition: all .3s linear;
+    &:last-child{
+        .item-att-body{
+            border-bottom: 0;
+        }
+    }
+    &.active{
+        transform: translateX(70rpx);
+    }
+    &.delete{
+        transform: translateX(-120rpx);
+    }
+}
+.item-att-select{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50rpx;
+    padding: 10rpx;
+    &.active{
+        .select-icon{
+            background: #fff;
+            color: #fff;
+            border: 10rpx solid $themeColor;
+        }
+    }
+}
+.item-att-main{
+    flex: 1;
+    display: flex;
+    background: #fff;
+}
+.item-att-l{
+    padding: 0 20rpx;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+.item-att-r{
+    width: 120rpx;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: $red;
+    color: #fff;
+    font-size: 28rpx;
+}
+
+.item-att-title{
+    margin-bottom: 10rpx;
+    font-size: 30rpx;
+    color: $fontBlack;
+    @include text-overflow(2);
+    text{
+        margin-right: 10rpx;
+        padding: 0 5rpx;
+        font-size: 22rpx;
+        border: 1rpx solid $themeColor;
+        color: $themeColor;
+    }
+}
+.item-att-body{
+    display: flex;
+    padding-bottom: 10rpx;
+    border-bottom: 1rpx solid #ebebeb;
+}
+.item-att-info{
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    color: $gray;
+    font-size: 26rpx;
+    view{
+        padding: 5rpx 0;
+        @include text-overflow(1);
+    }
+    .item-att-time{
+        display: flex;
+        justify-content: space-between;
+        text{
+            flex: 1;
+            @include text-overflow(1);
+            &:first-child{
+                flex: 2
+            }
+        }
+    }
+}
+.item-att-price{
+    color: $red;
+    text{
+        font-size: 34rpx;
+    }
+}
+
+.item-att-btn{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 150rpx;
+    padding: 0 20rpx;
+    view{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 140rpx;
+        height: 50rpx;
+        font-size: 26rpx;
+        border: 1rpx solid $themeColor;
+        color: $themeColor;
+        border-radius: 4rpx;
+        margin: 10rpx;
+        image{
+            width: 25rpx;
+            height: 25rpx;
+            margin-right: 10rpx;
+            vertical-align: middle;
+        }
+    }
+}
+.attention-btn{
+    position:fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    height: 80rpx;
+    font-size: 28rpx;
+    color: $fontBlack;
+    background: #fff;
+    &.active{
+        .select-icon{
+            background: #fff;
+            color: #fff;
+            border: 10rpx solid $themeColor;
+        }
+        .select-r{
+            background: $red;
+        }
+    }
+}
+.select-l{
+    flex: 3;
+    display: flex;
+    align-items: center;
+    padding-left: 20rpx;
+    height: 100%;
+}
+.select-m{
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: $fontBlack;
+    height: 100%;
+    background: #ddd;
+}
+.select-icon{
+    display: inline-block;
+    width: 30rpx;
+    height: 30rpx;
+    border: 1rpx solid $gray;
+    margin-right: 10rpx;
+    background: #fff;
+    box-sizing: border-box;
+    border-radius: 15rpx;
+}
+.select-r{
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    background: $gray;
+    color: #fff;
+}
+.attention-edit{
+    position: fixed;
+    right: 20rpx;
+    bottom: 80rpx;
+    width: 80rpx;
+    image{
+        width: 80rpx;
+        height: 80rpx;
+        opacity: .6;
+    }
+}
+</style>

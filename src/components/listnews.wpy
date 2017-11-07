@@ -1,0 +1,144 @@
+<template>
+    <view class="list-contaier">
+        <view class="list-flex">
+            <view class="list-title"><text>图</text>距离可垃圾地方李经理卡机法律框架拉动房价看了监考老师放假了是就发即可拉伸减肥的爱是理解对方考虑</view>
+            <view class="list-body">
+                <view class="list-info">
+                    <view>简单 方便 快捷</view>
+                    <view class="list-price">￥<text>1234</text>元</view>
+                    <view class="list-time"><text>发布者: 小程序</text> <text>2017-10-20</text></view>
+                </view>
+                <view class="list-btn">
+                    <view><image src="../images/add-care.png"></image> 关注 </view>
+                    <view><image src="../images/phone.png"></image> 电话</view>
+                </view>
+            </view>
+        </view>
+        <view class="list-flex">
+            <view class="list-title"><text>图</text>距离可垃圾地方李经理卡机法律框架拉动房价看了监考老师放假了是就发即可拉伸减肥的爱是理解对方考虑</view>
+            <view class="list-body">
+                <view class="list-info">
+                    <view>简单 方便 快捷</view>
+                    <view class="list-price">￥<text>1234</text>元</view>
+                    <view class="list-time">
+                        <text>发布者: 小程序</text>
+                        <text>2017-10-20</text>
+                    </view>
+                </view>
+                <view class="list-btn">
+                    <view><image src="../images/phone.png"></image> 电话</view>
+                </view>
+            </view>
+        </view>
+        <view class="list-flex">
+            <view class="list-title"><text>图</text>距离可垃圾地方李经理卡机法律框架拉动房价看了监考老师放假了是就发即可拉伸减肥的爱是理解对方考虑</view>
+            <view class="list-body">
+                <view class="list-info">
+                    <view>简单 方便 快捷</view>
+                    <view class="list-price">￥<text>1234</text>元</view>
+                    <view class="list-time"><text>发布者: 小程序</text> <text>2017-10-20</text></view>
+                </view>
+                <view class="list-btn">
+                    <view><image src="../images/add-care.png"></image> 关注 </view>
+                    <view><image src="../images/phone.png"></image> 电话</view>
+                </view>
+            </view>
+        </view>
+    </view>
+</template>
+
+<script>
+import wepy from 'wepy';
+export default class ListNews extends wepy.component{
+}
+</script>
+
+<style lang="scss">
+@import "../sass/_mixin.scss";
+
+.list-flex{
+    display: flex;
+    flex-direction: column;
+    padding: 20rpx 20rpx 0;
+    background: #fff;
+    &:last-child{
+        .list-body{
+            border-bottom: 0;
+        }
+    }
+}
+.list-title{
+    margin-bottom: 10rpx;
+    font-size: 30rpx;
+    color: $fontBlack;
+    @include text-overflow(2);
+    text{
+        margin-right: 10rpx;
+        padding: 0 5rpx;
+        font-size: 22rpx;
+        border: 1rpx solid $themeColor;
+        color: $themeColor;
+    }
+}
+.list-body{
+    display: flex;
+    padding-bottom: 10rpx;
+    border-bottom: 1rpx solid #ebebeb;
+}
+.list-info{
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    color: $gray;
+    font-size: 26rpx;
+    view{
+        padding: 5rpx 0;
+        @include text-overflow(1);
+    }
+    .list-time{
+        display: flex;
+        justify-content: space-between;
+        text{
+            flex: 1;
+            @include text-overflow(1);
+            &:first-child{
+                flex: 2
+            }
+        }
+    }
+}
+.list-price{
+    color: $red;
+    text{
+        font-size: 34rpx;
+    }
+}
+
+.list-btn{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 150rpx;
+    padding: 0 20rpx;
+    view{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 140rpx;
+        height: 50rpx;
+        font-size: 26rpx;
+        border: 1rpx solid $themeColor;
+        color: $themeColor;
+        border-radius: 4rpx;
+        margin: 10rpx;
+        image{
+            width: 25rpx;
+            height: 25rpx;
+            margin-right: 10rpx;
+            vertical-align: middle;
+        }
+    }
+}
+</style>

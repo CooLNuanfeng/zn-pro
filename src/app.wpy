@@ -1,6 +1,6 @@
 <style lang="scss">
-.container {
-
+page{
+    background: #f4f4f4;
 }
 </style>
 
@@ -11,14 +11,42 @@ import 'wepy-async-function'
 export default class extends wepy.app {
   config = {
     pages: [
-      'pages/index'
+      'pages/index',
+      'pages/attention',
+      'pages/user',
+      'pages/category'
     ],
     window: {
       backgroundTextStyle: 'light',
       navigationBarBackgroundColor: '#fff',
-      navigationBarTitleText: 'WeChat',
+      navigationBarTitleText: 'My City',
       navigationBarTextStyle: 'black'
-    }
+     },
+     tabBar: {
+          color: '#999',
+          selectedColor : '#51e886',
+          backgroundColor : '#fff',
+          list: [
+              {
+                  "pagePath": "pages/index",
+                  "selectedIconPath": "images/index.png",
+                  "iconPath": "images/index_disable.png",
+                  "text": "首页"
+              },
+              {
+                  "pagePath": "pages/attention",
+                  "selectedIconPath": "images/attention.png",
+                  "iconPath": "images/attention_disable.png",
+                  "text": "关注"
+              },
+              {
+                  "pagePath": "pages/user",
+                  "selectedIconPath": "images/user.png",
+                  "iconPath": "images/user_disable.png",
+                  "text": "我的"
+              }
+          ]
+      }
   }
 
   globalData = {
