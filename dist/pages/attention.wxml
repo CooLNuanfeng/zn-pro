@@ -21,7 +21,7 @@
         <view class="attention-body">
             <view class="attention-list">
 
-                <view class="attention-item active" bindtouchstart="touchstart" catchtouchmove="touchmove">
+                <view class="attention-item {{status == 1?'active':''}} {{status==-1?'delete':''}}" bindtouchstart="touchstart" catchtouchmove="touchmove">
                     <view class="item-att-select active"><text class="select-icon"/></view>
                     <view class="item-att-main">
                         <view class="item-att-l">
@@ -33,7 +33,12 @@
                                     <view class="item-att-time"><text>发布者: 小程序</text> <text>2017-10-20</text></view>
                                 </view>
                                 <view class="item-att-btn">
-                                    <view><image src="../images/phone.png"/> 电话</view>
+                                    <view class="item-att-type">
+                                        <image src="../images/sale.png"/>
+                                    </view>
+                                    <view>
+                                        <image src="../images/phone.png"/> 电话
+                                    </view>
                                 </view>
                             </view>
                         </view>
@@ -41,7 +46,7 @@
                     </view>
                 </view>
 
-                <view class="attention-item delete">
+                <view class="attention-item" bindtouchstart="touchstart" catchtouchmove="touchmove">
                     <view class="item-att-select active"><text class="select-icon"/></view>
                     <view class="item-att-main">
                         <view class="item-att-l">
@@ -53,7 +58,12 @@
                                     <view class="item-att-time"><text>发布者: 小程序</text> <text>2017-10-20</text></view>
                                 </view>
                                 <view class="item-att-btn">
-                                    <view><image src="../images/phone.png"/> 电话</view>
+                                    <view class="item-att-type">
+                                        <image src="../images/sale.png"/>
+                                    </view>
+                                    <view>
+                                        <image src="../images/phone.png"/> 电话
+                                    </view>
                                 </view>
                             </view>
                         </view>
@@ -73,7 +83,12 @@
                                     <view class="item-att-time"><text>发布者: 小程序</text> <text>2017-10-20</text></view>
                                 </view>
                                 <view class="item-att-btn">
-                                    <view><image src="../images/phone.png"/> 电话</view>
+                                    <view class="item-att-type">
+                                        <image src="../images/sale.png"/>
+                                    </view>
+                                    <view>
+                                        <image src="../images/phone.png"/> 电话
+                                    </view>
                                 </view>
                             </view>
                         </view>
@@ -81,12 +96,36 @@
                     </view>
                 </view>
 
+                <view class="attention-item">
+                    <view class="item-att-select active"><text class="select-icon"/></view>
+                    <view class="item-att-main">
+                        <view class="item-att-l">
+                            <view class="item-att-title"><text>图</text>距离可垃圾地方李经理卡机法律框架拉动房价看了监考老师放假了是就发即可拉伸减肥的爱是理解对方考虑</view>
+                            <view class="item-att-body">
+                                <view class="item-att-info">
+                                    <view>简单 方便 快捷</view>
+                                    <view class="item-att-price">￥<text>1234</text>元</view>
+                                    <view class="item-att-time"><text>发布者: 小程序</text> <text>2017-10-20</text></view>
+                                </view>
+                                <view class="item-att-btn">
+                                    <view class="item-att-type">
+                                        <image src="../images/sale.png"/>
+                                    </view>
+                                    <view>
+                                        <image src="../images/phone.png"/> 电话
+                                    </view>
+                                </view>
+                            </view>
+                        </view>
+                        <view class="item-att-r">删除</view>
+                    </view>
+                </view>
             </view>
         </view>
-        <view class="attention-btn active">
+        <view class="attention-btn" hidden="{{showBar ? false : true}}">
             <view class="select-l"><text class="select-icon"/>全选</view>
-            <view class="select-m">取消</view>
-            <view class="select-r">删除</view>
+            <view class="select-m" bindtap="cancel">取消</view>
+            <view class="select-r" bindtap="deleteSelect">删除</view>
         </view>
-        <view class="attention-edit"><image src="../images/delete.png"/></view>
+        <view class="attention-edit" bindtap="edit"><image src="../images/delete.png"/></view>
     </view>
