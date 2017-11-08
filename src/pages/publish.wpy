@@ -41,6 +41,10 @@
             <!-- 招聘信息 -->
             <jobform hidden="{{type == 'job'? false:true}}"></jobform>
         </view>
+        <view class="publish-btn">
+            <view class="btn-save">保存</view>
+            <view class="btn-submit">提交</view>
+        </view>
     </view>
 </template>
 
@@ -136,5 +140,30 @@ export default class Publish extends wepy.page {
 .publish-form{
     padding: 0 20rpx;
     background: #fff;
+}
+.publish-btn{
+    display: flex;
+    padding: 20rpx;
+    flex-direction: column;
+    background: #fff;
+    view{
+        flex: 1;
+        height: 80rpx;
+        font-size: 28rpx;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 10rpx;
+        border-radius: 6rpx;
+        box-sizing: border-box;
+    }
+    .btn-save{
+        border: 1rpx solid $themeColor;
+        color: $themeColor;
+    }
+    .btn-submit{
+        color: #fff;
+        background: $themeColor;
+    }
 }
 </style>

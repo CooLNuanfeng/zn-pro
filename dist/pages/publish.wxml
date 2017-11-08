@@ -60,21 +60,21 @@
         <view class="lable-control-list">
             <view class="label-flex">
                 <text>岗位职责: <text class="label-small">(请分条例填写，点右侧添加条例)</text></text>
-                <view><image src="../images/add-item.png" bindtap="$jobform$addDuty"/></view>
+                <view><image src="../images/add-item.png" bindtap="$jobform$addItem" data-wpyadditem-a="duty"/></view>
             </view>
             <view class="label-add"  wx:for="{{$jobform$dutyArr}}" wx:key="">
-                <input type="text" placeholder="请分条输入相关内容" maxlength="150" placeholder-class="input-placeholder" value="{{item}}" bindinput="$jobform$dutyinput" data-wpydutyinput-a="{{index}}"/>
-                <view wx:if="{{index>0}}" bindtap="$jobform$deleteduty" data-wpydeleteduty-a="{{index}}"><image src="../images/delete-item.png"/></view>
+                <input type="text" placeholder="请分条输入相关内容" maxlength="150" placeholder-class="input-placeholder" value="{{item}}" bindinput="$jobform$itemInput" data-wpyiteminput-a="duty" data-wpyiteminput-b="{{index}}"/>
+                <view wx:if="{{index>0}}" bindtap="$jobform$deleteItem" data-wpydeleteitem-a="duty" data-wpydeleteitem-b="{{index}}"><image src="../images/delete-item.png"/></view>
             </view>
         </view>
         <view class="lable-control-list">
             <view class="label-flex">
                 <text>职位要求: <text class="label-small">(请分条例填写，点右侧添加条例)</text></text>
-                <view><image src="../images/add-item.png" bindtap="$jobform$addClaim"/></view>
+                <view><image src="../images/add-item.png" bindtap="$jobform$addItem" data-wpyadditem-a="claim"/></view>
             </view>
             <view class="label-add"  wx:for="{{$jobform$claimArr}}" wx:key="">
-                <input type="text" placeholder="请分条输入相关内容" maxlength="150" placeholder-class="input-placeholder" value="{{item}}" bindinput="$jobform$claiminput" data-wpyclaiminput-a="{{index}}"/>
-                <view wx:if="{{index>0}}" bindtap="$jobform$deleteclaim" data-wpydeleteclaim-a="{{index}}"><image src="../images/delete-item.png"/></view>
+                <input type="text" placeholder="请分条输入相关内容" maxlength="150" placeholder-class="input-placeholder" value="{{item}}" bindinput="$jobform$itemInput" data-wpyiteminput-a="claim" data-wpyiteminput-b="{{index}}"/>
+                <view wx:if="{{index>0}}" bindtap="$jobform$deleteItem" data-wpydeleteitem-a="claim" data-wpydeleteitem-b="{{index}}"><image src="../images/delete-item.png"/></view>
             </view>
         </view>
         <view class="lable-control">
@@ -83,20 +83,19 @@
         </view>
         <view class="lable-control">
             <text>公司人数: </text>
-            <picker-view indicator-style="height: 50px;" style="width: 100%; height: 300px;" value="{{$jobform$value}}" bindchange="$jobform$bindChange">
-                <picker-view-column>
-                  <view>100人内</view>
-                  <view>1000人内</view>
-                  <view>1000人以上</view>
-                </picker-view-column>
-            </picker-view>
+            <picker mode="selector" bindchange="$jobform$pickerChange" value="{{index}}" range="{{$jobform$companyNumber}}">
+                <view class="picker">{{$jobform$companyNumber[$jobform$curIndex]}}</view>
+             </picker>
         </view>
         <view class="lable-control">
-            <text>公司描述: </text>
-            <textarea name="" id="" cols="30" rows="10"/>
+            <text>公司简介: </text>
+            <textarea class="label-textarea" cols="30" rows="10"/>
         </view>
-        <view bindtap="$jobform$submit">提交</view>
     </view>
 
+        </view>
+        <view class="publish-btn">
+            <view class="btn-save">保存</view>
+            <view class="btn-submit">提交</view>
         </view>
     </view>

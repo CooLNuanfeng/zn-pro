@@ -19,21 +19,21 @@
         <view class="lable-control-list">
             <view class="label-flex">
                 <text>岗位职责: <text class="label-small">(请分条例填写，点右侧添加条例)</text></text>
-                <view><image src="../images/add-item.png" @tap="addDuty"></image></view>
+                <view><image src="../images/add-item.png" @tap="addItem('duty')"></image></view>
             </view>
             <view class="label-add" wx:for="{{dutyArr}}" wx:key="">
-                <input type="text" placeholder="请分条输入相关内容" maxlength="150" placeholder-class="input-placeholder" value="{{item}}" @input="dutyinput({{index}})">
-                <view wx:if="{{index>0}}" @tap="deleteduty({{index}})"><image src="../images/delete-item.png"></image></view>
+                <input type="text" placeholder="请分条输入相关内容" maxlength="150" placeholder-class="input-placeholder" value="{{item}}" @input="itemInput('duty',{{index}})">
+                <view wx:if="{{index>0}}" @tap="deleteItem('duty',{{index}})"><image src="../images/delete-item.png"></image></view>
             </view>
         </view>
         <view class="lable-control-list">
             <view class="label-flex">
                 <text>职位要求: <text class="label-small">(请分条例填写，点右侧添加条例)</text></text>
-                <view><image src="../images/add-item.png" @tap="addClaim"></image></view>
+                <view><image src="../images/add-item.png" @tap="addItem('claim')"></image></view>
             </view>
             <view class="label-add" wx:for="{{claimArr}}" wx:key="">
-                <input type="text" placeholder="请分条输入相关内容" maxlength="150" placeholder-class="input-placeholder" value="{{item}}" @input="claiminput({{index}})">
-                <view wx:if="{{index>0}}" @tap="deleteclaim({{index}})"><image src="../images/delete-item.png"></image></view>
+                <input type="text" placeholder="请分条输入相关内容" maxlength="150" placeholder-class="input-placeholder" value="{{item}}" @input="itemInput('claim',{{index}})">
+                <view wx:if="{{index>0}}" @tap="deleteItem('claim',{{index}})"><image src="../images/delete-item.png"></image></view>
             </view>
         </view>
         <view class="lable-control">
@@ -42,19 +42,14 @@
         </view>
         <view class="lable-control">
             <text>公司人数: </text>
-            <picker-view indicator-style="height: 50px;" style="width: 100%; height: 300px;" value="{{value}}" bindchange="bindChange">
-                <picker-view-column>
-                  <view>100人内</view>
-                  <view>1000人内</view>
-                  <view>1000人以上</view>
-                </picker-view-column>
-            </picker-view>
+            <picker mode="selector" @change="pickerChange" value="{{index}}" range="{{companyNumber}}">
+                <view class="picker">{{companyNumber[curIndex]}}</view>
+             </picker>
         </view>
         <view class="lable-control">
-            <text>公司描述: </text>
-            <textarea name="" id="" cols="30" rows="10"></textarea>
+            <text>公司简介: </text>
+            <textarea class="label-textarea" cols="30" rows="10"></textarea>
         </view>
-        <view @tap="submit">提交</view>
     </view>
 </template>
 
@@ -69,33 +64,41 @@ export default class JobForm  extends wepy.component{
         'address': '',//require
         'dutyArr' : [''],
         'claimArr': [''],
+        'curIndex' : 0,
+        'companyNumber': ['100人以内','100-1000人','1000人以上'],
     }
     methods = {
-        addDuty(){
-            this.dutyArr.push('');
+        addItem(type){
+            if(type == 'duty'){
+                this.dutyArr.push('');
+            }
+            if(type == 'claim'){
+                this.claimArr.push('');
+            }
         },
-        dutyinput(index,evt){
-            // console.log(index,evt);
-            this.dutyArr[index] = evt.detail.value;
+        itemInput(type,index,evt){
+            if(type == 'duty'){
+                this.dutyArr[index] = evt.detail.value;
+            }
+            if(type == 'claim'){
+                this.claimArr[index] = evt.detail.value;
+            }
         },
-        deleteduty(index){
-            console.log(index);
-            this.dutyArr.splice(index,1);
+        deleteItem(type,index){
+            if(type == 'duty'){
+                this.dutyArr.splice(index,1);
+            }
+            if(type == 'claim'){
+                this.claimArr.splice(index,1);
+            }
         },
-        addClaim(){
-            this.claimArr.push('');
+        pickerChange(evt){
+            console.log(evt);
+            this.curIndex = evt.detail.value;
         },
-        claiminput(index,evt){
-            // console.log(index,evt);
-            this.claimArr[index] = evt.detail.value;
-        },
-        deleteclaim(index){
-            console.log(index);
-            this.claimArr.splice(index,1);
-        },
-        submit(){
-            console.log(this.dutyArr);
-        }
+        // submit(){
+        //     console.log(this.dutyArr);
+        // }
     }
 }
 </script>
@@ -112,6 +115,9 @@ export default class JobForm  extends wepy.component{
         flex: 1;
         line-height: 80rpx;
     }
+    picker{
+        flex: 4;
+    }
     input{
         flex: 4;
         width: 100%;
@@ -121,6 +127,10 @@ export default class JobForm  extends wepy.component{
         color: $fontBlack;
         box-sizing: border-box;
     }
+}
+.picker{
+    line-height: 80rpx;
+    color: $fontBlack;
 }
 .label-small{
     font-size: 24rpx;
@@ -168,5 +178,11 @@ export default class JobForm  extends wepy.component{
         }
     }
 }
-
+.label-textarea{
+    flex: 4;
+    margin-top: 25rpx;
+    border: 1rpx solid #ebebeb;
+    padding: 5rpx;
+    border-radius: 4rpx;
+}
 </style>
