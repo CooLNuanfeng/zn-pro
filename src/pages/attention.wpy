@@ -4,7 +4,7 @@
         <view class="attention-body">
             <view class="attention-list">
 
-                <view class="attention-item {{status == 1?'active':''}} {{status==-1?'delete':''}}" @touchstart="touchstart" @touchmove.stop="touchmove">
+                <view class="attention-item {{status == 1?'active':''}} {{status==-1?'delete':''}}" @touchstart="touchstart" @touchmove.stop="touchmove" @tap="goDetail('{id:1,type:job}')">
                     <view class="item-att-select active"><text class="select-icon"></text></view>
                     <view class="item-att-main">
                         <view class="item-att-l">
@@ -157,6 +157,12 @@ export default class Attention extends wepy.page {
                   console.log('touchmove left');
                   this.status = -1;
               }
+        },
+        goDetail(params){
+            console.log(params);
+            wx.navigateTo({
+                url : 'detail'
+            });
         },
         edit(){
             this.status = 1;

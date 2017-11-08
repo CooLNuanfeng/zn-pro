@@ -60,7 +60,7 @@
       <view class="index-container">
           <view class="index-title">最新发布</view>
           <view class="index-list">
-              <view class="index-flex">
+              <view class="index-flex" bindtap="goDetail" data-wpygodetail-a="{id:1,type:job}">
                   <view class="item-img"><image src="../images/car.png"/></view>
                   <view class="item-info">
                       <view class="item-title"><text>图</text>新平佳节快乐姐姐加快拉倒了杰拉德</view>
@@ -97,7 +97,7 @@
     <view class="footer">欢迎来到 {{$footer$cityname}}</view>
 
       <view class="publish-btn">
-          <image src="../images/contact.png"/>
-          <image src="../images/publish.png"/>
+          <image src="../images/help.png"/>
+          <image src="../images/publish.png" bindtap="publish"/>
       </view>
   </view>

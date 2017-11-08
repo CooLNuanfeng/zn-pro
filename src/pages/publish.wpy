@@ -1,0 +1,140 @@
+<template>
+    <view class="publish-container">
+        <view class="publish-input">
+            <view>
+                <image src="../images/title.png"></image>
+                <input type="text" placeholder="请输入发布内容的标题" maxlength="100" placeholder-class="input-placeholder" value="{{title}}">
+            </view>
+        </view>
+        <view class="publish-input">
+            <view>
+                <image src="../images/subtitle.png"></image>
+                <input type="text" placeholder="请输入关于发布内容的 2-3个关键词,空格分割" maxlength="20" placeholder-class="input-placeholder" value="{{subtitle}}">
+            </view>
+        </view>
+        <view class="publish-input">
+            <view>
+                <image src="../images/phone.png"></image>
+                <input type="number" placeholder="请输入您的手机号" maxlength="11" placeholder-class="input-placeholder" value="{{phone}}">
+            </view>
+        </view>
+        <view class="publish-type">
+            <view class="publish-notice">请选择发布所属分类</view>
+            <view class="publish-tags">
+                <view class="{{type=='job'?'active':''}}" @tap="tap('job')"><text>招聘信息</text></view>
+                <view class="{{type=='sale'?'active':''}}" @tap="tap('sale')"><text>打折促销</text></view>
+                <view class="{{type=='home'?'active':''}}" @tap="tap('home')"><text>房屋租售</text></view>
+                <view class="{{type=='car'?'active':''}}" @tap="tap('car')"><text>车辆交易</text></view>
+                <view class="{{type=='find'?'active':''}}" @tap="tap('find')"><text>寻人寻物</text></view>
+            </view>
+            <view class="publish-tags">
+                <view class="{{type=='food'?'active':''}}" @tap="tap('food')"><text>美食推荐</text></view>
+                <view class="{{type=='friend'?'active':''}}" @tap="tap('friend')"><text>相亲交友</text></view>
+                <view class="{{type=='pet'?'active':''}}" @tap="tap('pet')"><text>宠物领养</text></view>
+                <view class="{{type=='edu'?'active':''}}" @tap="tap('edu')"><text>教育培训</text></view>
+                <view class="{{type=='other'?'active':''}}" @tap="tap('other')"><text>其他消息</text></view>
+            </view>
+        </view>
+        <view class="publish-form">
+            <view class="publish-notice">请填写相关信息</view>
+
+            <!-- 招聘信息 -->
+            <jobform hidden="{{type == 'job'? false:true}}"></jobform>
+        </view>
+    </view>
+</template>
+
+<script>
+import wepy from 'wepy';
+import JobForm from '../components/jobform';
+import Footer from '../components/footer';
+
+export default class Publish extends wepy.page {
+    data = {
+        title : '', //require
+        subtitle : '',
+        phone : '', //require
+        type : 'job', //require
+    }
+    components = {
+        jobform : JobForm,
+        footer : Footer
+    }
+    methods = {
+        tap(params){
+            console.log(params);
+            this.type = params;
+        }
+    }
+}
+</script>
+
+<style lang="scss">
+@import "../sass/_mixin.scss";
+.input-placeholder{
+    color: #ccc;
+}
+.publish-container{
+
+}
+.publish-input{
+    position: relative;
+    padding: 0 20rpx;
+    background: #fff;
+    view{
+        border-bottom: 1rpx solid #ebebeb;
+    }
+    image{
+        position: absolute;
+        top: 20rpx;
+        left: 15rpx;
+        width: 40rpx;
+        height: 40rpx;
+    }
+    input{
+        width: 100%;
+        height: 80rpx;
+        padding: 20rpx 0;
+        padding-left: 50rpx;
+        font-size: 30rpx;
+        color: $fontBlack;
+        box-sizing: border-box;
+    }
+}
+.publish-type{
+    padding: 0 20rpx 5rpx;
+    background: #fff;
+}
+.publish-notice{
+    line-height: 80rpx;
+    font-size: 30rpx;
+    color: $fontBlack;
+    font-weight: bold;
+}
+.publish-tags{
+    display: flex;
+    padding-bottom: 20rpx;
+    &:last-child{
+        border-bottom: 1rpx solid #ebebeb;
+    }
+    view{
+        flex: 1;
+        text{
+            padding: 10rpx 15rpx;
+            border-radius: 4rpx;
+            font-size: 28rpx;
+            color: $fontBlack;
+        }
+        &.active{
+            text{
+                color: #fff;
+                background: $themeColor;
+            }
+        }
+    }
+}
+.publish-form{
+    padding: 0 20rpx;
+    background: #fff;
+}
+</style>

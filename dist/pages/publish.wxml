@@ -1,0 +1,102 @@
+
+    <view class="publish-container">
+        <view class="publish-input">
+            <view>
+                <image src="../images/title.png"/>
+                <input type="text" placeholder="请输入发布内容的标题" maxlength="100" placeholder-class="input-placeholder" value="{{title}}"/>
+            </view>
+        </view>
+        <view class="publish-input">
+            <view>
+                <image src="../images/subtitle.png"/>
+                <input type="text" placeholder="请输入关于发布内容的 2-3个关键词,空格分割" maxlength="20" placeholder-class="input-placeholder" value="{{subtitle}}"/>
+            </view>
+        </view>
+        <view class="publish-input">
+            <view>
+                <image src="../images/phone.png"/>
+                <input type="number" placeholder="请输入您的手机号" maxlength="11" placeholder-class="input-placeholder" value="{{phone}}"/>
+            </view>
+        </view>
+        <view class="publish-type">
+            <view class="publish-notice">请选择发布所属分类</view>
+            <view class="publish-tags">
+                <view class="{{type=='job'?'active':''}}" bindtap="tap" data-wpytap-a="job"><text>招聘信息</text></view>
+                <view class="{{type=='sale'?'active':''}}" bindtap="tap" data-wpytap-a="sale"><text>打折促销</text></view>
+                <view class="{{type=='home'?'active':''}}" bindtap="tap" data-wpytap-a="home"><text>房屋租售</text></view>
+                <view class="{{type=='car'?'active':''}}" bindtap="tap" data-wpytap-a="car"><text>车辆交易</text></view>
+                <view class="{{type=='find'?'active':''}}" bindtap="tap" data-wpytap-a="find"><text>寻人寻物</text></view>
+            </view>
+            <view class="publish-tags">
+                <view class="{{type=='food'?'active':''}}" bindtap="tap" data-wpytap-a="food"><text>美食推荐</text></view>
+                <view class="{{type=='friend'?'active':''}}" bindtap="tap" data-wpytap-a="friend"><text>相亲交友</text></view>
+                <view class="{{type=='pet'?'active':''}}" bindtap="tap" data-wpytap-a="pet"><text>宠物领养</text></view>
+                <view class="{{type=='edu'?'active':''}}" bindtap="tap" data-wpytap-a="edu"><text>教育培训</text></view>
+                <view class="{{type=='other'?'active':''}}" bindtap="tap" data-wpytap-a="other"><text>其他消息</text></view>
+            </view>
+        </view>
+        <view class="publish-form">
+            <view class="publish-notice">请填写相关信息</view>
+
+            <!-- 招聘信息 -->
+            
+    <view class="job-box" hidden="{{type == 'job'? false:true}}">
+        <view class="lable-control">
+            <text>职位: </text>
+            <input type="text" placeholder="请输入职位名称" maxlength="20" placeholder-class="input-placeholder" value="{{$jobform$name}}"/>
+        </view>
+        <view class="lable-control">
+            <text>学历: </text>
+            <input type="text" placeholder="请输入学历要求,如:本科或不限" maxlength="8" placeholder-class="input-placeholder" value="{{$jobform$education}}"/>
+        </view>
+        <view class="lable-control">
+            <text>人数: </text>
+            <input type="number" placeholder="请输入招聘人数" maxlength="4" placeholder-class="input-placeholder" value="{{$jobform$number}}"/>
+        </view>
+        <view class="lable-control">
+            <text>地址: </text>
+            <input type="text" placeholder="请输入招聘公司地址" maxlength="50" placeholder-class="input-placeholder" value="{{$jobform$address}}"/>
+        </view>
+        <view class="lable-control-list">
+            <view class="label-flex">
+                <text>岗位职责: <text class="label-small">(请分条例填写，点右侧添加条例)</text></text>
+                <view><image src="../images/add-item.png" bindtap="$jobform$addDuty"/></view>
+            </view>
+            <view class="label-add"  wx:for="{{$jobform$dutyArr}}" wx:key="">
+                <input type="text" placeholder="请分条输入相关内容" maxlength="150" placeholder-class="input-placeholder" value="{{item}}" bindinput="$jobform$dutyinput" data-wpydutyinput-a="{{index}}"/>
+                <view wx:if="{{index>0}}" bindtap="$jobform$deleteduty" data-wpydeleteduty-a="{{index}}"><image src="../images/delete-item.png"/></view>
+            </view>
+        </view>
+        <view class="lable-control-list">
+            <view class="label-flex">
+                <text>职位要求: <text class="label-small">(请分条例填写，点右侧添加条例)</text></text>
+                <view><image src="../images/add-item.png" bindtap="$jobform$addClaim"/></view>
+            </view>
+            <view class="label-add"  wx:for="{{$jobform$claimArr}}" wx:key="">
+                <input type="text" placeholder="请分条输入相关内容" maxlength="150" placeholder-class="input-placeholder" value="{{item}}" bindinput="$jobform$claiminput" data-wpyclaiminput-a="{{index}}"/>
+                <view wx:if="{{index>0}}" bindtap="$jobform$deleteclaim" data-wpydeleteclaim-a="{{index}}"><image src="../images/delete-item.png"/></view>
+            </view>
+        </view>
+        <view class="lable-control">
+            <text>公司名称: </text>
+            <input type="text" placeholder="请输入招聘公司名称" maxlength="50" placeholder-class="input-placeholder" value="{{$jobform$company}}"/>
+        </view>
+        <view class="lable-control">
+            <text>公司人数: </text>
+            <picker-view indicator-style="height: 50px;" style="width: 100%; height: 300px;" value="{{$jobform$value}}" bindchange="$jobform$bindChange">
+                <picker-view-column>
+                  <view>100人内</view>
+                  <view>1000人内</view>
+                  <view>1000人以上</view>
+                </picker-view-column>
+            </picker-view>
+        </view>
+        <view class="lable-control">
+            <text>公司描述: </text>
+            <textarea name="" id="" cols="30" rows="10"/>
+        </view>
+        <view bindtap="$jobform$submit">提交</view>
+    </view>
+
+        </view>
+    </view>

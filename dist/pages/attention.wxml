@@ -21,7 +21,7 @@
         <view class="attention-body">
             <view class="attention-list">
 
-                <view class="attention-item {{status == 1?'active':''}} {{status==-1?'delete':''}}" bindtouchstart="touchstart" catchtouchmove="touchmove">
+                <view class="attention-item {{status == 1?'active':''}} {{status==-1?'delete':''}}" bindtouchstart="touchstart" catchtouchmove="touchmove" bindtap="goDetail" data-wpygodetail-a="{id:1,type:job}">
                     <view class="item-att-select active"><text class="select-icon"/></view>
                     <view class="item-att-main">
                         <view class="item-att-l">

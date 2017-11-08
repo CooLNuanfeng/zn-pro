@@ -5,7 +5,7 @@
       <view class="index-container">
           <view class="index-title">最新发布</view>
           <view class="index-list">
-              <view class="index-flex">
+              <view class="index-flex" @tap="goDetail('{id:1,type:job}')">
                   <view class="item-img"><image src="../images/car.png"></image></view>
                   <view class="item-info">
                       <view class="item-title"><text>图</text>新平佳节快乐姐姐加快拉倒了杰拉德</view>
@@ -40,8 +40,8 @@
       </view>
       <footer :cityname.sync="cityname" :cityid.sync="cityid"/>
       <view class="publish-btn">
-          <image src="../images/contact.png"></image>
-          <image src="../images/publish.png"></image>
+          <image src="../images/help.png"></image>
+          <image src="../images/publish.png" @tap="publish"></image>
       </view>
   </view>
 </template>
@@ -158,6 +158,19 @@
       data = {
           cityname : '',
           cityid : ''
+      }
+      methods = {
+          goDetail(params){
+              console.log(params);
+              wx.navigateTo({
+                  url : 'detail'
+              });
+          },
+          publish(){
+              wx.navigateTo({
+                  url : 'publish'
+              });
+          }
       }
       onLoad(){
           let cityInfo = this.$parent.getloactionInfo();

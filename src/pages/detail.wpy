@@ -1,0 +1,404 @@
+<template>
+    <view class="detail-container">
+        <swiper :imgUrls.sync="imgUrls"></swiper>
+        <view class="detail-nav">
+            <view class="detail-title">苦辣尽快了解来看记录卡就是付款啦就是离开的房间爱是快乐放假了就快来撒待付款老司机福建省</view>
+            <view class="detail-des">简单 快捷 高效</view>
+            <view class="detail-info">
+                <view class="detail-nickname">发布者: 一只小绵羊</view>
+                <view class="detail-timer">发布时间: 2017-10-20</view>
+            </view>
+        </view>
+        <!-- 招聘信息  -->
+        <view hidden="{{categoryType == 'job' ? false: true}}" class="job-box mt20">
+            <view class="item-rule">
+                <view><text>职位: </text>销售经理/主管</view>
+                <view><text>要求: </text>学历不限</view>
+                <view><text>人数: </text> 2人 </view>
+                <view><text>地址: </text>XXXXXXXXXXXXXX</view>
+            </view>
+            <view class="job-desc pd20">
+                <view class="item-title">职位介绍</view>
+                <view class="item-text">
+                    <view class="item-sub-title">岗位职责：</view>
+                    <view>1、离开家阿卡丽地方实际付款了</view>
+                    <view>2、离开家阿卡丽地方实际付的灯光都是改款了</view>
+                    <view class="item-sub-title">职位要求：</view>
+                    <view>1、离开家阿卡丽地方实际付款了</view>
+                    <view>2、离开家阿卡丽地方实际付的灯光都是改款了</view>
+                </view>
+            </view>
+            <view class="job-desc pd20">
+                <view class="item-title">公司介绍</view>
+                <view class="job-company">
+                    <view>公司名称: XXXXXX</view>
+                    <view>公司人数: 200-400人</view>
+                    <view>公司地址</view>
+                </view>
+                <view class="item-text">
+                    拉进来快速减肥加速离开东方健康啦法律框架爱上房间爱上了 上了几分 氨基酸放假了开始大洛杉矶 啦啦时代峰峻
+                </view>
+            </view>
+            <view class="detail-btn">
+                <view class="detail-name">联系人: 好好好 (先生/女生)</view>
+                <view class="detail-phone">拨打电话</view>
+            </view>
+            <footer :cityname.sync="cityname" :cityid.sync="cityid"/>
+        </view>
+
+        <!-- 打折促销 -->
+        <view hidden="{{categoryType == 'sale' ? false: true}}" class="sale-box mt20">
+            <view class="item-rule">
+                <view><text>活动时间: </text> 2017-08-20</view>
+                <view><text>活动地址: </text> XXXXXXXXXXXX</view>
+            </view>
+            <view class="item-flex pd20">
+                <view class="item-title">活动内容</view>
+                <view class="item-text">
+                    <view>1、离开家阿卡丽地方实际付款了</view>
+                    <view>2、离开家阿卡丽地方实际付的灯光都是改款了</view>
+                    <view>3、离开家阿卡丽地方实际付款了</view>
+                    <view>4、离开家阿卡丽地方实际付的灯光都是改款了</view>
+                </view>
+            </view>
+        </view>
+
+        <!-- 房屋租售 -->
+        <view hidden="{{categoryType == 'home' ? false: true}}" class="house-box mt20">
+            <view class="item-rule">
+                <view><text>户型: </text>两室一厅</view>
+                <view><text>价格: </text>50万</view>
+                <view><text>地址: </text>XXXXXXXXXXXXXX</view>
+            </view>
+            <view class="item-flex pd20">
+                <view class="item-title">房屋信息</view>
+                <view class="item-text">
+                    <view>1、离开家阿卡丽地方实际付款了</view>
+                    <view>2、离开家阿卡丽地方实际付的灯光都是改款了</view>
+                    <view>3、离开家阿卡丽地方实际付款了</view>
+                    <view>4、离开家阿卡丽地方实际付的灯光都是改款了</view>
+                </view>
+            </view>
+            <view class="detail-btn">
+                <view class="detail-name">联系人: 好好好 (先生/女生)</view>
+                <view class="detail-phone">拨打电话</view>
+            </view>
+            <footer :cityname.sync="cityname" :cityid.sync="cityid"/>
+        </view>
+
+        <!-- 车辆交易 -->
+        <view hidden="{{categoryType == 'car' ? false: true}}" class="car-box mt20">
+            <view class="item-rule">
+                <view><text>出售价格: </text>50万</view>
+                <view><text>上牌时间: </text>2017-10-20</view>
+                <view><text>行驶里程: </text>1万公里</view>
+                <view><text>年检到期: </text>2017-10-20</view>
+            </view>
+            <view class="item-flex pd20">
+                <view class="item-title">车辆信息</view>
+                <view class="item-text">
+                    <view>1、离开家阿卡丽地方实际付款了</view>
+                    <view>2、离开家阿卡丽地方实际付的灯光都是改款了</view>
+                    <view>3、离开家阿卡丽地方实际付款了</view>
+                    <view>4、离开家阿卡丽地方实际付的灯光都是改款了</view>
+                </view>
+            </view>
+            <view class="detail-btn">
+                <view class="detail-name">联系人: 好好好 (先生/女生)</view>
+                <view class="detail-phone">拨打电话</view>
+            </view>
+            <footer :cityname.sync="cityname" :cityid.sync="cityid"/>
+        </view>
+
+        <!-- 美食推荐 -->
+        <view hidden="{{categoryType == 'food' ? false: true}}" class="food-box mt20">
+            <view class="item-rule">
+                <view><text>人均: </text>50元</view>
+                <view><text>特色: </text>XXXXXXXXX</view>
+                <view><text>地址: </text>XXXXXXXXX</view>
+            </view>
+            <view class="item-flex pd20">
+                <view class="item-title">美食推荐描述</view>
+                <view class="item-text">
+                    <view>1、离开家阿卡丽地方实际付款了</view>
+                    <view>2、离开家阿卡丽地方实际付的灯光都是改款了</view>
+                    <view>3、离开家阿卡丽地方实际付款了</view>
+                    <view>4、离开家阿卡丽地方实际付的灯光都是改款了</view>
+                </view>
+            </view>
+            <footer :cityname.sync="cityname" :cityid.sync="cityid"/>
+        </view>
+
+        <!-- 相亲交友 -->
+        <view hidden="{{categoryType == 'friend' ? false: true}}" class="friend-box mt20">
+            <view class="item-rule">
+                <view><text>手机: </text>xxxxx</view>
+                <view><text>微信: </text>xxxxx</view>
+                <view><text>QQ: </text>XXXXXXXXX</view>
+                <view><text>地址: </text>XXXXXXXXX</view>
+            </view>
+            <view class="item-flex pd20">
+                <view class="item-title">交友描述</view>
+                <view class="item-text">
+                    <view class="item-sub-title">关于我：</view>
+                    <view>1、离开家阿卡丽地方实际付款了</view>
+                    <view>2、离开家阿卡丽地方实际付的灯光都是改款了</view>
+                    <view class="item-sub-title">希望ta：</view>
+                    <view>3、离开家阿卡丽地方实际付款了</view>
+                    <view>4、离开家阿卡丽地方实际付的灯光都是改款了</view>
+                </view>
+            </view>
+            <view class="detail-btn">
+                <view class="detail-name">联系人: 好好好 (先生/女生)</view>
+                <view class="detail-phone">拨打电话</view>
+            </view>
+            <footer :cityname.sync="cityname" :cityid.sync="cityid"/>
+        </view>
+
+        <!-- 宠物 -->
+        <view hidden="{{categoryType == 'pet' ? false: true}}" class="pet-box mt20">
+            <view class="item-rule">
+                <view><text>价格: </text>免费</view>
+                <view><text>类别: </text>xxxxx</view>
+                <view><text>年龄: </text>1年</view>
+            </view>
+            <view class="item-flex pd20">
+                <view class="item-title">宠物描述信息</view>
+                <view class="item-text">
+                    <view>1、离开家阿卡丽地方实际付款了</view>
+                    <view>2、离开家阿卡丽地方实际付的灯光都是改款了</view>
+                    <view>3、离开家阿卡丽地方实际付款了</view>
+                    <view>4、离开家阿卡丽地方实际付的灯光都是改款了</view>
+                </view>
+            </view>
+            <view class="detail-btn">
+                <view class="detail-name">联系人: 好好好 (先生/女生)</view>
+                <view class="detail-phone">拨打电话</view>
+            </view>
+            <footer :cityname.sync="cityname" :cityid.sync="cityid"/>
+        </view>
+
+        <!-- 寻人寻物 -->
+        <view hidden="{{categoryType == 'find' ? false: true}}" class="find-box mt20">
+            <view class="item-rule">
+                <view><text>丢失时间: </text>2017-10-10</view>
+                <view><text>丢失地点: </text>XXXXXX</view>
+            </view>
+            <view class="item-flex pd20">
+                <view class="item-title">描述信息</view>
+                <view class="item-text">
+                    <view>1、离开家阿卡丽地方实际付款了</view>
+                    <view>2、离开家阿卡丽地方实际付的灯光都是改款了</view>
+                    <view>3、离开家阿卡丽地方实际付款了</view>
+                    <view>4、离开家阿卡丽地方实际付的灯光都是改款了</view>
+                </view>
+            </view>
+            <view class="detail-btn">
+                <view class="detail-name">联系人: 好好好 (先生/女生)</view>
+                <view class="detail-phone">拨打电话</view>
+            </view>
+            <footer :cityname.sync="cityname" :cityid.sync="cityid"/>
+        </view>
+
+
+        <!-- 教育培训 -->
+        <view hidden="{{categoryType == 'edu' ? false: true}}" class="edu-box mt20">
+            <view class="item-rule">
+                <view><text>开始时间: </text>2017-10-10</view>
+                <view><text>结束时间: </text>2017-10-10</view>
+                <view><text>培训费用: </text>XXXXXX</view>
+                <view><text>培训地点: </text>XXXXXX</view>
+            </view>
+            <view class="item-flex pd20">
+                <view class="item-title">培训内容描述</view>
+                <view class="item-text">
+                    <view>1、离开家阿卡丽地方实际付款了</view>
+                    <view>2、离开家阿卡丽地方实际付的灯光都是改款了</view>
+                    <view>3、离开家阿卡丽地方实际付款了</view>
+                    <view>4、离开家阿卡丽地方实际付的灯光都是改款了</view>
+                </view>
+            </view>
+            <view class="detail-btn">
+                <view class="detail-name">联系人: 好好好 (先生/女生)</view>
+                <view class="detail-phone">拨打电话</view>
+            </view>
+            <footer :cityname.sync="cityname" :cityid.sync="cityid"/>
+        </view>
+
+
+        <!-- 其他消息 -->
+        <view hidden="{{categoryType == 'other' ? false: true}}" class="other-box mt20">
+            <view class="item-flex pd20">
+                <view class="item-title">相关描述</view>
+                <view class="item-text">
+                    <view>1、离开家阿卡丽地方实际付款了</view>
+                    <view>2、离开家阿卡丽地方实际付的灯光都是改款了</view>
+                    <view>3、离开家阿卡丽地方实际付款了</view>
+                    <view>4、离开家阿卡丽地方实际付的灯光都是改款了</view>
+                </view>
+            </view>
+            <view class="detail-btn">
+                <view class="detail-name">联系人: 好好好 (先生/女生)</view>
+                <view class="detail-phone">拨打电话</view>
+            </view>
+            <footer :cityname.sync="cityname" :cityid.sync="cityid"/>
+        </view>
+
+
+    </view>
+</template>
+
+<script>
+import wepy from 'wepy';
+import Swiper from '../components/swiper';
+import Footer from '../components/footer';
+
+export default class Detail extends wepy.page {
+    data = {
+        categoryType: 'job',
+        imgUrls : [],
+        cityname: '',
+        cityid : ''
+    }
+    components = {
+        swiper : Swiper,
+        footer: Footer
+    }
+    onLoad(){
+        this.imgUrls = [
+            'http://dummyimage.com/750x500',
+            'http://dummyimage.com/750x500'
+        ]
+        let cityInfo = this.$parent.getloactionInfo();
+        this.cityname  = cityInfo.cityname;
+        this.cityid = cityInfo.cityid;
+    }
+}
+</script>
+
+<style lang="scss">
+@import "../sass/_mixin.scss";
+.pd20{
+    padding: 0 20rpx;
+}
+.mt20{
+    margin-top: 20rpx;
+}
+.detail-container{
+    padding-bottom: 90rpx;
+}
+.detail-nav{
+    padding: 10rpx 20rpx;
+    background: #fff;
+}
+.detail-title{
+    font-size: 30rpx;
+    color: $fontBlack;
+    @include text-overflow(2);
+}
+.detail-des{
+    font-size: 28rpx;
+    color: #666;
+    @include text-overflow(1);
+}
+.detail-info{
+    display: flex;
+    justify-content: space-between;
+}
+.detail-nickname{
+    flex: 1;
+    font-size: 24rpx;
+    color: $gray;
+    @include text-overflow(1);
+}
+.detail-timer{
+    flex: 1;
+    font-size: 24rpx;
+    color: $gray;
+    text-align: right;
+}
+.detail-btn{
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 90rpx;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.detail-name{
+    flex: 2;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: $fontBlack;
+    font-size: 26rpx;
+    background: #fff;
+}
+.detail-phone{
+    flex: 1;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 26rpx;
+    background: $red;
+}
+
+.item-rule{
+    padding: 20rpx;
+    background: #fff;
+    margin-bottom: 20rpx;
+    font-size: 28rpx;
+    color: $fontBlack;
+    view{
+        padding: 4rpx 0;
+        line-height: 40rpx;
+        padding-left: 80rpx;
+        word-wrap: break-word;
+        word-break: break-all;
+        text{
+            padding-right: 20rpx;
+            color: $gray;
+            float: left;
+            margin-left: -80rpx;
+        }
+    }
+}
+.item-title{
+    height: 80rpx;
+    line-height: 80rpx;
+    font-size: 28rpx;
+    border-bottom: 1rpx solid #ebebeb;
+}
+.item-text{
+    padding: 20rpx 0;
+    font-size: 28rpx;
+    color: $fontBlack;
+    view{
+        line-height: 50rpx;
+    }
+}
+.item-sub-title{
+    color: $gray;
+    margin-top: 10rpx;
+}
+
+.item-flex{
+    background: #fff;
+}
+
+.job-desc{
+    background: #fff;
+    margin-top: 20rpx;
+}
+.job-company{
+    padding-top: 20rpx;
+    font-size: 28rpx;
+    line-height: 50rpx;
+}
+
+</style>
