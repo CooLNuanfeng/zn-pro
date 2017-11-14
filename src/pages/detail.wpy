@@ -255,7 +255,7 @@ import Footer from '../components/footer';
 
 export default class Detail extends wepy.page {
     data = {
-        categoryType: 'job',
+        categoryType: 'sale',
         imgUrls : [],
         cityname: '',
         cityid : ''

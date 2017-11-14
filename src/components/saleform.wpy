@@ -1,0 +1,79 @@
+<template>
+    <view class="sale-form">
+        <view class="lable-control">
+            <text>活动日期: </text>
+            <view class="label-picker">
+                <image src="../images/arrow.png"></image>
+                <picker mode="date" @change="dateChange" value="{{date}}" start="{{date}}">
+                    <view class="picker">{{date}}</view>
+                </picker>
+            </view>
+        </view>
+        <view class="lable-control">
+            <text>活动时间: </text>
+            <view class="label-picker">
+                <image src="../images/arrow.png"></image>
+                <picker mode="time" @change="timeChange" value="{{time}}">
+                    <view class="picker">{{time}}</view>
+                </picker>
+            </view>
+        </view>
+        <view class="lable-control">
+            <text>活动地点: </text>
+            <input type="text" placeholder="请输入活动地点" maxlength="20" placeholder-class="input-placeholder" value="{{address}}">
+        </view>
+        <view class="lable-control">
+            <text>选择类型: </text>
+            <view class="label-picker">
+                <image src="../images/arrow.png"></image>
+                <picker @change="saleChange" value="{{saleIndex}}" range="{{saleJson}}" range-key="name">
+                    <view class="picker">{{saleJson[saleIndex]['name']}}</view>
+                </picker>
+            </view>
+        </view>
+    </view>
+</template>
+
+<script>
+import wepy from 'wepy';
+
+export default class SaleForm  extends wepy.component{
+    data = {
+        'date' : '',
+        'time' : '08:00',
+        'saleIndex' : 0,
+        'saleJson' : [
+            {'id':'001','name':'超市'},
+            {'id':'002','name':'服饰'},
+            {'id':'003','name':'餐饮'},
+            {'id':'004','name':'其他'},
+        ]
+    };
+    methods = {
+        saleChange(evt){
+            this.saleIndex = evt.detail.value;
+        },
+        timeChange(evt){
+            console.log(evt);
+            this.time = evt.detail.value;
+        },
+        dateChange(evt){
+            console.log(evt);
+            this.date = evt.detail.value;
+        },
+    };
+    onLoad(){
+        this.dateFormate();
+    };
+    dateFormate(){
+        var now = new Date();
+        var year = now.getFullYear();
+        var month = now.getMonth() + 1;
+        var day = now.getDate();
+        this.date = year + '-' + month + '-' + day;
+    }
+}
+</script>
+
+<style lang="scss">
+</style>

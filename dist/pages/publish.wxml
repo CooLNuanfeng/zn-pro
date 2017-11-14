@@ -40,10 +40,19 @@
 
             <!-- 招聘信息 -->
             
-    <view class="job-box" hidden="{{type == 'job'? false:true}}">
+    <view class="job-form" hidden="{{type == 'job'? false:true}}">
         <view class="lable-control">
             <text>职位: </text>
             <input type="text" placeholder="请输入职位名称" maxlength="20" placeholder-class="input-placeholder" value="{{$jobform$name}}"/>
+        </view>
+        <view class="lable-control">
+            <text>职位类型: </text>
+            <view class="label-picker">
+                <image src="../images/arrow.png"/>
+                <picker bindchange="$jobform$officeChange" value="{{$jobform$officeIndex}}" range="{{$jobform$officesJson}}" range-key="name">
+                    <view class="picker">{{$jobform$officesJson[$jobform$officeIndex]['name']}}</view>
+                </picker>
+            </view>
         </view>
         <view class="lable-control">
             <text>学历: </text>
@@ -83,13 +92,52 @@
         </view>
         <view class="lable-control">
             <text>公司人数: </text>
-            <picker mode="selector" bindchange="$jobform$pickerChange" value="{{index}}" range="{{$jobform$companyNumber}}">
-                <view class="picker">{{$jobform$companyNumber[$jobform$curIndex]}}</view>
-             </picker>
+            <view class="label-picker">
+                <image src="../images/arrow.png"/>
+                <picker bindchange="$jobform$pickerChange" value="{{index}}" range="{{$jobform$companyNumber}}">
+                    <view class="picker">{{$jobform$companyNumber[$jobform$curIndex]}}</view>
+                </picker>
+            </view>
         </view>
         <view class="lable-control">
             <text>公司简介: </text>
             <textarea class="label-textarea" cols="30" rows="10"/>
+        </view>
+    </view>
+
+            <!-- 打折促销 -->
+            
+    <view class="sale-form" hidden="{{type == 'sale'? false:true}}">
+        <view class="lable-control">
+            <text>活动日期: </text>
+            <view class="label-picker">
+                <image src="../images/arrow.png"/>
+                <picker mode="date" bindchange="$saleform$dateChange" value="{{$saleform$date}}" start="{{$saleform$date}}">
+                    <view class="picker">{{$saleform$date}}</view>
+                </picker>
+            </view>
+        </view>
+        <view class="lable-control">
+            <text>活动时间: </text>
+            <view class="label-picker">
+                <image src="../images/arrow.png"/>
+                <picker mode="time" bindchange="$saleform$timeChange" value="{{$saleform$time}}">
+                    <view class="picker">{{$saleform$time}}</view>
+                </picker>
+            </view>
+        </view>
+        <view class="lable-control">
+            <text>活动地点: </text>
+            <input type="text" placeholder="请输入活动地点" maxlength="20" placeholder-class="input-placeholder" value="{{$saleform$address}}"/>
+        </view>
+        <view class="lable-control">
+            <text>选择类型: </text>
+            <view class="label-picker">
+                <image src="../images/arrow.png"/>
+                <picker bindchange="$saleform$saleChange" value="{{$saleform$saleIndex}}" range="{{$saleform$saleJson}}" range-key="name">
+                    <view class="picker">{{$saleform$saleJson[$saleform$saleIndex]['name']}}</view>
+                </picker>
+            </view>
         </view>
     </view>
 

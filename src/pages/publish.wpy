@@ -40,6 +40,8 @@
 
             <!-- 招聘信息 -->
             <jobform hidden="{{type == 'job'? false:true}}"></jobform>
+            <!-- 打折促销 -->
+            <saleform hidden="{{type == 'sale'? false:true}}"></saleform>
         </view>
         <view class="publish-btn">
             <view class="btn-save">保存</view>
@@ -51,6 +53,7 @@
 <script>
 import wepy from 'wepy';
 import JobForm from '../components/jobform';
+import SaleForm from '../components/saleform';
 import Footer from '../components/footer';
 
 export default class Publish extends wepy.page {
@@ -62,6 +65,7 @@ export default class Publish extends wepy.page {
     }
     components = {
         jobform : JobForm,
+        saleform : SaleForm,
         footer : Footer
     }
     methods = {
