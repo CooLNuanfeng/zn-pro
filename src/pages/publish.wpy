@@ -39,14 +39,18 @@
             <view class="publish-notice">请填写相关信息</view>
 
             <!-- 招聘信息 -->
-            <jobform hidden="{{type == 'job'? false:true}}"></jobform>
+            <jobform hidden="{{type == 'job'? false:true}}" @getForm.user="getForm"></jobform>
             <!-- 打折促销 -->
-            <saleform hidden="{{type == 'sale'? false:true}}"></saleform>
+            <saleform hidden="{{type == 'sale'? false:true}}" @getForm.user="getForm"></saleform>
+            <!-- 房屋租售 -->
+            <homeform hidden="{{type == 'home'? false:true}}" @getForm.user="getForm"></homeform>
         </view>
         <view class="publish-btn">
-            <view class="btn-save">保存</view>
-            <view class="btn-submit">提交</view>
+            <view class="btn-save" @tap="priview">预览</view>
+            <view class="btn-save" @tap="save">保存</view>
+            <view class="btn-submit" @tap="submit">提交</view>
         </view>
+        <toast />
     </view>
 </template>
 
@@ -54,7 +58,9 @@
 import wepy from 'wepy';
 import JobForm from '../components/jobform';
 import SaleForm from '../components/saleform';
+import HomeForm from '../components/homeform';
 import Footer from '../components/footer';
+import Toast from 'wepy-com-toast';
 
 export default class Publish extends wepy.page {
     data = {
@@ -62,17 +68,79 @@ export default class Publish extends wepy.page {
         subtitle : '',
         phone : '', //require
         type : 'job', //require
+        formdata : null, //各个表单的信息
     }
     components = {
         jobform : JobForm,
         saleform : SaleForm,
-        footer : Footer
+        homeform : HomeForm,
+        footer : Footer,
+        toast: Toast
     }
     methods = {
         tap(params){
             console.log(params);
             this.type = params;
+        },
+        getForm(data){
+            this.formdata = data;
+        },
+        submit(){
+            this.$broadcast('fetch');
+            if(this.checkFormInfo().flag){
+                console.log('from child form',this.formdata);
+            }
+
+        },
+    }
+    checkFormInfo(){
+        var json = null;
+        json = this.checkHeadeInfo();
+        if(json.flag){
+            switch (this.type) {
+                case 'job':
+                    json.flag = this.checkJobFrom();
+                    break;
+                case 'sale':
+                    json.flag = this.checkSaleFrom();
+                    break;
+
+            }
         }
+        if(!json.flag){
+            this.$invoke('toast', 'show', {
+                title: json.info,
+            });
+        }
+        return json;
+    };
+    checkHeadeInfo(){
+        var json = {};
+        var flag = true;
+        var phoneReg = /^0{0,1}1[34578]{1}[0-9]{9}$/ig;
+        if(!this.title){
+            json.flag = false;
+            json.info = '标题不能为空';
+        }
+        if(!this.subtitle){
+            json.flag = false;
+            json.info = '副标题不能为空';
+        }
+        if(!this.phone){
+            json.flag = false;
+            json.info = '手机号不能为空';
+        }
+        if(!phoneReg.test(this.phone)){
+            json.flag = false;
+            json.info = '手机号格式不正确';
+        }
+        return json;
+    }
+    checkJobFrom(){
+
+    }
+    checkSaleFrom(){
+
     }
 }
 </script>

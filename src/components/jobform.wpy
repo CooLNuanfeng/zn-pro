@@ -132,7 +132,13 @@ export default class JobForm  extends wepy.component{
         // submit(){
         //     console.log(this.dutyArr);
         // }
-    }
+    };
+    events = {
+        fetch(){ //组织用户填写数据
+            var json = {};
+            this.$emit('getForm',json);
+        }
+    };
 }
 </script>
 

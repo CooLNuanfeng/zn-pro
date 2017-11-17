@@ -128,10 +128,10 @@
         </view>
         <view class="lable-control">
             <text>活动地点: </text>
-            <input type="text" placeholder="请输入活动地点" maxlength="20" placeholder-class="input-placeholder" value="{{$saleform$address}}"/>
+            <input type="text" placeholder="请输入活动地点" maxlength="50" placeholder-class="input-placeholder" value="{{$saleform$address}}"/>
         </view>
         <view class="lable-control">
-            <text>选择类型: </text>
+            <text>活动类型: </text>
             <view class="label-picker">
                 <image src="../images/arrow.png"/>
                 <picker bindchange="$saleform$saleChange" value="{{$saleform$saleIndex}}" range="{{$saleform$saleJson}}" range-key="name">
@@ -139,11 +139,68 @@
                 </picker>
             </view>
         </view>
+        <view class="lable-control-list">
+            <view class="label-flex">
+                <text>活动内容: <text class="label-small">(请分条例填写，点右侧添加条例)</text></text>
+                <view><image src="../images/add-item.png" bindtap="$saleform$addItem" data-wpyadditem-a=""/></view>
+            </view>
+            <view class="label-add"  wx:for="{{$saleform$activityArr}}" wx:key="">
+                <input type="text" placeholder="请分条输入相关内容" maxlength="150" placeholder-class="input-placeholder" value="{{item}}" bindinput="$saleform$itemInput" data-wpyiteminput-a="{{index}}"/>
+                <view wx:if="{{index>0}}" bindtap="$saleform$deleteItem" data-wpydeleteitem-a="{{index}}"><image src="../images/delete-item.png"/></view>
+            </view>
+        </view>
+    </view>
+
+            <!-- 房屋租售 -->
+            
+    <view class="home-form" hidden="{{type == 'home'? false:true}}">
+        <view class="lable-control">
+            <text>租售类型: </text>
+            <view class="label-picker">
+                <image src="../images/arrow.png"/>
+                <picker bindchange="$homeform$typeChange" value="{{$homeform$typeIndex}}" range="{{$homeform$typeArr}}">
+                    <view class="picker">{{$homeform$typeArr[$homeform$typeIndex]}}</view>
+                </picker>
+            </view>
+        </view>
+        <view class="lable-control">
+            <text>房屋户型: </text>
+            <view class="label-picker">
+                <image src="../images/arrow.png"/>
+                <picker bindchange="$homeform$homeChange" value="{{$homeform$homeIndex}}" range="{{$homeform$homeJson}}" range-key="name">
+                    <view class="picker">{{$homeform$homeJson[$homeform$homeIndex]['name']}}</view>
+                </picker>
+            </view>
+        </view>
+        <view hidden="{{!$homeform$typeIndex}}" class="lable-control">
+            <text>出售价格:</text>
+            <input type="text" placeholder="请输价格单位(万元)" maxlength="20" placeholder-class="input-placeholder" value="{{$homeform$price}}"/>
+        </view>
+        <view hidden="{{$homeform$typeIndex}}" class="lable-control">
+            <text>出租价格:</text>
+            <input type="text" placeholder="请输价格单位(元/月)" maxlength="20" placeholder-class="input-placeholder" value="{{$homeform$price}}"/>
+        </view>
     </view>
 
         </view>
         <view class="publish-btn">
-            <view class="btn-save">保存</view>
-            <view class="btn-submit">提交</view>
+            <view class="btn-save" bindtap="priview">预览</view>
+            <view class="btn-save" bindtap="save">保存</view>
+            <view class="btn-submit" bindtap="submit">提交</view>
         </view>
+        
+    <view class="wetoast {{$toast$reveal ? 'wetoast_show' : ''}}">
+        <view class="wetoast__mask"/>
+        <view class="wetoast__bd" animation="{{$toast$animationData}}">
+            <block  wx:if="{{$toast$img}}">
+                <view class="wetoast__bd__img {{$toast$imgClassName || ''}}">
+                    <image class="wetoast__bd__img_desc" src="{{$toast$img}}" mode="{{$toast$imgMode || 'scaleToFill'}}"/>
+                </view>
+            </block>
+            <block  wx:if="{{$toast$title}}">
+                <view class="wetoast__bd__title {{$toast$titleClassName || ''}}">{{$toast$title}}</view>
+            </block>
+        </view>
+    </view>
+
     </view>

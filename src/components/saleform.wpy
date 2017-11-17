@@ -20,15 +20,25 @@
         </view>
         <view class="lable-control">
             <text>活动地点: </text>
-            <input type="text" placeholder="请输入活动地点" maxlength="20" placeholder-class="input-placeholder" value="{{address}}">
+            <input type="text" placeholder="请输入活动地点" maxlength="50" placeholder-class="input-placeholder" value="{{address}}">
         </view>
         <view class="lable-control">
-            <text>选择类型: </text>
+            <text>活动类型: </text>
             <view class="label-picker">
                 <image src="../images/arrow.png"></image>
                 <picker @change="saleChange" value="{{saleIndex}}" range="{{saleJson}}" range-key="name">
                     <view class="picker">{{saleJson[saleIndex]['name']}}</view>
                 </picker>
+            </view>
+        </view>
+        <view class="lable-control-list">
+            <view class="label-flex">
+                <text>活动内容: <text class="label-small">(请分条例填写，点右侧添加条例)</text></text>
+                <view><image src="../images/add-item.png" @tap="addItem()"></image></view>
+            </view>
+            <view class="label-add" wx:for="{{activityArr}}" wx:key="">
+                <input type="text" placeholder="请分条输入相关内容" maxlength="150" placeholder-class="input-placeholder" value="{{item}}" @input="itemInput({{index}})">
+                <view wx:if="{{index>0}}" @tap="deleteItem({{index}})"><image src="../images/delete-item.png"></image></view>
             </view>
         </view>
     </view>
@@ -41,6 +51,8 @@ export default class SaleForm  extends wepy.component{
     data = {
         'date' : '',
         'time' : '08:00',
+        'address' : '',
+        'activityArr' : [''],
         'saleIndex' : 0,
         'saleJson' : [
             {'id':'001','name':'超市'},
@@ -49,18 +61,39 @@ export default class SaleForm  extends wepy.component{
             {'id':'004','name':'其他'},
         ]
     };
+    porps = {};
     methods = {
         saleChange(evt){
             this.saleIndex = evt.detail.value;
         },
         timeChange(evt){
-            console.log(evt);
             this.time = evt.detail.value;
         },
         dateChange(evt){
-            console.log(evt);
             this.date = evt.detail.value;
         },
+        addItem(){
+            this.activityArr.push('');
+        },
+        itemInput(index,evt){
+            this.activityArr[index] = evt.detail.value;
+        },
+        deleteItem(index){
+            this.activityArr.splice(index,1);
+        }
+    };
+    events = {
+        fetch(){
+            var json = {};
+            json.date = this.date;
+            json.time = this.time;
+            json.address = this.address;
+            json.saleId = this.saleJson[this.saleIndex].id;
+            json.sale = this.saleJson[this.saleIndex].name;
+            json.activityArr = this.activityArr;
+            this.$emit('getForm',json);
+
+        }
     };
     onLoad(){
         this.dateFormate();
