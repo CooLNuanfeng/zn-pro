@@ -180,6 +180,57 @@
             <text>出租价格:</text>
             <input type="text" placeholder="请输价格单位(元/月)" maxlength="20" placeholder-class="input-placeholder" value="{{$homeform$price}}"/>
         </view>
+        <view class="lable-control-list">
+            <view class="label-flex">
+                <text>房屋介绍: <text class="label-small">(请分条例填写，点右侧添加条例)</text></text>
+                <view><image src="../images/add-item.png" bindtap="$homeform$addItem" data-wpyadditem-a=""/></view>
+            </view>
+            <view class="label-add"  wx:for="{{$homeform$homeInfoArr}}" wx:key="">
+                <input type="text" placeholder="请分条输入相关内容" maxlength="150" placeholder-class="input-placeholder" value="{{item}}" bindinput="$homeform$itemInput" data-wpyiteminput-a="{{index}}"/>
+                <view wx:if="{{index>0}}" bindtap="$homeform$deleteItem" data-wpydeleteitem-a="{{index}}"><image src="../images/delete-item.png"/></view>
+            </view>
+        </view>
+    </view>
+
+            <!-- 车辆交易 -->
+            
+    <view class="car-form" hidden="{{type == 'car'? false:true}}">
+        <view class="lable-control">
+            <text>出售价格: </text>
+            <input type="text" placeholder="请输价格单位(万元)" maxlength="20" placeholder-class="input-placeholder" value="{{$carform$price}}"/>
+        </view>
+        <view class="lable-control">
+            <text>上牌时间: </text>
+            <view class="label-picker">
+                <image src="../images/arrow.png"/>
+                <picker mode="date" bindchange="$carform$enddateChange" fields="month" value="{{$carform$endDate}}" end="{{$carform$endDate}}">
+                    <view class="picker">{{$carform$endDate}}</view>
+                </picker>
+            </view>
+        </view>
+        <view class="lable-control">
+            <text>行驶里程:</text>
+            <input type="text" placeholder="请输价格单位(万公里)" maxlength="20" placeholder-class="input-placeholder" value="{{$carform$mileage}}"/>
+        </view>
+        <view hidden="{{$carform$typeIndex}}" class="lable-control">
+            <text>年检到期:</text>
+            <view class="label-picker">
+                <image src="../images/arrow.png"/>
+                <picker mode="date" bindchange="$carform$startdateChange" fields="month" value="{{$carform$startDate}}" start="{{$carform$startDate}}">
+                    <view class="picker">{{$carform$startDate}}</view>
+                </picker>
+            </view>
+        </view>
+        <view class="lable-control-list">
+            <view class="label-flex">
+                <text>车辆介绍: <text class="label-small">(请分条例填写，点右侧添加条例)</text></text>
+                <view><image src="../images/add-item.png" bindtap="$carform$addItem" data-wpyadditem-a=""/></view>
+            </view>
+            <view class="label-add"  wx:for="{{$carform$carInfoArr}}" wx:key="">
+                <input type="text" placeholder="请分条输入相关内容" maxlength="150" placeholder-class="input-placeholder" value="{{item}}" bindinput="$carform$itemInput" data-wpyiteminput-a="{{index}}"/>
+                <view wx:if="{{index>0}}" bindtap="$carform$deleteItem" data-wpydeleteitem-a="{{index}}"><image src="../images/delete-item.png"/></view>
+            </view>
+        </view>
     </view>
 
         </view>

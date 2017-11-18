@@ -44,6 +44,8 @@
             <saleform hidden="{{type == 'sale'? false:true}}" @getForm.user="getForm"></saleform>
             <!-- 房屋租售 -->
             <homeform hidden="{{type == 'home'? false:true}}" @getForm.user="getForm"></homeform>
+            <!-- 车辆交易 -->
+            <carform hidden="{{type == 'car'? false:true}}" @getForm.user="getForm"></carform>
         </view>
         <view class="publish-btn">
             <view class="btn-save" @tap="priview">预览</view>
@@ -59,6 +61,7 @@ import wepy from 'wepy';
 import JobForm from '../components/jobform';
 import SaleForm from '../components/saleform';
 import HomeForm from '../components/homeform';
+import Carform from '../components/carform';
 import Footer from '../components/footer';
 import Toast from 'wepy-com-toast';
 
@@ -74,6 +77,7 @@ export default class Publish extends wepy.page {
         jobform : JobForm,
         saleform : SaleForm,
         homeform : HomeForm,
+        carform : Carform,
         footer : Footer,
         toast: Toast
     }

@@ -26,6 +26,16 @@
             <text>出租价格:</text>
             <input type="text" placeholder="请输价格单位(元/月)" maxlength="20" placeholder-class="input-placeholder" value="{{price}}">
         </view>
+        <view class="lable-control-list">
+            <view class="label-flex">
+                <text>房屋介绍: <text class="label-small">(请分条例填写，点右侧添加条例)</text></text>
+                <view><image src="../images/add-item.png" @tap="addItem()"></image></view>
+            </view>
+            <view class="label-add" wx:for="{{homeInfoArr}}" wx:key="">
+                <input type="text" placeholder="请分条输入相关内容" maxlength="150" placeholder-class="input-placeholder" value="{{item}}" @input="itemInput({{index}})">
+                <view wx:if="{{index>0}}" @tap="deleteItem({{index}})"><image src="../images/delete-item.png"></image></view>
+            </view>
+        </view>
     </view>
 </template>
 
@@ -47,7 +57,8 @@ export default class HomeForm  extends wepy.component{
             {'id':'006','name':'四室两厅'},
             {'id':'007','name':'平房'},
             {'id':'008','name':'其他'}
-        ]
+        ],
+        'homeInfoArr' : ['']
     };
     methods = {
         typeChange(evt){
@@ -56,8 +67,24 @@ export default class HomeForm  extends wepy.component{
         },
         homeChange(evt){
             this.homeIndex = evt.detail.value;
+        },
+        addItem(){
+            this.homeInfoArr.push('');
+        },
+        itemInput(index,evt){
+            this.homeInfoArr[index] = evt.detail.value;
+        },
+        deleteItem(index){
+            this.homeInfoArr.splice(index,1);
         }
-    }
+    };
+    events = {
+        fetch(){
+            var json = {};
+            
+            this.$emit('getForm',json);
+        }
+    };
 }
 </script>
 
