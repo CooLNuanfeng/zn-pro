@@ -1,0 +1,60 @@
+<template>
+    <view class="car-form">
+        <view class="lable-control">
+            <text>人均: <text class="label-require">*</text></text>
+            <input type="number" placeholder="请输入人均消费(单位元/人)" maxlength="10" placeholder-class="input-placeholder" value="{{price}}">
+        </view>
+        <view class="lable-control">
+            <text>特色: </text>
+            <input type="text" placeholder="请输入特色推荐" maxlength="50" placeholder-class="input-placeholder" value="{{features}}">
+        </view>
+        <view class="lable-control">
+            <text>地址: <text class="label-require">*</text></text>
+            <input type="text" placeholder="请输入地址" maxlength="50" placeholder-class="input-placeholder" value="{{address}}">
+        </view>
+        <view class="lable-control-list">
+            <view class="label-flex">
+                <text>推荐描述: <text class="label-small">(请分条例填写，点右侧添加条例)</text></text>
+                <view><image src="../images/add-item.png" @tap="addItem()"></image></view>
+            </view>
+            <view class="label-add" wx:for="{{foodInfoArr}}" wx:key="">
+                <input type="text" placeholder="请分条输入相关内容" maxlength="150" placeholder-class="input-placeholder" value="{{item}}" @input="itemInput({{index}})">
+                <view wx:if="{{index>0}}" @tap="deleteItem({{index}})"><image src="../images/delete-item.png"></image></view>
+            </view>
+        </view>
+    </view>
+</template>
+
+<script>
+import wepy from 'wepy';
+
+export default class FindForm  extends wepy.component{
+    data = {
+        'price': '',
+        'address' : '',
+        'features' : '',
+        'foodInfoArr' : ['']
+    };
+    methods = {
+        addItem(){
+            this.foodInfoArr.push('');
+        },
+        itemInput(index,evt){
+            this.foodInfoArr[index] = evt.detail.value;
+        },
+        deleteItem(index){
+            this.foodInfoArr.splice(index,1);
+        }
+    };
+    events = {
+        fetch(){
+            var json = {};
+
+            this.$emit('getForm',json);
+        }
+    };
+}
+</script>
+
+<style lang="scss">
+</style>

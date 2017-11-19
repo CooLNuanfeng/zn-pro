@@ -30,11 +30,16 @@
         box-sizing: border-box;
     }
 }
+.label-require{
+    font-size: 14rpx;
+    color: $red;
+}
 .picker{
     line-height: 80rpx;
     color: $fontBlack;
 }
 .label-small{
+    padding-left: 10rpx;
     font-size: 24rpx;
     color: $gray;
 }

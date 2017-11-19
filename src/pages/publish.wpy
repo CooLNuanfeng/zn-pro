@@ -3,7 +3,7 @@
         <view class="publish-input">
             <view>
                 <image src="../images/title.png"></image>
-                <input type="text" placeholder="请输入发布内容的标题" maxlength="100" placeholder-class="input-placeholder" value="{{title}}">
+                <input type="text" placeholder="请输入发布内容的标题或主题" maxlength="100" placeholder-class="input-placeholder" value="{{title}}">
             </view>
         </view>
         <view class="publish-input">
@@ -36,7 +36,7 @@
             </view>
         </view>
         <view class="publish-form">
-            <view class="publish-notice">请填写相关信息</view>
+            <view class="publish-notice">请填写相关信息 <text class="publish-tips">(<text>*</text>为必填项)</text></view>
 
             <!-- 招聘信息 -->
             <jobform hidden="{{type == 'job'? false:true}}" @getForm.user="getForm"></jobform>
@@ -46,6 +46,18 @@
             <homeform hidden="{{type == 'home'? false:true}}" @getForm.user="getForm"></homeform>
             <!-- 车辆交易 -->
             <carform hidden="{{type == 'car'? false:true}}" @getForm.user="getForm"></carform>
+            <!-- 寻人寻物 -->
+            <findform hidden="{{type == 'find'? false:true}}" @getForm.user="getForm"></findform>
+            <!-- 美食推荐 -->
+            <foodform  hidden="{{type == 'food'? false:true}}" @getForm.user="getForm"></foodform>
+            <!-- 相亲交友 -->
+            <friendform hidden="{{type == 'friend'? false:true}}" @getForm.user="getForm"></friendform>
+            <!-- 宠物领养 -->
+            <petform hidden="{{type == 'pet'? false:true}}" @getForm.user="getForm"></petform>
+            <!-- 教育培训 -->
+            <eduform hidden="{{type == 'edu'? false:true}}" @getForm.user="getForm"></eduform>
+            <!-- 其他消息 -->
+            <otherform hidden="{{type == 'other'? false:true}}" @getForm.user="getForm"></otherform>
         </view>
         <view class="publish-btn">
             <view class="btn-save" @tap="priview">预览</view>
@@ -61,7 +73,13 @@ import wepy from 'wepy';
 import JobForm from '../components/jobform';
 import SaleForm from '../components/saleform';
 import HomeForm from '../components/homeform';
-import Carform from '../components/carform';
+import CarForm from '../components/carform';
+import FindForm from '../components/findform';
+import FoodForm from '../components/foodform';
+import FriendForm from '../components/friendform';
+import PetForm from '../components/petform';
+import EduForm from '../components/eduform';
+import OtherForm from '../components/otherform';
 import Footer from '../components/footer';
 import Toast from 'wepy-com-toast';
 
@@ -77,7 +95,13 @@ export default class Publish extends wepy.page {
         jobform : JobForm,
         saleform : SaleForm,
         homeform : HomeForm,
-        carform : Carform,
+        carform : CarForm,
+        findform : FindForm,
+        foodform : FoodForm,
+        friendform : FriendForm,
+        petform : PetForm,
+        eduform : EduForm,
+        otherform : OtherForm,
         footer : Footer,
         toast: Toast
     }
@@ -190,6 +214,17 @@ export default class Publish extends wepy.page {
     font-size: 30rpx;
     color: $fontBlack;
     font-weight: bold;
+}
+.publish-tips{
+    padding: 0 10rpx;
+    font-size: 24rpx;
+    font-weight: normal;
+    color: $gray;
+    text{
+        padding: 0 6rpx;
+        color: $red;
+        font-size: 14rpx;
+    }
 }
 .publish-tags{
     display: flex;

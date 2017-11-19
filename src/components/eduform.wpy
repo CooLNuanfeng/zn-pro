@@ -1,37 +1,38 @@
 <template>
     <view class="car-form">
-        <view class="lable-control">
-            <text>出售价格: <text class="label-require">*</text></text>
-            <input type="text" placeholder="请输入价格(单位万元)" maxlength="20" placeholder-class="input-placeholder" value="{{price}}">
-        </view>
-        <view class="lable-control">
-            <text>上牌时间: <text class="label-require">*</text></text>
+        <view hidden="{{typeIndex}}" class="lable-control">
+            <text>开始时间: <text class="label-require">*</text></text>
             <view class="label-picker">
                 <image src="../images/arrow.png"></image>
-                <picker mode="date" @change="enddateChange" fields="month" value="{{endDate}}" end="{{endDate}}">
+                <picker mode="date" @change="startdateChange"  value="{{startDate}}" start="{{startDate}}">
+                    <view class="picker">{{startDate}}</view>
+                </picker>
+            </view>
+        </view>
+        <view class="lable-control">
+            <text>结束时间: <text class="label-require">*</text></text>
+            <view class="label-picker">
+                <image src="../images/arrow.png"></image>
+                <picker mode="date" @change="enddateChange" value="{{endDate}}" start="{{endDate}}">
                     <view class="picker">{{endDate}}</view>
                 </picker>
             </view>
         </view>
         <view class="lable-control">
-            <text>行驶里程: <text class="label-require">*</text></text>
-            <input type="text" placeholder="请输入行驶里程(单位万公里)" maxlength="20" placeholder-class="input-placeholder" value="{{mileage}}">
+            <text>培训费用: <text class="label-require">*</text></text>
+            <input type="number" placeholder="请输入价格(单位元)" maxlength="20" placeholder-class="input-placeholder" value="{{price}}">
         </view>
-        <view hidden="{{typeIndex}}" class="lable-control">
-            <text>年检到期: <text class="label-require">*</text></text>
-            <view class="label-picker">
-                <image src="../images/arrow.png"></image>
-                <picker mode="date" @change="startdateChange" fields="month" value="{{startDate}}" start="{{startDate}}">
-                    <view class="picker">{{startDate}}</view>
-                </picker>
-            </view>
+        <view class="lable-control">
+            <text>培训地点: <text class="label-require">*</text></text>
+            <input type="text" placeholder="请输入培训地址" maxlength="20" placeholder-class="input-placeholder" value="{{address}}">
         </view>
+
         <view class="lable-control-list">
             <view class="label-flex">
-                <text>车辆介绍: <text class="label-small">(请分条例填写，点右侧添加条例)</text></text>
+                <text>培训内容: <text class="label-small">(请分条例填写，点右侧添加条例)</text></text>
                 <view><image src="../images/add-item.png" @tap="addItem()"></image></view>
             </view>
-            <view class="label-add" wx:for="{{carInfoArr}}" wx:key="">
+            <view class="label-add" wx:for="{{eduInfoArr}}" wx:key="">
                 <input type="text" placeholder="请分条输入相关内容" maxlength="150" placeholder-class="input-placeholder" value="{{item}}" @input="itemInput({{index}})">
                 <view wx:if="{{index>0}}" @tap="deleteItem({{index}})"><image src="../images/delete-item.png"></image></view>
             </view>
@@ -42,13 +43,13 @@
 <script>
 import wepy from 'wepy';
 
-export default class CarForm  extends wepy.component{
+export default class EduForm  extends wepy.component{
     data = {
         'price' : '',
-        'mileage' : '',
+        'address' : '',
         'endDate' : '',
         'startDate' : '',
-        'carInfoArr' : ['']
+        'eduInfoArr' : ['']
     };
     methods = {
         startdateChange(evt){
@@ -58,13 +59,13 @@ export default class CarForm  extends wepy.component{
             this.endDate = evt.detail.value;
         },
         addItem(){
-            this.carInfoArr.push('');
+            this.eduInfoArr.push('');
         },
         itemInput(index,evt){
-            this.carInfoArr[index] = evt.detail.value;
+            this.eduInfoArr[index] = evt.detail.value;
         },
         deleteItem(index){
-            this.carInfoArr.splice(index,1);
+            this.eduInfoArr.splice(index,1);
         }
     };
     events = {
@@ -81,9 +82,9 @@ export default class CarForm  extends wepy.component{
         var now = new Date();
         var year = now.getFullYear();
         var month = now.getMonth() + 1;
-        // var day = now.getDate();
-        this.startDate = year + '-' + month;
-        this.endDate = year + '-' + month;
+        var day = now.getDate();
+        this.startDate = year + '-' + month + '-' + day;
+        this.endDate = year + '-' + month + '-' + day;
     }
 }
 </script>

@@ -1,7 +1,7 @@
 <template>
     <view class="sale-form">
         <view class="lable-control">
-            <text>活动日期: </text>
+            <text>活动日期: <text class="label-require">*</text></text>
             <view class="label-picker">
                 <image src="../images/arrow.png"></image>
                 <picker mode="date" @change="dateChange" value="{{date}}" start="{{date}}">
@@ -10,7 +10,7 @@
             </view>
         </view>
         <view class="lable-control">
-            <text>活动时间: </text>
+            <text>活动时间: <text class="label-require">*</text></text>
             <view class="label-picker">
                 <image src="../images/arrow.png"></image>
                 <picker mode="time" @change="timeChange" value="{{time}}">
@@ -19,11 +19,11 @@
             </view>
         </view>
         <view class="lable-control">
-            <text>活动地点: </text>
+            <text>活动地点: <text class="label-require">*</text></text>
             <input type="text" placeholder="请输入活动地点" maxlength="50" placeholder-class="input-placeholder" value="{{address}}">
         </view>
         <view class="lable-control">
-            <text>活动类型: </text>
+            <text>活动类型: <text class="label-require">*</text></text>
             <view class="label-picker">
                 <image src="../images/arrow.png"></image>
                 <picker @change="saleChange" value="{{saleIndex}}" range="{{saleJson}}" range-key="name">
@@ -41,11 +41,14 @@
                 <view wx:if="{{index>0}}" @tap="deleteItem({{index}})"><image src="../images/delete-item.png"></image></view>
             </view>
         </view>
+        <view class="publish-notice">活动图片展示</view>
+        <uploadform></uploadform>
     </view>
 </template>
 
 <script>
 import wepy from 'wepy';
+import imgUploadForm from './imgupload';
 
 export default class SaleForm  extends wepy.component{
     data = {
@@ -62,6 +65,9 @@ export default class SaleForm  extends wepy.component{
         ]
     };
     porps = {};
+    components = {
+        'uploadform' : imgUploadForm
+    };
     methods = {
         saleChange(evt){
             this.saleIndex = evt.detail.value;

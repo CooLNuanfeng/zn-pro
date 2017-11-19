@@ -132,7 +132,6 @@
         <!-- 相亲交友 -->
         <view hidden="{{categoryType == 'friend' ? false: true}}" class="friend-box mt20">
             <view class="item-rule">
-                <view><text>手机: </text>xxxxx</view>
                 <view><text>微信: </text>xxxxx</view>
                 <view><text>QQ: </text>XXXXXXXXX</view>
                 <view><text>地址: </text>XXXXXXXXX</view>

@@ -1,0 +1,80 @@
+<template>
+    <view class="car-form">
+        <view class="lable-control">
+            <text>微信号:</text>
+            <input type="text" placeholder="请输入微信号" maxlength="20" placeholder-class="input-placeholder" value="{{wechartnumber}}">
+        </view>
+        <view class="lable-control">
+            <text>QQ号:</text>
+            <input type="text" placeholder="请输入QQ号" maxlength="20" placeholder-class="input-placeholder" value="{{qqnumber}}">
+        </view>
+        <view class="lable-control">
+            <text>地址: </text>
+            <input type="text" placeholder="请输入所在地址" maxlength="50" placeholder-class="input-placeholder" value="{{address}}">
+        </view>
+        <view class="lable-control-list">
+            <view class="label-flex">
+                <text>关于我: <text class="label-require">*</text><text class="label-small">(请分条例填写，点右侧添加条例)</text></text>
+                <view><image src="../images/add-item.png" @tap="addMeItem()"></image></view>
+            </view>
+            <view class="label-add" wx:for="{{aboutMeArr}}" wx:key="">
+                <input type="text" placeholder="请分条输入相关内容" maxlength="150" placeholder-class="input-placeholder" value="{{item}}" @input="itemMeInput({{index}})">
+                <view wx:if="{{index>0}}" @tap="deleteMeItem({{index}})"><image src="../images/delete-item.png"></image></view>
+            </view>
+        </view>
+        <view class="lable-control-list">
+            <view class="label-flex">
+                <text>希望Ta: <text class="label-require">*</text><text class="label-small">(请分条例填写，点右侧添加条例)</text></text>
+                <view><image src="../images/add-item.png" @tap="addTaItem()"></image></view>
+            </view>
+            <view class="label-add" wx:for="{{hopeTaArr}}" wx:key="">
+                <input type="text" placeholder="请分条输入相关内容" maxlength="150" placeholder-class="input-placeholder" value="{{item}}" @input="itemTaInput({{index}})">
+                <view wx:if="{{index>0}}" @tap="deleteTaItem({{index}})"><image src="../images/delete-item.png"></image></view>
+            </view>
+        </view>
+    </view>
+</template>
+
+<script>
+import wepy from 'wepy';
+
+export default class FriendForm  extends wepy.component{
+    data = {
+        'address' : '',
+        'qqnumber' : '',
+        'wechartnumber' : '',
+        'aboutMeArr' : [''],
+        'hopeTaArr' : [''],
+    };
+    methods = {
+        addMeItem(){
+            this.aboutMeArr.push('');
+        },
+        itemMeInput(index,evt){
+            this.aboutMeArr[index] = evt.detail.value;
+        },
+        deleteMeItem(index){
+            this.aboutMeArr.splice(index,1);
+        },
+        addTaItem(){
+            this.hopeTaArr.push('');
+        },
+        itemTaInput(index,evt){
+            this.hopeTaArr[index] = evt.detail.value;
+        },
+        deleteTaItem(index){
+            this.hopeTaArr.splice(index,1);
+        }
+    };
+    events = {
+        fetch(){
+            var json = {};
+
+            this.$emit('getForm',json);
+        }
+    };
+}
+</script>
+
+<style lang="scss">
+</style>

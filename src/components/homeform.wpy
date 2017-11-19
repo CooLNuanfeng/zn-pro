@@ -1,7 +1,7 @@
 <template>
     <view class="home-form">
         <view class="lable-control">
-            <text>租售类型: </text>
+            <text>租售类型: <text class="label-require">*</text></text>
             <view class="label-picker">
                 <image src="../images/arrow.png"></image>
                 <picker @change="typeChange" value="{{typeIndex}}" range="{{typeArr}}">
@@ -10,7 +10,7 @@
             </view>
         </view>
         <view class="lable-control">
-            <text>房屋户型: </text>
+            <text>房屋户型: <text class="label-require">*</text></text>
             <view class="label-picker">
                 <image src="../images/arrow.png"></image>
                 <picker @change="homeChange" value="{{homeIndex}}" range="{{homeJson}}" range-key="name">
@@ -19,11 +19,11 @@
             </view>
         </view>
         <view hidden="{{!typeIndex}}" class="lable-control">
-            <text>出售价格:</text>
+            <text>出售价格: <text class="label-require">*</text></text>
             <input type="text" placeholder="请输价格单位(万元)" maxlength="20" placeholder-class="input-placeholder" value="{{price}}">
         </view>
         <view hidden="{{typeIndex}}" class="lable-control">
-            <text>出租价格:</text>
+            <text>出租价格: <text class="label-require">*</text></text>
             <input type="text" placeholder="请输价格单位(元/月)" maxlength="20" placeholder-class="input-placeholder" value="{{price}}">
         </view>
         <view class="lable-control-list">
@@ -81,7 +81,7 @@ export default class HomeForm  extends wepy.component{
     events = {
         fetch(){
             var json = {};
-            
+
             this.$emit('getForm',json);
         }
     };

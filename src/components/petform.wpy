@@ -1,0 +1,79 @@
+<template>
+    <view class="car-form">
+        <view class="lable-control">
+            <text>类别: <text class="label-require">*</text></text>
+            <input type="text" placeholder="请输入宠物类别(如：金毛)" maxlength="50" placeholder-class="input-placeholder" value="{{category}}">
+        </view>
+        <view class="lable-control">
+            <text>价格: <text class="label-require">*</text></text>
+            <input type="number" placeholder="请输入价格(单位为元)" maxlength="10" placeholder-class="input-placeholder" value="{{price}}">
+        </view>
+        <view class="lable-control">
+            <text>年龄: <text class="label-require">*</text></text>
+            <view class="label-picker">
+                <image src="../images/arrow.png"></image>
+                <picker @change="ageChange" value="{{index}}" range="{{age}}">
+                    <view class="picker">{{age[ageIndex]}}</view>
+                </picker>
+            </view>
+        </view>
+        <view class="lable-control-list">
+            <view class="label-flex">
+                <text>描述信息: <text class="label-small">(请分条例填写，点右侧添加条例)</text></text>
+                <view><image src="../images/add-item.png" @tap="addItem()"></image></view>
+            </view>
+            <view class="label-add" wx:for="{{petInfoArr}}" wx:key="">
+                <input type="text" placeholder="请分条输入相关内容" maxlength="150" placeholder-class="input-placeholder" value="{{item}}" @input="itemInput({{index}})">
+                <view wx:if="{{index>0}}" @tap="deleteItem({{index}})"><image src="../images/delete-item.png"></image></view>
+            </view>
+        </view>
+    </view>
+</template>
+
+<script>
+import wepy from 'wepy';
+
+export default class FindForm  extends wepy.component{
+    data = {
+        'category' : '',
+        'price' : '',
+        'petInfoArr' : [''],
+        'ageIndex' : 0,
+        'age' : ['一个月','两个月','三个月','一年','两年','三年','三年以上']
+    };
+    methods = {
+        ageChange(evt){
+            this.ageIndex = evt.detail.value;
+        },
+        addItem(){
+            this.petInfoArr.push('');
+        },
+        itemInput(index,evt){
+            this.petInfoArr[index] = evt.detail.value;
+        },
+        deleteItem(index){
+            this.petInfoArr.splice(index,1);
+        }
+    };
+    events = {
+        fetch(){
+            var json = {};
+
+            this.$emit('getForm',json);
+        }
+    };
+    onLoad(){
+        this.dateFormate();
+    };
+    dateFormate(){
+        var now = new Date();
+        var year = now.getFullYear();
+        var month = now.getMonth() + 1;
+        var day = now.getDate();
+        this.date = year + '-' + month + '-' +day;
+    }
+}
+</script>
+
+<style lang="scss">
+</style>

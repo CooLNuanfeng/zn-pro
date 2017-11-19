@@ -3,7 +3,7 @@
         <view class="publish-input">
             <view>
                 <image src="../images/title.png"/>
-                <input type="text" placeholder="请输入发布内容的标题" maxlength="100" placeholder-class="input-placeholder" value="{{title}}"/>
+                <input type="text" placeholder="请输入发布内容的标题或主题" maxlength="100" placeholder-class="input-placeholder" value="{{title}}"/>
             </view>
         </view>
         <view class="publish-input">
@@ -36,17 +36,17 @@
             </view>
         </view>
         <view class="publish-form">
-            <view class="publish-notice">请填写相关信息</view>
+            <view class="publish-notice">请填写相关信息 <text class="publish-tips">(<text>*</text>为必填项)</text></view>
 
             <!-- 招聘信息 -->
             
     <view class="job-form" hidden="{{type == 'job'? false:true}}">
         <view class="lable-control">
-            <text>职位: </text>
+            <text>职位: <text class="label-require">*</text></text>
             <input type="text" placeholder="请输入职位名称" maxlength="20" placeholder-class="input-placeholder" value="{{$jobform$name}}"/>
         </view>
         <view class="lable-control">
-            <text>职位类型: </text>
+            <text>职位类型: <text class="label-require">*</text></text>
             <view class="label-picker">
                 <image src="../images/arrow.png"/>
                 <picker bindchange="$jobform$officeChange" value="{{$jobform$officeIndex}}" range="{{$jobform$officesJson}}" range-key="name">
@@ -55,15 +55,15 @@
             </view>
         </view>
         <view class="lable-control">
-            <text>学历: </text>
+            <text>学历: <text class="label-require">*</text></text>
             <input type="text" placeholder="请输入学历要求,如:本科或不限" maxlength="8" placeholder-class="input-placeholder" value="{{$jobform$education}}"/>
         </view>
         <view class="lable-control">
-            <text>人数: </text>
+            <text>人数: <text class="label-require">*</text></text>
             <input type="number" placeholder="请输入招聘人数" maxlength="4" placeholder-class="input-placeholder" value="{{$jobform$number}}"/>
         </view>
         <view class="lable-control">
-            <text>地址: </text>
+            <text>地址: <text class="label-require">*</text></text>
             <input type="text" placeholder="请输入招聘公司地址" maxlength="50" placeholder-class="input-placeholder" value="{{$jobform$address}}"/>
         </view>
         <view class="lable-control-list">
@@ -87,11 +87,11 @@
             </view>
         </view>
         <view class="lable-control">
-            <text>公司名称: </text>
+            <text>公司名称: <text class="label-require">*</text></text>
             <input type="text" placeholder="请输入招聘公司名称" maxlength="50" placeholder-class="input-placeholder" value="{{$jobform$company}}"/>
         </view>
         <view class="lable-control">
-            <text>公司人数: </text>
+            <text>公司人数: <text class="label-require">*</text></text>
             <view class="label-picker">
                 <image src="../images/arrow.png"/>
                 <picker bindchange="$jobform$pickerChange" value="{{index}}" range="{{$jobform$companyNumber}}">
@@ -100,16 +100,21 @@
             </view>
         </view>
         <view class="lable-control">
-            <text>公司简介: </text>
+            <text>公司简介: <text class="label-require">*</text></text>
             <textarea class="label-textarea" cols="30" rows="10"/>
         </view>
+
+        <view class="publish-notice">工作环境展示</view>
+        
+    <view>图片电饭锅单方事故电饭锅上传</view>
+
     </view>
 
             <!-- 打折促销 -->
             
     <view class="sale-form" hidden="{{type == 'sale'? false:true}}">
         <view class="lable-control">
-            <text>活动日期: </text>
+            <text>活动日期: <text class="label-require">*</text></text>
             <view class="label-picker">
                 <image src="../images/arrow.png"/>
                 <picker mode="date" bindchange="$saleform$dateChange" value="{{$saleform$date}}" start="{{$saleform$date}}">
@@ -118,7 +123,7 @@
             </view>
         </view>
         <view class="lable-control">
-            <text>活动时间: </text>
+            <text>活动时间: <text class="label-require">*</text></text>
             <view class="label-picker">
                 <image src="../images/arrow.png"/>
                 <picker mode="time" bindchange="$saleform$timeChange" value="{{$saleform$time}}">
@@ -127,11 +132,11 @@
             </view>
         </view>
         <view class="lable-control">
-            <text>活动地点: </text>
+            <text>活动地点: <text class="label-require">*</text></text>
             <input type="text" placeholder="请输入活动地点" maxlength="50" placeholder-class="input-placeholder" value="{{$saleform$address}}"/>
         </view>
         <view class="lable-control">
-            <text>活动类型: </text>
+            <text>活动类型: <text class="label-require">*</text></text>
             <view class="label-picker">
                 <image src="../images/arrow.png"/>
                 <picker bindchange="$saleform$saleChange" value="{{$saleform$saleIndex}}" range="{{$saleform$saleJson}}" range-key="name">
@@ -149,13 +154,17 @@
                 <view wx:if="{{index>0}}" bindtap="$saleform$deleteItem" data-wpydeleteitem-a="{{index}}"><image src="../images/delete-item.png"/></view>
             </view>
         </view>
+        <view class="publish-notice">活动图片展示</view>
+        
+    <view>图片电饭锅单方事故电饭锅上传</view>
+
     </view>
 
             <!-- 房屋租售 -->
             
     <view class="home-form" hidden="{{type == 'home'? false:true}}">
         <view class="lable-control">
-            <text>租售类型: </text>
+            <text>租售类型: <text class="label-require">*</text></text>
             <view class="label-picker">
                 <image src="../images/arrow.png"/>
                 <picker bindchange="$homeform$typeChange" value="{{$homeform$typeIndex}}" range="{{$homeform$typeArr}}">
@@ -164,7 +173,7 @@
             </view>
         </view>
         <view class="lable-control">
-            <text>房屋户型: </text>
+            <text>房屋户型: <text class="label-require">*</text></text>
             <view class="label-picker">
                 <image src="../images/arrow.png"/>
                 <picker bindchange="$homeform$homeChange" value="{{$homeform$homeIndex}}" range="{{$homeform$homeJson}}" range-key="name">
@@ -173,11 +182,11 @@
             </view>
         </view>
         <view hidden="{{!$homeform$typeIndex}}" class="lable-control">
-            <text>出售价格:</text>
+            <text>出售价格: <text class="label-require">*</text></text>
             <input type="text" placeholder="请输价格单位(万元)" maxlength="20" placeholder-class="input-placeholder" value="{{$homeform$price}}"/>
         </view>
         <view hidden="{{$homeform$typeIndex}}" class="lable-control">
-            <text>出租价格:</text>
+            <text>出租价格: <text class="label-require">*</text></text>
             <input type="text" placeholder="请输价格单位(元/月)" maxlength="20" placeholder-class="input-placeholder" value="{{$homeform$price}}"/>
         </view>
         <view class="lable-control-list">
@@ -196,11 +205,11 @@
             
     <view class="car-form" hidden="{{type == 'car'? false:true}}">
         <view class="lable-control">
-            <text>出售价格: </text>
-            <input type="text" placeholder="请输价格单位(万元)" maxlength="20" placeholder-class="input-placeholder" value="{{$carform$price}}"/>
+            <text>出售价格: <text class="label-require">*</text></text>
+            <input type="text" placeholder="请输入价格(单位万元)" maxlength="20" placeholder-class="input-placeholder" value="{{$carform$price}}"/>
         </view>
         <view class="lable-control">
-            <text>上牌时间: </text>
+            <text>上牌时间: <text class="label-require">*</text></text>
             <view class="label-picker">
                 <image src="../images/arrow.png"/>
                 <picker mode="date" bindchange="$carform$enddateChange" fields="month" value="{{$carform$endDate}}" end="{{$carform$endDate}}">
@@ -209,11 +218,11 @@
             </view>
         </view>
         <view class="lable-control">
-            <text>行驶里程:</text>
-            <input type="text" placeholder="请输价格单位(万公里)" maxlength="20" placeholder-class="input-placeholder" value="{{$carform$mileage}}"/>
+            <text>行驶里程: <text class="label-require">*</text></text>
+            <input type="text" placeholder="请输入行驶里程(单位万公里)" maxlength="20" placeholder-class="input-placeholder" value="{{$carform$mileage}}"/>
         </view>
         <view hidden="{{$carform$typeIndex}}" class="lable-control">
-            <text>年检到期:</text>
+            <text>年检到期: <text class="label-require">*</text></text>
             <view class="label-picker">
                 <image src="../images/arrow.png"/>
                 <picker mode="date" bindchange="$carform$startdateChange" fields="month" value="{{$carform$startDate}}" start="{{$carform$startDate}}">
@@ -229,6 +238,187 @@
             <view class="label-add"  wx:for="{{$carform$carInfoArr}}" wx:key="">
                 <input type="text" placeholder="请分条输入相关内容" maxlength="150" placeholder-class="input-placeholder" value="{{item}}" bindinput="$carform$itemInput" data-wpyiteminput-a="{{index}}"/>
                 <view wx:if="{{index>0}}" bindtap="$carform$deleteItem" data-wpydeleteitem-a="{{index}}"><image src="../images/delete-item.png"/></view>
+            </view>
+        </view>
+    </view>
+
+            <!-- 寻人寻物 -->
+            
+    <view class="car-form" hidden="{{type == 'find'? false:true}}">
+        <view class="lable-control">
+            <text>丢失时间: <text class="label-require">*</text></text>
+            <view class="label-picker">
+                <image src="../images/arrow.png"/>
+                <picker mode="date" bindchange="$findform$dateChange" value="{{$findform$date}}" end="{{$findform$date}}">
+                    <view class="picker">{{$findform$date}}</view>
+                </picker>
+            </view>
+        </view>
+        <view class="lable-control">
+            <text>丢失地点: <text class="label-require">*</text></text>
+            <input type="text" placeholder="请输入丢失地点" maxlength="50" placeholder-class="input-placeholder" value="{{$findform$address}}"/>
+        </view>
+        <view class="lable-control-list">
+            <view class="label-flex">
+                <text>描述信息: <text class="label-small">(请分条例填写，点右侧添加条例)</text></text>
+                <view><image src="../images/add-item.png" bindtap="$findform$addItem" data-wpyadditem-a=""/></view>
+            </view>
+            <view class="label-add"  wx:for="{{$findform$findInfoArr}}" wx:key="">
+                <input type="text" placeholder="请分条输入相关内容" maxlength="150" placeholder-class="input-placeholder" value="{{item}}" bindinput="$findform$itemInput" data-wpyiteminput-a="{{index}}"/>
+                <view wx:if="{{index>0}}" bindtap="$findform$deleteItem" data-wpydeleteitem-a="{{index}}"><image src="../images/delete-item.png"/></view>
+            </view>
+        </view>
+    </view>
+
+            <!-- 美食推荐 -->
+            
+    <view class="car-form" hidden="{{type == 'food'? false:true}}">
+        <view class="lable-control">
+            <text>人均: <text class="label-require">*</text></text>
+            <input type="number" placeholder="请输入人均消费(单位元/人)" maxlength="10" placeholder-class="input-placeholder" value="{{$foodform$price}}"/>
+        </view>
+        <view class="lable-control">
+            <text>特色: </text>
+            <input type="text" placeholder="请输入特色推荐" maxlength="50" placeholder-class="input-placeholder" value="{{$foodform$features}}"/>
+        </view>
+        <view class="lable-control">
+            <text>地址: <text class="label-require">*</text></text>
+            <input type="text" placeholder="请输入地址" maxlength="50" placeholder-class="input-placeholder" value="{{$foodform$address}}"/>
+        </view>
+        <view class="lable-control-list">
+            <view class="label-flex">
+                <text>推荐描述: <text class="label-small">(请分条例填写，点右侧添加条例)</text></text>
+                <view><image src="../images/add-item.png" bindtap="$foodform$addItem" data-wpyadditem-a=""/></view>
+            </view>
+            <view class="label-add"  wx:for="{{$foodform$foodInfoArr}}" wx:key="">
+                <input type="text" placeholder="请分条输入相关内容" maxlength="150" placeholder-class="input-placeholder" value="{{item}}" bindinput="$foodform$itemInput" data-wpyiteminput-a="{{index}}"/>
+                <view wx:if="{{index>0}}" bindtap="$foodform$deleteItem" data-wpydeleteitem-a="{{index}}"><image src="../images/delete-item.png"/></view>
+            </view>
+        </view>
+    </view>
+
+            <!-- 相亲交友 -->
+            
+    <view class="car-form" hidden="{{type == 'friend'? false:true}}">
+        <view class="lable-control">
+            <text>微信号:</text>
+            <input type="text" placeholder="请输入微信号" maxlength="20" placeholder-class="input-placeholder" value="{{$friendform$wechartnumber}}"/>
+        </view>
+        <view class="lable-control">
+            <text>QQ号:</text>
+            <input type="text" placeholder="请输入QQ号" maxlength="20" placeholder-class="input-placeholder" value="{{$friendform$qqnumber}}"/>
+        </view>
+        <view class="lable-control">
+            <text>地址: </text>
+            <input type="text" placeholder="请输入所在地址" maxlength="50" placeholder-class="input-placeholder" value="{{$friendform$address}}"/>
+        </view>
+        <view class="lable-control-list">
+            <view class="label-flex">
+                <text>关于我: <text class="label-require">*</text><text class="label-small">(请分条例填写，点右侧添加条例)</text></text>
+                <view><image src="../images/add-item.png" bindtap="$friendform$addMeItem" data-wpyaddmeitem-a=""/></view>
+            </view>
+            <view class="label-add"  wx:for="{{$friendform$aboutMeArr}}" wx:key="">
+                <input type="text" placeholder="请分条输入相关内容" maxlength="150" placeholder-class="input-placeholder" value="{{item}}" bindinput="$friendform$itemMeInput" data-wpyitemmeinput-a="{{index}}"/>
+                <view wx:if="{{index>0}}" bindtap="$friendform$deleteMeItem" data-wpydeletemeitem-a="{{index}}"><image src="../images/delete-item.png"/></view>
+            </view>
+        </view>
+        <view class="lable-control-list">
+            <view class="label-flex">
+                <text>希望Ta: <text class="label-require">*</text><text class="label-small">(请分条例填写，点右侧添加条例)</text></text>
+                <view><image src="../images/add-item.png" bindtap="$friendform$addTaItem" data-wpyaddtaitem-a=""/></view>
+            </view>
+            <view class="label-add"  wx:for="{{$friendform$hopeTaArr}}" wx:key="">
+                <input type="text" placeholder="请分条输入相关内容" maxlength="150" placeholder-class="input-placeholder" value="{{item}}" bindinput="$friendform$itemTaInput" data-wpyitemtainput-a="{{index}}"/>
+                <view wx:if="{{index>0}}" bindtap="$friendform$deleteTaItem" data-wpydeletetaitem-a="{{index}}"><image src="../images/delete-item.png"/></view>
+            </view>
+        </view>
+    </view>
+
+            <!-- 宠物领养 -->
+            
+    <view class="car-form" hidden="{{type == 'pet'? false:true}}">
+        <view class="lable-control">
+            <text>类别: <text class="label-require">*</text></text>
+            <input type="text" placeholder="请输入宠物类别(如：金毛)" maxlength="50" placeholder-class="input-placeholder" value="{{$petform$category}}"/>
+        </view>
+        <view class="lable-control">
+            <text>价格: <text class="label-require">*</text></text>
+            <input type="number" placeholder="请输入价格(单位为元)" maxlength="10" placeholder-class="input-placeholder" value="{{$petform$price}}"/>
+        </view>
+        <view class="lable-control">
+            <text>年龄: <text class="label-require">*</text></text>
+            <view class="label-picker">
+                <image src="../images/arrow.png"/>
+                <picker bindchange="$petform$ageChange" value="{{$petform$index}}" range="{{$petform$age}}">
+                    <view class="picker">{{$petform$age[$petform$ageIndex]}}</view>
+                </picker>
+            </view>
+        </view>
+        <view class="lable-control-list">
+            <view class="label-flex">
+                <text>描述信息: <text class="label-small">(请分条例填写，点右侧添加条例)</text></text>
+                <view><image src="../images/add-item.png" bindtap="$petform$addItem" data-wpyadditem-a=""/></view>
+            </view>
+            <view class="label-add"  wx:for="{{$petform$petInfoArr}}" wx:key="">
+                <input type="text" placeholder="请分条输入相关内容" maxlength="150" placeholder-class="input-placeholder" value="{{item}}" bindinput="$petform$itemInput" data-wpyiteminput-a="{{index}}"/>
+                <view wx:if="{{index>0}}" bindtap="$petform$deleteItem" data-wpydeleteitem-a="{{index}}"><image src="../images/delete-item.png"/></view>
+            </view>
+        </view>
+    </view>
+
+            <!-- 教育培训 -->
+            
+    <view class="car-form" hidden="{{type == 'edu'? false:true}}">
+        <view hidden="{{$eduform$typeIndex}}" class="lable-control">
+            <text>开始时间: <text class="label-require">*</text></text>
+            <view class="label-picker">
+                <image src="../images/arrow.png"/>
+                <picker mode="date" bindchange="$eduform$startdateChange" value="{{$eduform$startDate}}" start="{{$eduform$startDate}}">
+                    <view class="picker">{{$eduform$startDate}}</view>
+                </picker>
+            </view>
+        </view>
+        <view class="lable-control">
+            <text>结束时间: <text class="label-require">*</text></text>
+            <view class="label-picker">
+                <image src="../images/arrow.png"/>
+                <picker mode="date" bindchange="$eduform$enddateChange" value="{{$eduform$endDate}}" start="{{$eduform$endDate}}">
+                    <view class="picker">{{$eduform$endDate}}</view>
+                </picker>
+            </view>
+        </view>
+        <view class="lable-control">
+            <text>培训费用: <text class="label-require">*</text></text>
+            <input type="number" placeholder="请输入价格(单位元)" maxlength="20" placeholder-class="input-placeholder" value="{{$eduform$price}}"/>
+        </view>
+        <view class="lable-control">
+            <text>培训地点: <text class="label-require">*</text></text>
+            <input type="text" placeholder="请输入培训地址" maxlength="20" placeholder-class="input-placeholder" value="{{$eduform$address}}"/>
+        </view>
+
+        <view class="lable-control-list">
+            <view class="label-flex">
+                <text>培训内容: <text class="label-small">(请分条例填写，点右侧添加条例)</text></text>
+                <view><image src="../images/add-item.png" bindtap="$eduform$addItem" data-wpyadditem-a=""/></view>
+            </view>
+            <view class="label-add"  wx:for="{{$eduform$eduInfoArr}}" wx:key="">
+                <input type="text" placeholder="请分条输入相关内容" maxlength="150" placeholder-class="input-placeholder" value="{{item}}" bindinput="$eduform$itemInput" data-wpyiteminput-a="{{index}}"/>
+                <view wx:if="{{index>0}}" bindtap="$eduform$deleteItem" data-wpydeleteitem-a="{{index}}"><image src="../images/delete-item.png"/></view>
+            </view>
+        </view>
+    </view>
+
+            <!-- 其他消息 -->
+            
+    <view class="car-form" hidden="{{type == 'other'? false:true}}">
+        <view class="lable-control-list">
+            <view class="label-flex">
+                <text>描述信息: <text class="label-require">*</text><text class="label-small">(请分条例填写，点右侧添加条例)</text></text>
+                <view><image src="../images/add-item.png" bindtap="$otherform$addItem" data-wpyadditem-a=""/></view>
+            </view>
+            <view class="label-add"  wx:for="{{$otherform$otherInfoArr}}" wx:key="">
+                <input type="text" placeholder="请分条输入相关内容" maxlength="150" placeholder-class="input-placeholder" value="{{item}}" bindinput="$otherform$itemInput" data-wpyiteminput-a="{{index}}"/>
+                <view wx:if="{{index>0}}" bindtap="$otherform$deleteItem" data-wpydeleteitem-a="{{index}}"><image src="../images/delete-item.png"/></view>
             </view>
         </view>
     </view>

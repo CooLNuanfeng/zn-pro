@@ -1,0 +1,45 @@
+<template>
+    <view class="car-form">
+        <view class="lable-control-list">
+            <view class="label-flex">
+                <text>描述信息: <text class="label-require">*</text><text class="label-small">(请分条例填写，点右侧添加条例)</text></text>
+                <view><image src="../images/add-item.png" @tap="addItem()"></image></view>
+            </view>
+            <view class="label-add" wx:for="{{otherInfoArr}}" wx:key="">
+                <input type="text" placeholder="请分条输入相关内容" maxlength="150" placeholder-class="input-placeholder" value="{{item}}" @input="itemInput({{index}})">
+                <view wx:if="{{index>0}}" @tap="deleteItem({{index}})"><image src="../images/delete-item.png"></image></view>
+            </view>
+        </view>
+    </view>
+</template>
+
+<script>
+import wepy from 'wepy';
+
+export default class OtherForm  extends wepy.component{
+    data = {
+        'otherInfoArr' : ['']
+    };
+    methods = {
+        addItem(){
+            this.otherInfoArr.push('');
+        },
+        itemInput(index,evt){
+            this.otherInfoArr[index] = evt.detail.value;
+        },
+        deleteItem(index){
+            this.otherInfoArr.splice(index,1);
+        }
+    };
+    events = {
+        fetch(){
+            var json = {};
+
+            this.$emit('getForm',json);
+        }
+    };
+}
+</script>
+
+<style lang="scss">
+</style>

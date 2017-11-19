@@ -1,11 +1,11 @@
 <template>
     <view class="job-form">
         <view class="lable-control">
-            <text>职位: </text>
+            <text>职位: <text class="label-require">*</text></text>
             <input type="text" placeholder="请输入职位名称" maxlength="20" placeholder-class="input-placeholder" value="{{name}}">
         </view>
         <view class="lable-control">
-            <text>职位类型: </text>
+            <text>职位类型: <text class="label-require">*</text></text>
             <view class="label-picker">
                 <image src="../images/arrow.png"></image>
                 <picker @change="officeChange" value="{{officeIndex}}" range="{{officesJson}}" range-key="name">
@@ -14,15 +14,15 @@
             </view>
         </view>
         <view class="lable-control">
-            <text>学历: </text>
+            <text>学历: <text class="label-require">*</text></text>
             <input type="text" placeholder="请输入学历要求,如:本科或不限" maxlength="8" placeholder-class="input-placeholder" value="{{education}}">
         </view>
         <view class="lable-control">
-            <text>人数: </text>
+            <text>人数: <text class="label-require">*</text></text>
             <input type="number" placeholder="请输入招聘人数" maxlength="4" placeholder-class="input-placeholder" value="{{number}}">
         </view>
         <view class="lable-control">
-            <text>地址: </text>
+            <text>地址: <text class="label-require">*</text></text>
             <input type="text" placeholder="请输入招聘公司地址" maxlength="50" placeholder-class="input-placeholder" value="{{address}}">
         </view>
         <view class="lable-control-list">
@@ -46,11 +46,11 @@
             </view>
         </view>
         <view class="lable-control">
-            <text>公司名称: </text>
+            <text>公司名称: <text class="label-require">*</text></text>
             <input type="text" placeholder="请输入招聘公司名称" maxlength="50" placeholder-class="input-placeholder" value="{{company}}">
         </view>
         <view class="lable-control">
-            <text>公司人数: </text>
+            <text>公司人数: <text class="label-require">*</text></text>
             <view class="label-picker">
                 <image src="../images/arrow.png"></image>
                 <picker @change="pickerChange" value="{{index}}" range="{{companyNumber}}">
@@ -59,14 +59,18 @@
             </view>
         </view>
         <view class="lable-control">
-            <text>公司简介: </text>
+            <text>公司简介: <text class="label-require">*</text></text>
             <textarea class="label-textarea" cols="30" rows="10"></textarea>
         </view>
+
+        <view class="publish-notice">工作环境展示</view>
+        <uploadform></uploadform>
     </view>
 </template>
 
 <script>
 import wepy from 'wepy';
+import imgUploadForm from './imgupload';
 
 export default class JobForm  extends wepy.component{
     data = {
@@ -94,7 +98,10 @@ export default class JobForm  extends wepy.component{
             {'id':'012','name':'电气/机械'},
             {'id':'013','name':'建筑/房产'}
         ],
-    }
+    };
+    components = {
+        'uploadform' : imgUploadForm
+    };
     methods = {
         addItem(type){
             if(type == 'duty'){
