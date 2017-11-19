@@ -4,7 +4,7 @@
           autoplay="{{autoplay}}" interval="3000" duration="500">
           <block wx:for="{{imgUrls}}" wx:key="{{index}}">
             <swiper-item>
-              <image src="{{item}}" class="slider"/>
+              <image mode="aspectFit" src="{{item}}" class="slider"/>
             </swiper-item>
           </block>
         </swiper>
@@ -38,7 +38,7 @@ export default class Swiper  extends wepy.component{
 <style lang="scss">
 .swiper{
     overflow: hidden;
-    height: 500rpx;
+    height: 600rpx;
 }
 .slider{
     width: 100%;

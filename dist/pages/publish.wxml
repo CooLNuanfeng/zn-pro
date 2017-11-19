@@ -106,7 +106,24 @@
 
         <view class="publish-notice">工作环境展示</view>
         
-    <view>图片电饭锅单方事故电饭锅上传</view>
+    <view class="img-container">
+        <view class="img-tips">最多上传6张图片(简易尺寸 750 * 600)</view>
+        <view class="img-warp">
+            <view class="img-box">
+                <view class="img-item"  wx:for="{{$jobform$uploadform$imgArr}}" wx:key="wx:key">
+                    <view class="img-del" bindtap="$jobform$uploadform$del" data-wpydel-a="{{index}}"><image src="../images/close.png"/></view>
+                    <image class="img" mode="aspectFit" src="{{item}}"/>
+                </view>
+                <!-- <view class="img-item">
+                    <view class="img-del" bindtap="del(index,item)"><image src="../image/close.png"></image></view>
+                    <image mode="aspectFit" src="../images/pic1.jpg"></image>
+                </view> -->
+                <view class="img-item img-item-add" bindtap="$jobform$uploadform$chooseImage">
+                    <image src="../images/upload-add.png"/>
+                </view>
+            </view>
+        </view>
+    </view>
 
     </view>
 
@@ -156,7 +173,24 @@
         </view>
         <view class="publish-notice">活动图片展示</view>
         
-    <view>图片电饭锅单方事故电饭锅上传</view>
+    <view class="img-container">
+        <view class="img-tips">最多上传6张图片(简易尺寸 750 * 600)</view>
+        <view class="img-warp">
+            <view class="img-box">
+                <view class="img-item"  wx:for="{{$saleform$uploadform$imgArr}}" wx:key="wx:key">
+                    <view class="img-del" bindtap="$saleform$uploadform$del" data-wpydel-a="{{index}}"><image src="../images/close.png"/></view>
+                    <image class="img" mode="aspectFit" src="{{item}}"/>
+                </view>
+                <!-- <view class="img-item">
+                    <view class="img-del" bindtap="del(index,item)"><image src="../image/close.png"></image></view>
+                    <image mode="aspectFit" src="../images/pic1.jpg"></image>
+                </view> -->
+                <view class="img-item img-item-add" bindtap="$saleform$uploadform$chooseImage">
+                    <image src="../images/upload-add.png"/>
+                </view>
+            </view>
+        </view>
+    </view>
 
     </view>
 
