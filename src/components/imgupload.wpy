@@ -24,21 +24,23 @@ import wepy from 'wepy';
 
 export default class imgUploadForm extends wepy.component{
     data = {
-        imgArr : []
+        imgArr : [],
+        count : 6
     };
     methods = {
         chooseImage(){
             var vm = this;
+            var count = vm.imgArr.length;
             wx.chooseImage({
-                count : 6,
+                count : 6-count,
                 success : function(res){
                     console.log(res.tempFilePaths);
                     // vm.imgArr = ['http://tmp/wx05a410e096d90371.o6zAJs2vU4v0NWQs1dXXwMkiW_xo.a825c92d16fa95b84fd3e8c211e72511.jpg'];
-                    // var len = res.tempFilePaths.length;
-                    // for(var i=0; i<len; i++){
-                    //     vm.imgArr.push(res.tempFilePaths[i]);
-                    // }
-                    vm.imgArr = res.tempFilePaths;
+                    var len = res.tempFilePaths.length;
+                    for(var i=0; i<len; i++){
+                        vm.imgArr.push(res.tempFilePaths[i]);
+                    }
+                    // vm.imgArr = res.tempFilePaths;
                     vm.$apply();
                 }
             });
