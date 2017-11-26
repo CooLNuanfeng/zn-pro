@@ -1,5 +1,4 @@
 @import "./../npm/wepy-com-toast/toast.wxss";
-@import "./../components/footer.wxss";
 @import "./../components/otherform.wxss";
 @import "./../components/eduform.wxss";
 @import "./../components/petform.wxss";

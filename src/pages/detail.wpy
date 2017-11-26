@@ -43,7 +43,7 @@
                 <view class="detail-name">联系人: 好好好 (先生/女生)</view>
                 <view class="detail-phone">拨打电话</view>
             </view>
-            <footer :cityname.sync="cityname" :cityid.sync="cityid"/>
+            <footer />
         </view>
 
         <!-- 打折促销 -->
@@ -61,6 +61,7 @@
                     <view>4、离开家阿卡丽地方实际付的灯光都是改款了</view>
                 </view>
             </view>
+            <footer />
         </view>
 
         <!-- 房屋租售 -->
@@ -83,7 +84,7 @@
                 <view class="detail-name">联系人: 好好好 (先生/女生)</view>
                 <view class="detail-phone">拨打电话</view>
             </view>
-            <footer :cityname.sync="cityname" :cityid.sync="cityid"/>
+            <footer />
         </view>
 
         <!-- 车辆交易 -->
@@ -107,7 +108,7 @@
                 <view class="detail-name">联系人: 好好好 (先生/女生)</view>
                 <view class="detail-phone">拨打电话</view>
             </view>
-            <footer :cityname.sync="cityname" :cityid.sync="cityid"/>
+            <footer />
         </view>
 
         <!-- 美食推荐 -->
@@ -126,7 +127,7 @@
                     <view>4、离开家阿卡丽地方实际付的灯光都是改款了</view>
                 </view>
             </view>
-            <footer :cityname.sync="cityname" :cityid.sync="cityid"/>
+            <footer />
         </view>
 
         <!-- 相亲交友 -->
@@ -151,7 +152,7 @@
                 <view class="detail-name">联系人: 好好好 (先生/女生)</view>
                 <view class="detail-phone">拨打电话</view>
             </view>
-            <footer :cityname.sync="cityname" :cityid.sync="cityid"/>
+            <footer />
         </view>
 
         <!-- 宠物 -->
@@ -174,7 +175,7 @@
                 <view class="detail-name">联系人: 好好好 (先生/女生)</view>
                 <view class="detail-phone">拨打电话</view>
             </view>
-            <footer :cityname.sync="cityname" :cityid.sync="cityid"/>
+            <footer />
         </view>
 
         <!-- 寻人寻物 -->
@@ -196,7 +197,7 @@
                 <view class="detail-name">联系人: 好好好 (先生/女生)</view>
                 <view class="detail-phone">拨打电话</view>
             </view>
-            <footer :cityname.sync="cityname" :cityid.sync="cityid"/>
+            <footer />
         </view>
 
 
@@ -221,7 +222,7 @@
                 <view class="detail-name">联系人: 好好好 (先生/女生)</view>
                 <view class="detail-phone">拨打电话</view>
             </view>
-            <footer :cityname.sync="cityname" :cityid.sync="cityid"/>
+            <footer />
         </view>
 
 
@@ -240,7 +241,7 @@
                 <view class="detail-name">联系人: 好好好 (先生/女生)</view>
                 <view class="detail-phone">拨打电话</view>
             </view>
-            <footer :cityname.sync="cityname" :cityid.sync="cityid"/>
+            <footer />
         </view>
 
 
@@ -256,8 +257,6 @@ export default class Detail extends wepy.page {
     data = {
         categoryType: 'sale',
         imgUrls : [],
-        cityname: '',
-        cityid : ''
     }
     components = {
         swiper : Swiper,
@@ -268,9 +267,6 @@ export default class Detail extends wepy.page {
             'http://dummyimage.com/750x500',
             'http://dummyimage.com/750x500'
         ]
-        let cityInfo = this.$parent.getloactionInfo();
-        this.cityname  = cityInfo.cityname;
-        this.cityid = cityInfo.cityid;
     }
 }
 </script>

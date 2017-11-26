@@ -5,9 +5,12 @@
 <script>
 import wepy from 'wepy'
 export default class Footer extends wepy.component{
-    props = {
-        cityname : String,
-        cityid : Number
+    data = {
+        cityname : '',
+    }
+    onLoad(){
+        // console.log(this.$parent.$parent.globalData);
+        this.cityname = this.$parent.$parent.globalData.cityname;
     }
 }
 </script>

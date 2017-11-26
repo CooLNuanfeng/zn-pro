@@ -17,10 +17,10 @@
                                 </view>
                                 <view class="item-att-btn">
                                     <view class="item-att-type">
-                                        <image src="../images/sale.png"></image>
+                                        <image src="../images/{{themeimg}}sale.png"></image>
                                     </view>
                                     <view>
-                                        <image src="../images/phone.png"></image> 电话
+                                        <image src="../images/{{themeimg}}phone.png"></image> 电话
                                     </view>
                                 </view>
                             </view>
@@ -42,10 +42,10 @@
                                 </view>
                                 <view class="item-att-btn">
                                     <view class="item-att-type">
-                                        <image src="../images/sale.png"></image>
+                                        <image src="../images/{{themeimg}}sale.png"></image>
                                     </view>
                                     <view>
-                                        <image src="../images/phone.png"></image> 电话
+                                        <image src="../images/{{themeimg}}phone.png"></image> 电话
                                     </view>
                                 </view>
                             </view>
@@ -67,10 +67,10 @@
                                 </view>
                                 <view class="item-att-btn">
                                     <view class="item-att-type">
-                                        <image src="../images/sale.png"></image>
+                                        <image src="../images/{{themeimg}}sale.png"></image>
                                     </view>
                                     <view>
-                                        <image src="../images/phone.png"></image> 电话
+                                        <image src="../images/{{themeimg}}phone.png"></image> 电话
                                     </view>
                                 </view>
                             </view>
@@ -92,10 +92,10 @@
                                 </view>
                                 <view class="item-att-btn">
                                     <view class="item-att-type">
-                                        <image src="../images/sale.png"></image>
+                                        <image src="../images/{{themeimg}}sale.png"></image>
                                     </view>
                                     <view>
-                                        <image src="../images/phone.png"></image> 电话
+                                        <image src="../images/{{themeimg}}phone.png"></image> 电话
                                     </view>
                                 </view>
                             </view>

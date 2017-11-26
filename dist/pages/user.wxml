@@ -1,0 +1,46 @@
+
+    <view class="user-container">
+        <view class="user-header">
+            <view class="user-img">
+                <image src="{{userInfo.avatarUrl}}"/>
+            </view>
+            <view class="user-info">
+                <view class="user-name">{{userInfo.nickName}}</view>
+                <view class="user-data">
+                    <text>关注： <text>10</text></text>
+                    <text>发布： <text>10</text></text>
+                </view>
+            </view>
+        </view>
+        <view class="user-body">
+            <view class="user-list">
+                <view>
+                    <text>我的关注</text>
+                    <image src="../images/arrow.png"/>
+                </view>
+            </view>
+            <view class="user-list">
+                <view>
+                    <text>我的发布</text>
+                    <image src="../images/arrow.png"/>
+                </view>
+            </view>
+        </view>
+        <view class="about-body">
+            <view class="user-list">
+                <view bindtap="aboutPage">
+                    <text>关于{{cityname}}</text>
+                    <image src="../images/arrow.png"/>
+                </view>
+            </view>
+            <view class="user-list">
+                <view>
+                    <text>联系开发者</text>
+                    <image src="../images/arrow.png"/>
+                </view>
+            </view>
+        </view>
+        
+    <view class="footer">欢迎来到 {{$footer$cityname}}</view>
+
+    </view>

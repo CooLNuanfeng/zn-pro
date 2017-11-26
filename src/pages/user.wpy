@@ -1,12 +1,146 @@
 <template>
-
+    <view class="user-container">
+        <view class="user-header">
+            <view class="user-img">
+                <image src="{{userInfo.avatarUrl}}"></image>
+            </view>
+            <view class="user-info">
+                <view class="user-name">{{userInfo.nickName}}</view>
+                <view class="user-data">
+                    <text>关注： <text>10</text></text>
+                    <text>发布： <text>10</text></text>
+                </view>
+            </view>
+        </view>
+        <view class="user-body">
+            <view class="user-list">
+                <view>
+                    <text>我的关注</text>
+                    <image src="../images/arrow.png"></image>
+                </view>
+            </view>
+            <view class="user-list">
+                <view>
+                    <text>我的发布</text>
+                    <image src="../images/arrow.png"></image>
+                </view>
+            </view>
+        </view>
+        <view class="about-body">
+            <view class="user-list">
+                <view @tap="aboutPage">
+                    <text>关于{{cityname}}</text>
+                    <image src="../images/arrow.png"></image>
+                </view>
+            </view>
+            <view class="user-list">
+                <view>
+                    <text>联系开发者</text>
+                    <image src="../images/arrow.png"></image>
+                </view>
+            </view>
+        </view>
+        <footer></footer>
+    </view>
 </template>
 
 <script>
 import wepy from 'wepy'
+import Footer from '../components/footer'
+
 export default class User extends wepy.page {
+    data = {
+        userInfo : null,
+        cityname : '',
+    };
+    components = {
+        footer : Footer
+    };
+    methods = {
+        aboutPage(){
+            wx.navigateTo({
+              url: 'about'
+            });
+        }
+    };
+    onLoad(){
+        this.userInfo = this.$parent.globalData.userInfo;
+        this.cityname = this.$parent.globalData.cityname;
+        console.log(this.userInfo);
+    };
 }
 </script>
 
 <style lang="scss">
+@import "../sass/_mixin.scss";
+.user-header{
+    display: flex;
+    margin-bottom: 20rpx;
+    padding: 40rpx 0;
+    background: $themeColor;
+    border-bottom: 1rpx solid #ebebeb;
+}
+.user-img{
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-right: 20rpx;
+    image{
+        width: 150rpx;
+        height: 150rpx;
+        border-radius: 90rpx;
+    }
+}
+.user-info{
+    flex: 3;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+}
+.user-name{
+    color: #fff;
+    font-size: 30rpx;
+}
+.user-data{
+    >text{
+        font-size: 24rpx;
+        color: #fff;
+        margin-right: 20rpx;
+        text{
+            font-size: 26rpx;
+            font-weight: bold;
+            color: #fff;
+        }
+    }
+}
+.user-body{
+    margin-bottom: 20rpx;
+}
+.user-list{
+    padding: 0 20rpx;
+    background: #fff;
+    > view{
+        display: flex;
+        height: 80rpx;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 28rpx;
+        color: $fontBlack;
+        border-bottom: 1rpx solid #ebebeb;
+        image{
+            width: 40rpx;
+            height: 40rpx;
+            transform: rotate(-90deg) scale(.8);
+
+        }
+    }
+    &:last-child{
+        view{
+            border-bottom: 0;
+        }
+    }
+
+}
 </style>

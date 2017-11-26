@@ -1,6 +1,6 @@
 <template>
     <view class="img-container">
-        <view class="img-tips">最多上传6张图片(简易尺寸 750 * 600)</view>
+        <view class="img-tips">最多上传6张图片(建议尺寸 750 * 600)</view>
         <view class="img-warp">
             <view class="img-box">
                 <view class="img-item" wx:for="{{imgArr}}" wx:key>

@@ -1,0 +1,2 @@
+@import "./../components/footer.wxss";
+.about-container{padding:40rpx;background:#fff}.about-title{text-align:center;font-size:34rpx;font-weight:bold;color:#333}.about-tags{padding:0 20rpx}.about-tags text{padding:5rpx 0;font-size:30rpx;font-weight:bold;color:#333;border-bottom:1rpx}.about-txt{font-size:28rpx;color:#333}

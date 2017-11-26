@@ -1,12 +1,12 @@
 <template>
   <view class="container">
-      <location :cityname.sync="cityname" :cityid.sync="cityid"/>
+      <location/>
       <gird></gird>
       <view class="index-container">
           <view class="index-title">最新发布</view>
           <view class="index-list">
               <view class="index-flex" @tap="goDetail('{id:1,type:job}')">
-                  <view class="item-img"><image src="../images/car.png"></image></view>
+                  <view class="item-img"><image src="../images/{{themeimg}}car.png"></image></view>
                   <view class="item-info">
                       <view class="item-title"><text>图</text>新平佳节快乐姐姐加快拉倒了杰拉德</view>
                       <view class="item-desc">简单 方便</view>
@@ -17,7 +17,7 @@
                   </view>
               </view>
               <view class="index-flex">
-                  <view class="item-img"><image src="../images/food.png"></image></view>
+                  <view class="item-img"><image src="../images/{{themeimg}}food.png"></image></view>
                   <view class="item-info">
                       <view class="item-title"><text>图</text>新平佳节快乐姐姐加快拉倒了杰拉德新平佳节快乐姐姐加快拉倒了杰拉德新平佳节快乐姐姐加快拉倒了杰拉德</view>
                       <view class="item-desc">美味 方便 快捷</view>
@@ -28,7 +28,7 @@
                   </view>
               </view>
               <view class="index-flex">
-                  <view class="item-img"><image src="../images/other.png"></image></view>
+                  <view class="item-img"><image src="../images/{{themeimg}}other.png"></image></view>
                   <view class="item-info">
                       <view class="item-title">新平佳节快乐姐姐加快拉倒了杰拉德新平佳节快乐姐姐加快拉倒了杰拉德新平佳节快乐姐姐加快拉倒了杰拉德</view>
                       <view class="item-price">
@@ -38,13 +38,53 @@
               </view>
           </view>
       </view>
-      <footer :cityname.sync="cityname" :cityid.sync="cityid"/>
+      <footer/>
       <view class="publish-btn">
           <image src="../images/help.png"></image>
           <image src="../images/publish.png" @tap="publish"></image>
       </view>
   </view>
 </template>
+
+<script>
+  import wepy from 'wepy'
+  import Location from '../components/location'
+  import Grid from '../components/grid'
+  import Footer from '../components/footer'
+  // import Toast from 'wepy-com-toast'
+
+  export default class Index extends wepy.page {
+      config = {
+
+      };
+      components = {
+          location : Location,
+          gird : Grid,
+          footer : Footer
+      };
+    //   data = {
+    //       themeimg : '',
+    //   }
+      methods = {
+          goDetail(params){
+              console.log(params);
+              wx.navigateTo({
+                  url : 'detail'
+              });
+          },
+          publish(){
+              wx.navigateTo({
+                  url : 'publish'
+              });
+          }
+      }
+      onLoad(){
+        //   this.themeimg = cityInfo.themeimg;
+      }
+  }
+</script>
+
+
 <style lang="scss">
 @import "../sass/_mixin.scss";
 .index-title{
@@ -139,43 +179,3 @@
     }
 }
 </style>
-<script>
-  import wepy from 'wepy'
-  import Location from '../components/location'
-  import Grid from '../components/grid'
-  import Footer from '../components/footer'
-  // import Toast from 'wepy-com-toast'
-
-  export default class Index extends wepy.page {
-      config = {
-
-      };
-      components = {
-          location : Location,
-          gird : Grid,
-          footer : Footer
-      };
-      data = {
-          cityname : '',
-          cityid : ''
-      }
-      methods = {
-          goDetail(params){
-              console.log(params);
-              wx.navigateTo({
-                  url : 'detail'
-              });
-          },
-          publish(){
-              wx.navigateTo({
-                  url : 'publish'
-              });
-          }
-      }
-      onLoad(){
-          let cityInfo = this.$parent.getloactionInfo();
-          this.cityname  = cityInfo.cityname;
-          this.cityid = cityInfo.cityid;
-      }
-  }
-</script>

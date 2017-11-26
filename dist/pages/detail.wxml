@@ -73,6 +73,9 @@
                     <view>4、离开家阿卡丽地方实际付的灯光都是改款了</view>
                 </view>
             </view>
+            
+    <view class="footer">欢迎来到 {{$footer$cityname}}</view>
+
         </view>
 
         <!-- 房屋租售 -->

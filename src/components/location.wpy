@@ -54,11 +54,8 @@
 
   export default class Location extends wepy.component {
         data = {
-            searchText : ''
-        }
-        props = {
-            cityname : String,
-            cityid : Number
+            searchText : '',
+            cityname : ''
         }
         methods = {
             input(evt){
@@ -69,7 +66,7 @@
             }
         }
         onLoad(){
-
+            this.cityname = this.$parent.$parent.globalData.cityname;
         }
   }
 </script>

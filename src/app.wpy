@@ -17,7 +17,8 @@ export default class extends wepy.app {
       'pages/user',
       'pages/category',
       'pages/detail',
-      'pages/publish'
+      'pages/publish',
+      'pages/about',
     ],
     window: {
       backgroundTextStyle: 'light',
@@ -32,19 +33,19 @@ export default class extends wepy.app {
           list: [
               {
                   "pagePath": "pages/index",
-                  "selectedIconPath": "images/index.png",
+                  "selectedIconPath": "images/green/index.png",
                   "iconPath": "images/index_disable.png",
                   "text": "首页"
               },
               {
                   "pagePath": "pages/attention",
-                  "selectedIconPath": "images/attention.png",
+                  "selectedIconPath": "images/green/attention.png",
                   "iconPath": "images/attention_disable.png",
                   "text": "关注"
               },
               {
                   "pagePath": "pages/user",
-                  "selectedIconPath": "images/user.png",
+                  "selectedIconPath": "images/green/user.png",
                   "iconPath": "images/user_disable.png",
                   "text": "我的"
               }
@@ -53,7 +54,10 @@ export default class extends wepy.app {
   }
 
   globalData = {
-    userInfo: null
+    userInfo: null,
+    cityname : 'My City',
+    cityid : '370682',
+    themeimg : 'green/'
   }
 
   constructor () {
@@ -61,15 +65,9 @@ export default class extends wepy.app {
   }
 
   onLaunch() {
-
+      this.getUserInfo();
   }
 
-  getloactionInfo(){
-      return {
-          cityname : 'My City',
-          cityid : '370682'
-      }
-  }
 
   getUserInfo(cb) {
     const that = this

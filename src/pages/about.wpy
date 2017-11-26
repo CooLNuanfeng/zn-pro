@@ -1,0 +1,61 @@
+<template>
+    <view>
+        <view class="about-container">
+            <view class="about-title">关于{{cityname}}</view>
+            <view class="about-tags"><text>关于</text></view>
+            <view class="about-txt">
+                卡了快捷按时交付垃圾发来看撒娇傅雷家书离开就是了开发了就  放到酸辣粉离开即可拉伸发 路上大家发
+            </view>
+            <view class="about-tags"><text>声明</text></view>
+            <view class="about-txt">
+                卡了快捷按时交付垃圾发来看撒娇傅雷家书离开就是了开发了就  放到酸辣粉离开即可拉伸发 路上大家发
+            </view>
+        </view>
+        <footer></footer>
+    </view>
+</template>
+
+<script>
+import wepy from 'wepy'
+import Footer from '../components/footer'
+
+export default class About extends wepy.page {
+    data = {
+        cityname : ''
+    };
+    components = {
+        footer : Footer
+    };
+    onLoad(){
+        this.cityname = this.$parent.globalData.cityname;
+    }
+}
+</script>
+
+<style lang="scss">
+@import "../sass/_mixin.scss";
+.about-container{
+    padding: 40rpx;
+    background: #fff;
+}
+.about-title{
+    text-align: center;
+    font-size: 34rpx;
+    font-weight: bold;
+    color: $fontBlack;
+}
+.about-tags{
+    padding: 0 20rpx;
+    text{
+        padding: 5rpx 0;
+        font-size: 30rpx;
+        font-weight: bold;
+        color: $fontBlack;
+        border-bottom: 1rpx;
+    }
+}
+.about-txt{
+    font-size: 28rpx;
+    color: $fontBlack
+}
+</style>

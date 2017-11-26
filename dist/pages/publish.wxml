@@ -2,19 +2,19 @@
     <view class="publish-container">
         <view class="publish-input">
             <view>
-                <image src="../images/title.png"/>
+                <image src="../images/{{themeimg}}title.png"/>
                 <input type="text" placeholder="请输入发布内容的标题或主题" maxlength="100" placeholder-class="input-placeholder" value="{{title}}"/>
             </view>
         </view>
         <view class="publish-input">
             <view>
-                <image src="../images/subtitle.png"/>
+                <image src="../images/{{themeimg}}subtitle.png"/>
                 <input type="text" placeholder="请输入关于发布内容的 2-3个关键词,空格分割" maxlength="20" placeholder-class="input-placeholder" value="{{subtitle}}"/>
             </view>
         </view>
         <view class="publish-input">
             <view>
-                <image src="../images/phone.png"/>
+                <image src="../images/{{themeimg}}phone.png"/>
                 <input type="number" placeholder="请输入您的手机号" maxlength="11" placeholder-class="input-placeholder" value="{{phone}}"/>
             </view>
         </view>
@@ -107,7 +107,7 @@
         <view class="publish-notice">工作环境展示</view>
         
     <view class="img-container">
-        <view class="img-tips">最多上传6张图片(简易尺寸 750 * 600)</view>
+        <view class="img-tips">最多上传6张图片(建议尺寸 750 * 600)</view>
         <view class="img-warp">
             <view class="img-box">
                 <view class="img-item"  wx:for="{{$jobform$uploadform$imgArr}}" wx:key="wx:key">
@@ -174,7 +174,7 @@
         <view class="publish-notice">活动图片展示</view>
         
     <view class="img-container">
-        <view class="img-tips">最多上传6张图片(简易尺寸 750 * 600)</view>
+        <view class="img-tips">最多上传6张图片(建议尺寸 750 * 600)</view>
         <view class="img-warp">
             <view class="img-box">
                 <view class="img-item"  wx:for="{{$saleform$uploadform$imgArr}}" wx:key="wx:key">
