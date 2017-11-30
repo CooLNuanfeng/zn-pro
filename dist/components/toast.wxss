@@ -1,0 +1,1 @@
+.toast{position:fixed;bottom:30%;left:50%;transform:translateX(-50%);max-width:500rpx;padding:10rpx 20rpx;border-radius:5rpx;color:#fff;background:rgba(0,0,0,0.8);font-size:26rpx;animation:hidden 2s ease-in}@keyframes hidden{0%{opacity:1}80%{opacity:1}100%{opacity:0}}

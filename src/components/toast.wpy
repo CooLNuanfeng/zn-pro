@@ -1,0 +1,52 @@
+<template>
+    <view hidden="{{hidden}}" class="toast">{{infoObj.message}}</view>
+</template>
+
+<script>
+import wepy from 'wepy';
+var timer = null;
+export default class Toast extends wepy.component{
+    data = {
+        hidden : true,
+        infoObj : null
+    }
+    methods = {
+        show(params){
+            this.infoObj = params;
+            this.hidden = false;
+            clearTimeout(timer);
+            timer = setTimeout(() => {
+                this.hidden = true;
+                this.$apply();
+            }, 2000);
+        }
+    }
+}
+</script>
+
+<style lang="scss">
+.toast{
+    position: fixed;
+    bottom: 30%;
+    left: 50%;
+    transform: translateX(-50%);
+    max-width: 500rpx;
+    padding: 10rpx 20rpx;
+    border-radius: 5rpx;
+    color: #fff;
+    background: rgba(0,0,0,.8);
+    font-size: 26rpx;
+    animation: hidden 2s ease-in;
+}
+@keyframes hidden {
+    0%{
+        opacity: 1;
+    }
+    80%{
+        opacity: 1;
+    }
+    100%{
+        opacity: 0;
+    }
+}
+</style>

@@ -125,6 +125,7 @@ export default class Attention extends wepy.page {
         'nav-bar' : NavBar
     };
     data = {
+        themeimg : '',
         status : 0, //确切到每个
         showBar: false, //是否显示底部删除操作
         startX : 0,
@@ -177,6 +178,9 @@ export default class Attention extends wepy.page {
             //ajax
             this.showBar = false;
         }
+    }
+    onLoad(){
+        this.themeimg = this.$parent.globalData.themeimg;
     }
     angle(start, end) {
        var _X = end.X - start.X,

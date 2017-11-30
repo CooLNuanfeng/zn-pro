@@ -80,7 +80,7 @@ import FriendForm from '../components/friendform';
 import PetForm from '../components/petform';
 import EduForm from '../components/eduform';
 import OtherForm from '../components/otherform';
-import Toast from 'wepy-com-toast';
+import Toast from '../components/toast';
 
 export default class Publish extends wepy.page {
     data = {
@@ -139,7 +139,7 @@ export default class Publish extends wepy.page {
         }
         if(!json.flag){
             this.$invoke('toast', 'show', {
-                title: json.info,
+                message: json.info,
             });
         }
         return json;
@@ -147,24 +147,27 @@ export default class Publish extends wepy.page {
     checkHeadeInfo(){
         var json = {};
         var flag = true;
-        var phoneReg = /^0{0,1}1[34578]{1}[0-9]{9}$/ig;
+        var phoneReg = /^0{0,1}1[3456789]{1}[0-9]{9}$/ig;
         if(!this.title){
             json.flag = false;
             json.info = '标题不能为空';
+            return json;
         }
         if(!this.subtitle){
             json.flag = false;
             json.info = '副标题不能为空';
+            return json;
         }
         if(!this.phone){
             json.flag = false;
             json.info = '手机号不能为空';
+            return json;
         }
         if(!phoneReg.test(this.phone)){
             json.flag = false;
             json.info = '手机号格式不正确';
+            return json;
         }
-        return json;
     }
     checkJobFrom(){
 

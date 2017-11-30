@@ -464,18 +464,6 @@
             <view class="btn-submit" bindtap="submit">提交</view>
         </view>
         
-    <view class="wetoast {{$toast$reveal ? 'wetoast_show' : ''}}">
-        <view class="wetoast__mask"/>
-        <view class="wetoast__bd" animation="{{$toast$animationData}}">
-            <block  wx:if="{{$toast$img}}">
-                <view class="wetoast__bd__img {{$toast$imgClassName || ''}}">
-                    <image class="wetoast__bd__img_desc" src="{{$toast$img}}" mode="{{$toast$imgMode || 'scaleToFill'}}"/>
-                </view>
-            </block>
-            <block  wx:if="{{$toast$title}}">
-                <view class="wetoast__bd__title {{$toast$titleClassName || ''}}">{{$toast$title}}</view>
-            </block>
-        </view>
-    </view>
+    <view hidden="{{$toast$hidden}}" class="toast">{{$toast$infoObj.message}}</view>
 
     </view>

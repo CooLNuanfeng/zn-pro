@@ -1,42 +1,52 @@
 <template>
-    <view class="user-container">
-        <view class="user-header">
-            <view class="user-img">
-                <image src="{{userInfo.avatarUrl}}"></image>
-            </view>
-            <view class="user-info">
-                <view class="user-name">{{userInfo.nickName}}</view>
-                <view class="user-data">
-                    <text>关注： <text>10</text></text>
-                    <text>发布： <text>10</text></text>
+    <view class="container">
+        <view class="warp">
+            <view class="user-container">
+                <view class="user-header">
+                    <view class="user-img">
+                        <image src="{{userInfo.avatarUrl}}"></image>
+                    </view>
+                    <view class="user-info">
+                        <view class="user-name">{{userInfo.nickName}}</view>
+                        <view class="user-data">
+                            <text>关注： <text>10</text></text>
+                            <text>发布： <text>10</text></text>
+                        </view>
+                    </view>
                 </view>
-            </view>
-        </view>
-        <view class="user-body">
-            <view class="user-list">
-                <view>
-                    <text>我的关注</text>
-                    <image src="../images/arrow.png"></image>
+                <view class="user-body">
+                    <view class="user-list">
+                        <view>
+                            <text>我的关注</text>
+                            <image src="../images/arrow.png"></image>
+                        </view>
+                    </view>
+                    <view class="user-list">
+                        <view>
+                            <text>我的发布</text>
+                            <image src="../images/arrow.png"></image>
+                        </view>
+                    </view>
+                    <view class="user-list">
+                        <view>
+                            <text>我的草稿</text>
+                            <image src="../images/arrow.png"></image>
+                        </view>
+                    </view>
                 </view>
-            </view>
-            <view class="user-list">
-                <view>
-                    <text>我的发布</text>
-                    <image src="../images/arrow.png"></image>
-                </view>
-            </view>
-        </view>
-        <view class="about-body">
-            <view class="user-list">
-                <view @tap="aboutPage">
-                    <text>关于{{cityname}}</text>
-                    <image src="../images/arrow.png"></image>
-                </view>
-            </view>
-            <view class="user-list">
-                <view>
-                    <text>联系开发者</text>
-                    <image src="../images/arrow.png"></image>
+                <view class="about-body">
+                    <view class="user-list">
+                        <view @tap="aboutPage">
+                            <text>关于{{cityname}}</text>
+                            <image src="../images/arrow.png"></image>
+                        </view>
+                    </view>
+                    <view class="user-list">
+                        <view>
+                            <text>联系开发者</text>
+                            <image src="../images/arrow.png"></image>
+                        </view>
+                    </view>
                 </view>
             </view>
         </view>
