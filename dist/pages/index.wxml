@@ -1,6 +1,7 @@
 
   <view class="container">
-      
+      <view class="warp">
+          
   <view class="location-warp">
       <Text class="city-name">{{$location$cityname}}</Text>
       <view class="search-box">
@@ -9,7 +10,7 @@
       </view>
   </view>
 
-      
+          
     <view class="grids">
         <view class="grids-flex">
             <view class="grids-item" bindtap="$gird$tap" data-wpytap-a="job">
@@ -57,37 +58,38 @@
         </view>
     </view>
 
-      <view class="index-container">
-          <view class="index-title">最新发布</view>
-          <view class="index-list">
-              <view class="index-flex" bindtap="goDetail" data-wpygodetail-a="{id:1,type:job}">
-                  <view class="item-img"><image src="../images/{{themeimg}}car.png"/></view>
-                  <view class="item-info">
-                      <view class="item-title"><text>图</text>新平佳节快乐姐姐加快拉倒了杰拉德</view>
-                      <view class="item-desc">简单 方便</view>
-                      <view class="item-price">
-                          <text class="price">￥<text class="price-number">123</text>元</text>
-                          <text class="pub-time">2017-10-08</text>
+          <view class="index-container">
+              <view class="index-title">最新发布</view>
+              <view class="index-list">
+                  <view class="index-flex" bindtap="goDetail" data-wpygodetail-a="{id:1,type:job}">
+                      <view class="item-img"><image src="../images/{{themeimg}}car.png"/></view>
+                      <view class="item-info">
+                          <view class="item-title"><text>图</text>新平佳节快乐姐姐加快拉倒了杰拉德</view>
+                          <view class="item-desc">简单 方便</view>
+                          <view class="item-price">
+                              <text class="price">￥<text class="price-number">123</text>元</text>
+                              <text class="pub-time">2017-10-08</text>
+                          </view>
                       </view>
                   </view>
-              </view>
-              <view class="index-flex">
-                  <view class="item-img"><image src="../images/{{themeimg}}food.png"/></view>
-                  <view class="item-info">
-                      <view class="item-title"><text>图</text>新平佳节快乐姐姐加快拉倒了杰拉德新平佳节快乐姐姐加快拉倒了杰拉德新平佳节快乐姐姐加快拉倒了杰拉德</view>
-                      <view class="item-desc">美味 方便 快捷</view>
-                      <view class="item-price">
-                          <text class="price">￥<text class="price-number">123</text>元</text>
-                          <text class="pub-time">2017-10-08</text>
+                  <view class="index-flex">
+                      <view class="item-img"><image src="../images/{{themeimg}}food.png"/></view>
+                      <view class="item-info">
+                          <view class="item-title"><text>图</text>新平佳节快乐姐姐加快拉倒了杰拉德新平佳节快乐姐姐加快拉倒了杰拉德新平佳节快乐姐姐加快拉倒了杰拉德</view>
+                          <view class="item-desc">美味 方便 快捷</view>
+                          <view class="item-price">
+                              <text class="price">￥<text class="price-number">123</text>元</text>
+                              <text class="pub-time">2017-10-08</text>
+                          </view>
                       </view>
                   </view>
-              </view>
-              <view class="index-flex">
-                  <view class="item-img"><image src="../images/{{themeimg}}other.png"/></view>
-                  <view class="item-info">
-                      <view class="item-title">新平佳节快乐姐姐加快拉倒了杰拉德新平佳节快乐姐姐加快拉倒了杰拉德新平佳节快乐姐姐加快拉倒了杰拉德</view>
-                      <view class="item-price">
-                          <text class="pub-time">2017-10-08</text>
+                  <view class="index-flex">
+                      <view class="item-img"><image src="../images/{{themeimg}}other.png"/></view>
+                      <view class="item-info">
+                          <view class="item-title">新平佳节快乐姐姐加快拉倒了杰拉德新平佳节快乐姐姐加快拉倒了杰拉德新平佳节快乐姐姐加快拉倒了杰拉德</view>
+                          <view class="item-price">
+                              <text class="pub-time">2017-10-08</text>
+                          </view>
                       </view>
                   </view>
               </view>
@@ -97,7 +99,7 @@
     <view class="footer">欢迎来到 {{$footer$cityname}}</view>
 
       <view class="publish-btn">
-          <image src="../images/help.png"/>
+          <image src="../images/help.png" bindtap="about"/>
           <image src="../images/publish.png" bindtap="publish"/>
       </view>
   </view>

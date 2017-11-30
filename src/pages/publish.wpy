@@ -121,7 +121,7 @@ export default class Publish extends wepy.page {
         },
     }
     onLoad(){
-
+        this.themeimg = this.$parent.globalData.themeimg;
     }
     checkFormInfo(){
         var json = null;

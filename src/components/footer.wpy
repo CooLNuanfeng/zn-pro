@@ -18,8 +18,8 @@ export default class Footer extends wepy.component{
 <style lang="scss">
 @import "../sass/_mixin.scss";
 .footer{
-    padding: 160rpx 0 80rpx;
-    font-size: 22rpx;
+    padding: 160rpx 0 130rpx;
+    font-size: 20rpx;
     text-align: center;
     color: $gray;
 }

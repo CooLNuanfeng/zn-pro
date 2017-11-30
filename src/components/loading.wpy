@@ -19,7 +19,7 @@ export default class Loading extends wepy.component{
 .loading{
     padding: 40rpx;
     color: $gray;
-    font-size: 26rpx;
+    font-size: 20rpx;
     text-align: center;
 }
 </style>

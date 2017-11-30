@@ -1,5 +1,0 @@
-
-  <view class="groupitem">
-    --<text class="id">{{gitem.childid}}.</text>
-    <text class="name" bindtap="tap"> {{gitem.childname}}</text>
-  </view>

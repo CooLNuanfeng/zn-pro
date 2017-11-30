@@ -3,11 +3,33 @@
 page{
     background: #f4f4f4;
 }
+.container{
+    min-height: 100vh;
+}
+.warp{
+    min-height: 70vh;
+}
 </style>
 
 <script>
 import wepy from 'wepy'
 import 'wepy-async-function'
+
+var wilddog = require('./utils/wilddog-weapp-all');
+
+var willddogConfig = {
+    syncURL: 'https://wd7517932122kqjqww.wilddogio.com',
+    authDomain: 'wd7517932122kqjqww.wilddogio.com'
+};
+
+
+//themeColor
+var myConfig = {
+    themeColor : '#51e886',
+    themeimg : 'green/',
+    cityname : 'My City',
+    cityid : '370682'
+}
 
 export default class extends wepy.app {
   config = {
@@ -28,24 +50,24 @@ export default class extends wepy.app {
      },
      tabBar: {
           color: '#999',
-          selectedColor : '#51e886',
+          selectedColor : '#51e886', //themeColor
           backgroundColor : '#fff',
           list: [
               {
                   "pagePath": "pages/index",
-                  "selectedIconPath": "images/green/index.png",
+                  "selectedIconPath": "images/green/index.png", //themeColor
                   "iconPath": "images/index_disable.png",
                   "text": "首页"
               },
               {
                   "pagePath": "pages/attention",
-                  "selectedIconPath": "images/green/attention.png",
+                  "selectedIconPath": "images/green/attention.png", //themeColor
                   "iconPath": "images/attention_disable.png",
                   "text": "关注"
               },
               {
                   "pagePath": "pages/user",
-                  "selectedIconPath": "images/green/user.png",
+                  "selectedIconPath": "images/green/user.png", //themeColor
                   "iconPath": "images/user_disable.png",
                   "text": "我的"
               }
@@ -55,9 +77,9 @@ export default class extends wepy.app {
 
   globalData = {
     userInfo: null,
-    cityname : 'My City',
-    cityid : '370682',
-    themeimg : 'green/'
+    cityname : myConfig.cityname,
+    cityid : myConfig.cityid,
+    themeimg : myConfig.themeimg
   }
 
   constructor () {
@@ -65,9 +87,24 @@ export default class extends wepy.app {
   }
 
   onLaunch() {
-      this.getUserInfo();
+    var self = this;
+    wilddog.initializeApp(willddogConfig);
+    self.getUserInfo();
+    //这个地方使用野狗登录微信小程序的方法,可以获得微信返回的openId,用户名称等等信息,这些信息会存在野狗的控制台的身份人认证部分。
+    wilddog.auth().signInWeapp().then(function(user){
+      console.log(user,'user wilddog');
+      // self.globalData.userInfo = {
+      //   nickName : user.displayName,
+      //   avatarUrl : user.photoURL
+      // }
+    }).catch(function(err){
+      console.log(err,'认证异常');
+    });
   }
 
+  getWilddogData(){
+    return wilddog;
+  }
 
   getUserInfo(cb) {
     const that = this

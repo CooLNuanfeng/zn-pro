@@ -51,7 +51,7 @@
 import wepy from 'wepy';
 export default class ListNews extends wepy.component{
     data = {
-
+        themeimg : ''
     }
     methods = {
         goDetail(params){
@@ -60,6 +60,9 @@ export default class ListNews extends wepy.component{
                 url : 'detail'
             });
         }
+    };
+    onLoad(){
+        this.themeimg = this.$parent.$parent.globalData.themeimg;
     }
 }
 </script>
@@ -145,8 +148,8 @@ export default class ListNews extends wepy.component{
         border-radius: 4rpx;
         margin: 10rpx;
         image{
-            width: 25rpx;
-            height: 25rpx;
+            width: 30rpx;
+            height: 30rpx;
             margin-right: 10rpx;
             vertical-align: middle;
         }

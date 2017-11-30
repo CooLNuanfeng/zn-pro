@@ -4,13 +4,17 @@
 		"urlCheck": true,
 		"es6": false,
 		"postcss": false,
-		"minified": false,
+		"minified": true,
 		"newFeature": false
 	},
 	"compileType": "miniprogram",
 	"libVersion": "1.6.4",
 	"appid": "wx05a410e096d90371",
-	"projectname": "zn-pro",
+	"projectname": "zn",
+	"svr": "",
+	"client": "",
+	"qcloudRoot": "",
+	"miniprogramRoot": "",
 	"condition": {
 		"search": {
 			"current": -1,

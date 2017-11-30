@@ -51,12 +51,18 @@
 import wepy from 'wepy';
 
 export default class Grid  extends wepy.component{
+    data = {
+        themeimg : ''
+    };
     methods = {
         tap(params){
             wx.navigateTo({
                 url : 'category?id='+params
             });
         }
+    };
+    onLoad(){
+         this.themeimg = this.$parent.$parent.globalData.themeimg;
     }
 }
 </script>

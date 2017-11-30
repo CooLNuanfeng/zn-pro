@@ -5,6 +5,8 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = undefined;
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
 var _wepy = require('./../npm/wepy/lib/wepy.js');
 
 var _wepy2 = _interopRequireDefault(_wepy);
@@ -31,7 +33,9 @@ var ListNews = function (_wepy$component) {
             args[_key] = arguments[_key];
         }
 
-        return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = ListNews.__proto__ || Object.getPrototypeOf(ListNews)).call.apply(_ref, [this].concat(args))), _this), _this.data = {}, _this.methods = {
+        return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = ListNews.__proto__ || Object.getPrototypeOf(ListNews)).call.apply(_ref, [this].concat(args))), _this), _this.data = {
+            themeimg: ''
+        }, _this.methods = {
             goDetail: function goDetail(params) {
                 console.log(params);
                 wx.navigateTo({
@@ -41,8 +45,15 @@ var ListNews = function (_wepy$component) {
         }, _temp), _possibleConstructorReturn(_this, _ret);
     }
 
+    _createClass(ListNews, [{
+        key: 'onLoad',
+        value: function onLoad() {
+            this.themeimg = this.$parent.$parent.globalData.themeimg;
+        }
+    }]);
+
     return ListNews;
 }(_wepy2.default.component);
 
 exports.default = ListNews;
-//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImxpc3RuZXdzLmpzIl0sIm5hbWVzIjpbIkxpc3ROZXdzIiwiZGF0YSIsIm1ldGhvZHMiLCJnb0RldGFpbCIsInBhcmFtcyIsImNvbnNvbGUiLCJsb2ciLCJ3eCIsIm5hdmlnYXRlVG8iLCJ1cmwiLCJjb21wb25lbnQiXSwibWFwcGluZ3MiOiI7Ozs7Ozs7QUFDQTs7Ozs7Ozs7Ozs7O0lBQ3FCQSxROzs7Ozs7Ozs7Ozs7Ozs4TEFDakJDLEksR0FBTyxFLFFBR1BDLE8sR0FBVTtBQUNOQyxvQkFETSxvQkFDR0MsTUFESCxFQUNVO0FBQ1pDLHdCQUFRQyxHQUFSLENBQVlGLE1BQVo7QUFDQUcsbUJBQUdDLFVBQUgsQ0FBYztBQUNWQyx5QkFBTTtBQURJLGlCQUFkO0FBR0g7QUFOSyxTOzs7O0VBSndCLGVBQUtDLFM7O2tCQUF0QlYsUSIsImZpbGUiOiJsaXN0bmV3cy5qcyIsInNvdXJjZXNDb250ZW50IjpbIlxuaW1wb3J0IHdlcHkgZnJvbSAnd2VweSc7XG5leHBvcnQgZGVmYXVsdCBjbGFzcyBMaXN0TmV3cyBleHRlbmRzIHdlcHkuY29tcG9uZW50e1xuICAgIGRhdGEgPSB7XG5cbiAgICB9XG4gICAgbWV0aG9kcyA9IHtcbiAgICAgICAgZ29EZXRhaWwocGFyYW1zKXtcbiAgICAgICAgICAgIGNvbnNvbGUubG9nKHBhcmFtcyk7XG4gICAgICAgICAgICB3eC5uYXZpZ2F0ZVRvKHtcbiAgICAgICAgICAgICAgICB1cmwgOiAnZGV0YWlsJ1xuICAgICAgICAgICAgfSk7XG4gICAgICAgIH1cbiAgICB9XG59XG4iXX0=
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImxpc3RuZXdzLmpzIl0sIm5hbWVzIjpbIkxpc3ROZXdzIiwiZGF0YSIsInRoZW1laW1nIiwibWV0aG9kcyIsImdvRGV0YWlsIiwicGFyYW1zIiwiY29uc29sZSIsImxvZyIsInd4IiwibmF2aWdhdGVUbyIsInVybCIsIiRwYXJlbnQiLCJnbG9iYWxEYXRhIiwiY29tcG9uZW50Il0sIm1hcHBpbmdzIjoiOzs7Ozs7Ozs7QUFDQTs7Ozs7Ozs7Ozs7O0lBQ3FCQSxROzs7Ozs7Ozs7Ozs7Ozs4TEFDakJDLEksR0FBTztBQUNIQyxzQkFBVztBQURSLFMsUUFHUEMsTyxHQUFVO0FBQ05DLG9CQURNLG9CQUNHQyxNQURILEVBQ1U7QUFDWkMsd0JBQVFDLEdBQVIsQ0FBWUYsTUFBWjtBQUNBRyxtQkFBR0MsVUFBSCxDQUFjO0FBQ1ZDLHlCQUFNO0FBREksaUJBQWQ7QUFHSDtBQU5LLFM7Ozs7O2lDQVFGO0FBQ0osaUJBQUtSLFFBQUwsR0FBZ0IsS0FBS1MsT0FBTCxDQUFhQSxPQUFiLENBQXFCQyxVQUFyQixDQUFnQ1YsUUFBaEQ7QUFDSDs7OztFQWRpQyxlQUFLVyxTOztrQkFBdEJiLFEiLCJmaWxlIjoibGlzdG5ld3MuanMiLCJzb3VyY2VzQ29udGVudCI6WyJcbmltcG9ydCB3ZXB5IGZyb20gJ3dlcHknO1xuZXhwb3J0IGRlZmF1bHQgY2xhc3MgTGlzdE5ld3MgZXh0ZW5kcyB3ZXB5LmNvbXBvbmVudHtcbiAgICBkYXRhID0ge1xuICAgICAgICB0aGVtZWltZyA6ICcnXG4gICAgfVxuICAgIG1ldGhvZHMgPSB7XG4gICAgICAgIGdvRGV0YWlsKHBhcmFtcyl7XG4gICAgICAgICAgICBjb25zb2xlLmxvZyhwYXJhbXMpO1xuICAgICAgICAgICAgd3gubmF2aWdhdGVUbyh7XG4gICAgICAgICAgICAgICAgdXJsIDogJ2RldGFpbCdcbiAgICAgICAgICAgIH0pO1xuICAgICAgICB9XG4gICAgfTtcbiAgICBvbkxvYWQoKXtcbiAgICAgICAgdGhpcy50aGVtZWltZyA9IHRoaXMuJHBhcmVudC4kcGFyZW50Lmdsb2JhbERhdGEudGhlbWVpbWc7XG4gICAgfVxufVxuIl19

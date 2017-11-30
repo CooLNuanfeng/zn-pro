@@ -1,14 +1,16 @@
 
-    <view>
-        <view class="about-container">
-            <view class="about-title">关于{{cityname}}</view>
-            <view class="about-tags"><text>关于</text></view>
-            <view class="about-txt">
-                卡了快捷按时交付垃圾发来看撒娇傅雷家书离开就是了开发了就  放到酸辣粉离开即可拉伸发 路上大家发
-            </view>
-            <view class="about-tags"><text>声明</text></view>
-            <view class="about-txt">
-                卡了快捷按时交付垃圾发来看撒娇傅雷家书离开就是了开发了就  放到酸辣粉离开即可拉伸发 路上大家发
+    <view class="container">
+        <view class="warp">
+            <view class="about-container">
+                <view class="about-title">关于{{cityname}}</view>
+                <view class="about-tags"><text>关于</text></view>
+                <view class="about-txt">
+                    卡了快捷按时交付垃圾发来看撒娇傅雷家书离开就是了开发了就  放到酸辣粉离开即可拉伸发 路上大家发
+                </view>
+                <view class="about-tags"><text>声明</text></view>
+                <view class="about-txt">
+                    卡了快捷按时交付垃圾发来看撒娇傅雷家书离开就是了开发了就  放到酸辣粉离开即可拉伸发 路上大家发
+                </view>
             </view>
         </view>
         
