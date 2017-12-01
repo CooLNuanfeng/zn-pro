@@ -2,7 +2,7 @@
     <view class="job-form">
         <view class="lable-control">
             <text>职位: <text class="label-require">*</text></text>
-            <input type="text" placeholder="请输入职位名称" maxlength="20" placeholder-class="input-placeholder" value="{{name}}">
+            <input type="text" placeholder="请输入职位名称" maxlength="20" placeholder-class="input-placeholder" value="{{jobname}}" @input="jobChange">
         </view>
         <view class="lable-control">
             <text>职位类型: <text class="label-require">*</text></text>
@@ -15,15 +15,20 @@
         </view>
         <view class="lable-control">
             <text>学历: <text class="label-require">*</text></text>
-            <input type="text" placeholder="请输入学历要求,如:本科或不限" maxlength="8" placeholder-class="input-placeholder" value="{{education}}">
+            <view class="label-picker">
+                <image src="../images/arrow.png"></image>
+                <picker @change="eduChange" value="{{eduIndex}}" range="{{eduJson}}" range-key="name">
+                    <view class="picker">{{eduJson[eduIndex]['name']}}</view>
+                </picker>
+            </view>
         </view>
         <view class="lable-control">
             <text>人数: <text class="label-require">*</text></text>
-            <input type="number" placeholder="请输入招聘人数" maxlength="4" placeholder-class="input-placeholder" value="{{number}}">
+            <input type="number" placeholder="请输入招聘人数" maxlength="4" placeholder-class="input-placeholder" value="{{number}}" @input="jobNumChange">
         </view>
         <view class="lable-control">
             <text>地址: <text class="label-require">*</text></text>
-            <input type="text" placeholder="请输入招聘公司地址" maxlength="50" placeholder-class="input-placeholder" value="{{address}}">
+            <input type="text" placeholder="请输入招聘公司地址" maxlength="50" placeholder-class="input-placeholder" value="{{address}}" @input="addressChange">
         </view>
         <view class="lable-control-list">
             <view class="label-flex">
@@ -47,7 +52,7 @@
         </view>
         <view class="lable-control">
             <text>公司名称: <text class="label-require">*</text></text>
-            <input type="text" placeholder="请输入招聘公司名称" maxlength="50" placeholder-class="input-placeholder" value="{{company}}">
+            <input type="text" placeholder="请输入招聘公司名称" maxlength="50" placeholder-class="input-placeholder" value="{{company}}" @input="companyNameChange">
         </view>
         <view class="lable-control">
             <text>公司人数: <text class="label-require">*</text></text>
@@ -59,12 +64,12 @@
             </view>
         </view>
         <view class="lable-control">
-            <text>公司简介: <text class="label-require">*</text></text>
-            <textarea class="label-textarea" cols="30" rows="10"></textarea>
+            <text>公司简介: </text>
+            <textarea class="label-textarea" cols="30" rows="10" maxlength="500" placeholder="请输入公司简介,500字内" placeholder-class="input-placeholder" @input="companyInfoChange"></textarea>
         </view>
 
         <view class="publish-notice">工作环境展示</view>
-        <uploadform></uploadform>
+        <uploadform @uploadEnd.user="uploadChange" @uploadDel.user="uploadChange"></uploadform>
     </view>
 </template>
 
@@ -72,16 +77,17 @@
 import wepy from 'wepy';
 import imgUploadForm from './imgupload';
 
-export default class JobForm  extends wepy.component{
+export default class JobForm extends wepy.component{
     data = {
-        'name' : '', //require
-        'education' : '', //require
+        'jobname' : '', //require
         'number' : '', //require
         'address': '',//require
         'dutyArr' : [''],
         'claimArr': [''],
-        'curIndex' : 0,
+        'companyName' : '', //require 公司名称
+        'curIndex' : 0,  //公司规模索引
         'companyNumber': ['100人以内','100-1000人','1000人以上'],
+        'companyInfo' : '', //公司简介
         'officeIndex' : 0,
         'officesJson' : [ //职位分类
             {'id':'001','name':'餐饮/酒店'},
@@ -98,11 +104,37 @@ export default class JobForm  extends wepy.component{
             {'id':'012','name':'电气/机械'},
             {'id':'013','name':'建筑/房产'}
         ],
+        'eduIndex' : 0,
+        'eduJson' : [ //学历分类
+            {'id':'001','name':'不限'},
+            {'id':'002','name':'初/高中以上'},
+            {'id':'003','name':'专科以上'},
+            {'id':'004','name':'本科以上'},
+            {'id':'005','name':'硕士研究生以上'},
+        ],
+        'uploadImgs' : null, //上传图片地址
     };
     components = {
         'uploadform' : imgUploadForm
     };
     methods = {
+        jobChange(evt){
+            this.jobname = evt.detail.value;
+        },
+        jobNumChange(evt){
+            this.number = evt.detail.value;
+        },
+        addressChange(evt){
+            this.address = evt.detail.value;
+        },
+        companyNameChange(evt){
+            this.companyName = evt.detail.value;
+        },
+        companyInfoChange(evt){
+            this.companyInfo = evt.detail.value;
+        },
+
+
         addItem(type){
             if(type == 'duty'){
                 this.dutyArr.push('');
@@ -132,18 +164,34 @@ export default class JobForm  extends wepy.component{
             this.curIndex = evt.detail.value;
         },
         officeChange(evt){
-            // console.log(evt.detail);
             this.officeIndex = evt.detail.value;
-            console.log(this.officesJson[this.officeIndex].id);
+            // console.log(this.officesJson[this.officeIndex].id);
+        },
+        eduChange(evt){
+            this.eduIndex = evt.detail.value;
+            // console.log(this.eduJson[this.eduIndex].id);
+        },
+        uploadChange(imgs){
+            // console.log('upload change');
+            this.uploadImgs = imgs;
         }
-        // submit(){
-        //     console.log(this.dutyArr);
-        // }
     };
     events = {
         fetch(){ //组织用户填写数据
-            var json = {};
-            this.$emit('getForm',json);
+            var json = {
+                'jobname' : this.jobname,  //职位 require
+                'jobType' : this.officesJson[this.officeIndex], //职位类型 require
+                'eduType' : this.eduJson[this.eduIndex], //学历类型 require
+                'number' : this.number, //招聘人数 require
+                'address' : this.address, //地址 require
+                'dutyArr' : this.dutyArr, //职责
+                'claimArr' : this.claimArr, //要求
+                'companyName' : this.companyName, //公司名称 require
+                'companyNumber' : this.companyNumber[this.curIndex], //公司人数 require
+                'companyInfo' : this.companyInfo, //公司简介
+                'images' : this.uploadImgs  //公司图片
+            };
+            this.$emit('getJobForm',json);
         }
     };
 }

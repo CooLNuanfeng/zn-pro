@@ -1,0 +1,19 @@
+
+    <view class="container success-page">
+        <view class="warp">
+            <view class="success-page">
+                <view class="success-img"><image src="../images/success.png"/></view>
+                <view class="success-info">
+                    <view class="text-big">有一种人生叫做双赢</view>
+                    <view class="text-normal">{{cityname}}感谢您的信息发布，这将为您和大家提供便利</view>
+                </view>
+                <view class="success-btn">
+                    <text bindtap="goPublish">继续发布</text>
+                    <text bindtap="goIndex">首页查看</text>
+                </view>
+            </view>
+        </view>
+        
+    <view class="footer">欢迎来到 {{$footer$cityname}}</view>
+
+    </view>

@@ -1,5 +1,5 @@
 
-    <view class="container">
+    <view class="container about-page">
         <view class="warp">
             <view class="about-container">
                 <view class="about-title">关于{{cityname}}</view>

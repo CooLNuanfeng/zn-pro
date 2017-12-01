@@ -20,6 +20,7 @@
 </template>
 
 <script>
+
 import wepy from 'wepy';
 
 export default class imgUploadForm extends wepy.component{
@@ -34,7 +35,7 @@ export default class imgUploadForm extends wepy.component{
             wx.chooseImage({
                 count : 6-count,
                 success : function(res){
-                    console.log(res.tempFilePaths);
+                    // console.log(res.tempFilePaths);
                     // vm.imgArr = ['http://tmp/wx05a410e096d90371.o6zAJs2vU4v0NWQs1dXXwMkiW_xo.a825c92d16fa95b84fd3e8c211e72511.jpg'];
                     var len = res.tempFilePaths.length;
                     for(var i=0; i<len; i++){
@@ -42,12 +43,17 @@ export default class imgUploadForm extends wepy.component{
                     }
                     // vm.imgArr = res.tempFilePaths;
                     vm.$apply();
+                    vm.uploadchange();
                 }
             });
         },
         del(index){
             this.imgArr.splice(index,1);
-        }
+            this.$emit('uploadDel',this.imgArr);
+        },
+    }
+    uploadchange(){ //上传图片成功
+        this.$emit('uploadEnd',this.imgArr);
     }
 }
 </script>

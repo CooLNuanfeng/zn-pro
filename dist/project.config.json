@@ -5,12 +5,12 @@
 		"es6": false,
 		"postcss": true,
 		"minified": true,
-		"newFeature": false
+		"newFeature": true
 	},
 	"compileType": "miniprogram",
-	"libVersion": "1.6.4",
+	"libVersion": "1.6.6",
 	"appid": "wx05a410e096d90371",
-	"projectname": "zn",
+	"projectname": "zn-pro",
 	"svr": "",
 	"client": "",
 	"qcloudRoot": "",

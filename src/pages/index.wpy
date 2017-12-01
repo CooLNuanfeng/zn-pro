@@ -88,6 +88,12 @@
       onLoad(){
           this.themeimg = this.$parent.globalData.themeimg;
       }
+      onShow(){
+          var ref = this.$parent.getWilddog('/newslist');
+          ref.orderByChild('updated').limitToLast(20).on('value',function(snapshot){
+             console.log(snapshot.val());
+          });
+      }
   }
 </script>
 

@@ -1,5 +1,5 @@
 <template>
-    <view class="container">
+    <view class="container about-page">
         <view class="warp">
             <view class="about-container">
                 <view class="about-title">关于{{cityname}}</view>
@@ -36,6 +36,9 @@ export default class About extends wepy.page {
 
 <style lang="scss">
 @import "../sass/_mixin.scss";
+.about-page{
+    background: #fff;
+}
 .about-container{
     padding: 40rpx;
     padding-top: 20rpx;

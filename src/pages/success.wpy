@@ -1,0 +1,93 @@
+<template>
+    <view class="container success-page">
+        <view class="warp">
+            <view class="success-page">
+                <view class="success-img"><image src="../images/success.png"></image></view>
+                <view class="success-info">
+                    <view class="text-big">有一种人生叫做双赢</view>
+                    <view class="text-normal">{{cityname}}感谢您的信息发布，这将为您和大家提供便利</view>
+                </view>
+                <view class="success-btn">
+                    <text @tap="goPublish">继续发布</text>
+                    <text @tap="goIndex">首页查看</text>
+                </view>
+            </view>
+        </view>
+        <footer/>
+    </view>
+</template>
+
+<script>
+import wepy from 'wepy';
+import Footer from '../components/footer'
+export default class Success extends wepy.page {
+    data = {
+        cityname : ''
+    }
+    components = {
+        footer : Footer
+    };
+    onLoad(){
+        this.cityname = this.$parent.globalData.cityname;
+    };
+    methods = {
+        goPublish(){
+            wx.redirectTo({
+                url : 'publish'
+            });
+        },
+        goIndex(){
+            wx.switchTab({
+                url : 'index'
+            });
+        }
+    }
+}
+</script>
+
+<style lang="scss">
+@import "../sass/_mixin.scss";
+.success-page{
+    background: #fff;
+}
+.success-img{
+    image{
+        width: 100%;
+    }
+}
+.success-info{
+    padding: 20rpx;
+    text-align: center;
+}
+.text-big{
+    padding: 5rpx 0;
+    font-size: 40rpx;
+    color: $fontBlack;
+    font-weight: bold;
+}
+.text-normal{
+    font-size: 26rpx;
+    color: $gray;
+}
+.success-btn{
+    padding: 10rpx 0;
+    text-align: center;
+    text{
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        width: 160rpx;
+        height: 50rpx;
+        font-size: 24rpx;
+        color: #fff;
+        background: $themeColor;
+        border-radius: 4rpx;
+        border: 1px solid $themeColor;
+        margin-right: 30rpx;
+        &:last-child{
+            background: transparent;
+            color: $themeColor;
+        }
+    }
+}
+</style>

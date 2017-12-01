@@ -42,13 +42,13 @@
             </view>
         </view>
         <view class="publish-notice">活动图片展示</view>
-        <uploadform></uploadform>
+        <!-- <uploadform></uploadform> -->
     </view>
 </template>
 
 <script>
 import wepy from 'wepy';
-import imgUploadForm from './imgupload';
+// import imgUploadForm from './imgupload';
 
 export default class SaleForm  extends wepy.component{
     data = {
@@ -66,7 +66,7 @@ export default class SaleForm  extends wepy.component{
     };
     porps = {};
     components = {
-        'uploadform' : imgUploadForm
+        // 'uploadform' : imgUploadForm
     };
     methods = {
         saleChange(evt){

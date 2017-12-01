@@ -3,19 +3,19 @@
         <view class="publish-input">
             <view>
                 <image src="../images/{{themeimg}}title.png"></image>
-                <input type="text" placeholder="请输入发布内容的标题或主题" maxlength="100" placeholder-class="input-placeholder" value="{{title}}">
+                <input type="text" placeholder="请输入发布内容的标题或主题" maxlength="100" placeholder-class="input-placeholder" @input="titleChange" value="{{title}}">
             </view>
         </view>
         <view class="publish-input">
             <view>
                 <image src="../images/{{themeimg}}subtitle.png"></image>
-                <input type="text" placeholder="请输入关于发布内容的 2-3个关键词,空格分割" maxlength="20" placeholder-class="input-placeholder" value="{{subtitle}}">
+                <input type="text" placeholder="请输入关于发布内容的 2-3个关键词,空格分割" maxlength="20" placeholder-class="input-placeholder" @input="subTitleChange" value="{{subtitle}}">
             </view>
         </view>
         <view class="publish-input">
             <view>
                 <image src="../images/{{themeimg}}phone.png"></image>
-                <input type="number" placeholder="请输入您的手机号" maxlength="11" placeholder-class="input-placeholder" value="{{phone}}">
+                <input type="number" placeholder="请输入您的手机号" maxlength="11" placeholder-class="input-placeholder" value="{{phone}}" @input="phoneChange">
             </view>
         </view>
         <view class="publish-type">
@@ -39,25 +39,25 @@
             <view class="publish-notice">请填写相关信息 <text class="publish-tips">(<text>*</text>为必填项)</text></view>
 
             <!-- 招聘信息 -->
-            <jobform hidden="{{type == 'job'? false:true}}" @getForm.user="getForm"></jobform>
+            <jobform hidden="{{type == 'job'? false:true}}" @getJobForm.user="getForm"></jobform>
             <!-- 打折促销 -->
-            <saleform hidden="{{type == 'sale'? false:true}}" @getForm.user="getForm"></saleform>
+            <saleform hidden="{{type == 'sale'? false:true}}" @getSaleForm.user="getForm"></saleform>
             <!-- 房屋租售 -->
-            <homeform hidden="{{type == 'home'? false:true}}" @getForm.user="getForm"></homeform>
+            <homeform hidden="{{type == 'home'? false:true}}" @getHomeForm.user="getForm"></homeform>
             <!-- 车辆交易 -->
-            <carform hidden="{{type == 'car'? false:true}}" @getForm.user="getForm"></carform>
+            <carform hidden="{{type == 'car'? false:true}}" @getCarForm.user="getForm"></carform>
             <!-- 寻人寻物 -->
-            <findform hidden="{{type == 'find'? false:true}}" @getForm.user="getForm"></findform>
+            <findform hidden="{{type == 'find'? false:true}}" @getFindForm.user="getForm"></findform>
             <!-- 美食推荐 -->
-            <foodform  hidden="{{type == 'food'? false:true}}" @getForm.user="getForm"></foodform>
+            <foodform  hidden="{{type == 'food'? false:true}}" @getFoodForm.user="getForm"></foodform>
             <!-- 相亲交友 -->
-            <friendform hidden="{{type == 'friend'? false:true}}" @getForm.user="getForm"></friendform>
+            <friendform hidden="{{type == 'friend'? false:true}}" @getFirendForm.user="getForm"></friendform>
             <!-- 宠物领养 -->
-            <petform hidden="{{type == 'pet'? false:true}}" @getForm.user="getForm"></petform>
+            <petform hidden="{{type == 'pet'? false:true}}" @getPetForm.user="getForm"></petform>
             <!-- 教育培训 -->
-            <eduform hidden="{{type == 'edu'? false:true}}" @getForm.user="getForm"></eduform>
+            <eduform hidden="{{type == 'edu'? false:true}}" @getEduForm.user="getForm"></eduform>
             <!-- 其他消息 -->
-            <otherform hidden="{{type == 'other'? false:true}}" @getForm.user="getForm"></otherform>
+            <otherform hidden="{{type == 'other'? false:true}}" @getOtherForm.user="getForm"></otherform>
         </view>
         <view class="publish-btn">
             <view class="btn-save" @tap="priview">预览</view>
@@ -84,6 +84,7 @@ import Toast from '../components/toast';
 
 export default class Publish extends wepy.page {
     data = {
+        ref : null, //野狗数据对象
         themeimg : '',
         title : '', //require
         subtitle : '',
@@ -104,49 +105,90 @@ export default class Publish extends wepy.page {
         otherform : OtherForm,
         toast: Toast
     }
+    onLoad(){
+        this.themeimg = this.$parent.globalData.themeimg;
+    }
     methods = {
         tap(params){
-            console.log(params);
             this.type = params;
         },
         getForm(data){
             this.formdata = data;
         },
+        titleChange(evt){
+            this.title = evt.detail.value;
+        },
+        subTitleChange(evt){
+            this.subtitle = evt.detail.value;
+        },
+        phoneChange(evt){
+            this.phone = evt.detail.value;
+        },
         submit(){
             this.$broadcast('fetch');
-            if(this.checkFormInfo().flag){
-                console.log('from child form',this.formdata);
+            var result = this.checkFormInfo();
+            if(result.flag){
+                // console.log('from child form',this.formdata);
+                this.ajaxSend();
+            }else{
+                this.$invoke('toast', 'show', {
+                    message: result.info,
+                });
             }
 
         },
     }
-    onLoad(){
-        this.themeimg = this.$parent.globalData.themeimg;
-    }
+    ajaxSend(){
+        let vm = this;
+        let timestamp = this.$parent.getTimeStamp();
+        var data = {
+            title : this.title, //require
+            subtitle : this.subtitle,
+            phone : this.phone, //require
+            type : this.type, //require
+            formdata : this.formdata, //表单的信息
+            created : timestamp, //创建时间
+            updated : timestamp, //更新时间
+        }
+        console.log('save data',data);
+        var ref = vm.$parent.getWilddog('/');
+        ref.child('newslist').push(data).then(function(){
+            // console.log('success send');
+            wx.redirectTo({
+                url : 'success'
+            });
+        }).catch(function(err){
+            vm.$invoke('toast', 'show', {
+                message: '发布失败，请重试',
+            });
+        });
+    };
     checkFormInfo(){
         var json = null;
-        json = this.checkHeadeInfo();
+        json = this.checkHeadeInfo(); //检测头部分
         if(json.flag){
             switch (this.type) {
                 case 'job':
-                    json.flag = this.checkJobFrom();
+                    json = this.checkJobFrom();
                     break;
                 case 'sale':
-                    json.flag = this.checkSaleFrom();
+                    json = this.checkSaleFrom();
                     break;
 
             }
-        }
-        if(!json.flag){
+        }else{
             this.$invoke('toast', 'show', {
                 message: json.info,
             });
         }
         return json;
     };
+    //检测 头部分
     checkHeadeInfo(){
-        var json = {};
-        var flag = true;
+        var json = {
+            flag : true,
+            info : ''
+        };
         var phoneReg = /^0{0,1}1[3456789]{1}[0-9]{9}$/ig;
         if(!this.title){
             json.flag = false;
@@ -168,9 +210,35 @@ export default class Publish extends wepy.page {
             json.info = '手机号格式不正确';
             return json;
         }
+        return json;
     }
     checkJobFrom(){
-
+        var json = {
+            flag : true,
+            info : ''
+        };
+        var jobData = this.formdata;
+        if(!jobData.jobname){
+            json.flag = false;
+            json.info = '请填写招聘职位';
+            return json;
+        }
+        if(!jobData.number){
+            json.flag = false;
+            json.info = '请填写招聘人数';
+            return json;
+        }
+        if(!jobData.address){
+            json.flag = false;
+            json.info = '请填写招聘地址';
+            return json;
+        }
+        if(!jobData.companyName){
+            json.flag = false;
+            json.info = '请填写公司名称';
+            return json;
+        }
+        return json;
     }
     checkSaleFrom(){
 

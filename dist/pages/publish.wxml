@@ -3,19 +3,19 @@
         <view class="publish-input">
             <view>
                 <image src="../images/{{themeimg}}title.png"/>
-                <input type="text" placeholder="请输入发布内容的标题或主题" maxlength="100" placeholder-class="input-placeholder" value="{{title}}"/>
+                <input type="text" placeholder="请输入发布内容的标题或主题" maxlength="100" placeholder-class="input-placeholder" bindinput="titleChange" value="{{title}}"/>
             </view>
         </view>
         <view class="publish-input">
             <view>
                 <image src="../images/{{themeimg}}subtitle.png"/>
-                <input type="text" placeholder="请输入关于发布内容的 2-3个关键词,空格分割" maxlength="20" placeholder-class="input-placeholder" value="{{subtitle}}"/>
+                <input type="text" placeholder="请输入关于发布内容的 2-3个关键词,空格分割" maxlength="20" placeholder-class="input-placeholder" bindinput="subTitleChange" value="{{subtitle}}"/>
             </view>
         </view>
         <view class="publish-input">
             <view>
                 <image src="../images/{{themeimg}}phone.png"/>
-                <input type="number" placeholder="请输入您的手机号" maxlength="11" placeholder-class="input-placeholder" value="{{phone}}"/>
+                <input type="number" placeholder="请输入您的手机号" maxlength="11" placeholder-class="input-placeholder" value="{{phone}}" bindinput="phoneChange"/>
             </view>
         </view>
         <view class="publish-type">
@@ -43,7 +43,7 @@
     <view class="job-form" hidden="{{type == 'job'? false:true}}">
         <view class="lable-control">
             <text>职位: <text class="label-require">*</text></text>
-            <input type="text" placeholder="请输入职位名称" maxlength="20" placeholder-class="input-placeholder" value="{{$jobform$name}}"/>
+            <input type="text" placeholder="请输入职位名称" maxlength="20" placeholder-class="input-placeholder" value="{{$jobform$jobname}}" bindinput="$jobform$jobChange"/>
         </view>
         <view class="lable-control">
             <text>职位类型: <text class="label-require">*</text></text>
@@ -56,15 +56,20 @@
         </view>
         <view class="lable-control">
             <text>学历: <text class="label-require">*</text></text>
-            <input type="text" placeholder="请输入学历要求,如:本科或不限" maxlength="8" placeholder-class="input-placeholder" value="{{$jobform$education}}"/>
+            <view class="label-picker">
+                <image src="../images/arrow.png"/>
+                <picker bindchange="$jobform$eduChange" value="{{$jobform$eduIndex}}" range="{{$jobform$eduJson}}" range-key="name">
+                    <view class="picker">{{$jobform$eduJson[$jobform$eduIndex]['name']}}</view>
+                </picker>
+            </view>
         </view>
         <view class="lable-control">
             <text>人数: <text class="label-require">*</text></text>
-            <input type="number" placeholder="请输入招聘人数" maxlength="4" placeholder-class="input-placeholder" value="{{$jobform$number}}"/>
+            <input type="number" placeholder="请输入招聘人数" maxlength="4" placeholder-class="input-placeholder" value="{{$jobform$number}}" bindinput="$jobform$jobNumChange"/>
         </view>
         <view class="lable-control">
             <text>地址: <text class="label-require">*</text></text>
-            <input type="text" placeholder="请输入招聘公司地址" maxlength="50" placeholder-class="input-placeholder" value="{{$jobform$address}}"/>
+            <input type="text" placeholder="请输入招聘公司地址" maxlength="50" placeholder-class="input-placeholder" value="{{$jobform$address}}" bindinput="$jobform$addressChange"/>
         </view>
         <view class="lable-control-list">
             <view class="label-flex">
@@ -88,7 +93,7 @@
         </view>
         <view class="lable-control">
             <text>公司名称: <text class="label-require">*</text></text>
-            <input type="text" placeholder="请输入招聘公司名称" maxlength="50" placeholder-class="input-placeholder" value="{{$jobform$company}}"/>
+            <input type="text" placeholder="请输入招聘公司名称" maxlength="50" placeholder-class="input-placeholder" value="{{$jobform$company}}" bindinput="$jobform$companyNameChange"/>
         </view>
         <view class="lable-control">
             <text>公司人数: <text class="label-require">*</text></text>
@@ -100,8 +105,8 @@
             </view>
         </view>
         <view class="lable-control">
-            <text>公司简介: <text class="label-require">*</text></text>
-            <textarea class="label-textarea" cols="30" rows="10"/>
+            <text>公司简介: </text>
+            <textarea class="label-textarea" cols="30" rows="10" maxlength="500" placeholder="请输入公司简介,500字内" placeholder-class="input-placeholder" bindinput="$jobform$companyInfoChange"/>
         </view>
 
         <view class="publish-notice">工作环境展示</view>
@@ -172,26 +177,7 @@
             </view>
         </view>
         <view class="publish-notice">活动图片展示</view>
-        
-    <view class="img-container">
-        <view class="img-tips">最多上传6张图片(建议尺寸 750 * 600)</view>
-        <view class="img-warp">
-            <view class="img-box">
-                <view class="img-item"  wx:for="{{$saleform$uploadform$imgArr}}" wx:key="wx:key">
-                    <view class="img-del" bindtap="$saleform$uploadform$del" data-wpydel-a="{{index}}"><image src="../images/close.png"/></view>
-                    <image class="img" mode="aspectFit" src="{{item}}"/>
-                </view>
-                <!-- <view class="img-item">
-                    <view class="img-del" bindtap="del(index,item)"><image src="../image/close.png"></image></view>
-                    <image mode="aspectFit" src="../images/pic1.jpg"></image>
-                </view> -->
-                <view class="img-item img-item-add" bindtap="$saleform$uploadform$chooseImage">
-                    <image src="../images/upload-add.png"/>
-                </view>
-            </view>
-        </view>
-    </view>
-
+        <!-- <uploadform></uploadform> -->
     </view>
 
             <!-- 房屋租售 -->

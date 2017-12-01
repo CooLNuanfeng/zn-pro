@@ -13,9 +13,8 @@ page{
 
 <script>
 import wepy from 'wepy'
-import 'wepy-async-function'
-
-var wilddog = require('./utils/wilddog-weapp-all');
+import wilddog from './utils/wilddog-weapp-all';
+// var wilddog = require('./utils/wilddog-weapp-all');
 
 var willddogConfig = {
     syncURL: 'https://wd7517932122kqjqww.wilddogio.com',
@@ -40,6 +39,7 @@ export default class extends wepy.app {
       'pages/detail',
       'pages/publish',
       'pages/about',
+      'pages/success',
     ],
     window: {
       backgroundTextStyle: 'light',
@@ -86,13 +86,13 @@ export default class extends wepy.app {
   }
 
   onLaunch() {
-    var self = this;
+    var vm = this;
     wilddog.initializeApp(willddogConfig);
-    // self.getUserInfo();
+    // vm.getUserInfo();
     //这个地方使用野狗登录微信小程序的方法,可以获得微信返回的openId,用户名称等等信息,这些信息会存在野狗的控制台的身份人认证部分。
     wilddog.auth().signInWeapp().then(function(user){
       console.log(user,'user wilddog');
-      self.globalData.userInfo = {
+      vm.globalData.userInfo = {
         nickName : user.displayName,
         avatarUrl : user.photoURL,
         uid : user.uid
@@ -102,8 +102,15 @@ export default class extends wepy.app {
     });
   }
 
-  getWilddogData(){
-    return wilddog;
+  getWilddog(key){
+      // wilddog.initializeApp(willddogConfig);
+      let $ref = wilddog.sync().ref(key);
+      console.log($ref,'$ref');
+      return $ref;
+  }
+
+  getTimeStamp(){
+     return wilddog.sync().ServerValue.TIMESTAMP;
   }
 
   // getUserInfo(cb) {
