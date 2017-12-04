@@ -13,13 +13,8 @@ page{
 
 <script>
 import wepy from 'wepy'
-import wilddog from './utils/wilddog-weapp-all';
-// var wilddog = require('./utils/wilddog-weapp-all');
+import AV from './utils/av-weapp-min.js';
 
-var willddogConfig = {
-    syncURL: 'https://wd7517932122kqjqww.wilddogio.com',
-    authDomain: 'wd7517932122kqjqww.wilddog.com'
-}
 
 //themeColor
 var myConfig = {
@@ -76,9 +71,11 @@ export default class extends wepy.app {
 
   globalData = {
     userInfo: null,
+    userNick : null,
     cityname : myConfig.cityname,
     cityid : myConfig.cityid,
-    themeimg : myConfig.themeimg
+    themeimg : myConfig.themeimg,
+    domain : 'https://oyo2k3vrc.bkt.clouddn.com',
   }
 
   constructor () {
@@ -87,43 +84,51 @@ export default class extends wepy.app {
 
   onLaunch() {
     var vm = this;
-    wilddog.initializeApp(willddogConfig);
-    // vm.getUserInfo();
-    //这个地方使用野狗登录微信小程序的方法,可以获得微信返回的openId,用户名称等等信息,这些信息会存在野狗的控制台的身份人认证部分。
-    wilddog.auth().signInWeapp().then(function(user){
-      console.log(user,'user wilddog');
-      vm.globalData.userInfo = {
-        nickName : user.displayName,
-        avatarUrl : user.photoURL,
-        uid : user.uid
-      }
-    }).catch(function(err){
-      console.log(err,'认证异常');
+    vm.getUserInfo();
+
+
+    AV.init({
+     appId: 'jrFmFaxGJEJpF5hjhUkbiGtJ-gzGzoHsz',
+     appKey: 'k8F2aQ6iRTCL0ULe6c8a4sRg',
     });
+    AV.User.loginWithWeapp().then(user => {
+      this.globalData.userInfo = user.toJSON();
+      console.log(user.toJSON());
+    }).catch(console.error);
+
   }
 
-  getWilddog(key){
-      // wilddog.initializeApp(willddogConfig);
-      let $ref = wilddog.sync().ref(key);
-      console.log($ref,'$ref');
-      return $ref;
+
+  getUserInfo(cb) {
+    const that = this;
+    if (this.globalData.userNick) {
+      return this.globalData.userNick;
+    }
+    wepy.getUserInfo({
+      success (res) {
+        that.globalData.userNick = res.userInfo;
+        cb && cb(res.userInfo);
+      }
+    })
   }
 
-  getTimeStamp(){
-     return wilddog.sync().ServerValue.TIMESTAMP;
+  timeFormate(utc){
+    var oDate = new Date(utc);
+    var year = oDate.getFullYear();
+    var month = oDate.getMonth();
+    var day = oDate.getDate();
+    var hour = oDate.getHours();
+    var min = oDate.getMinutes();
+    var sec = oDate.getSeconds();
+    return year+'-'+this.toDouble(month+1)+'-'+this.toDouble(day)+' '+this.toDouble(hour)+':'+this.toDouble(min);
+  }
+  toDouble(number){
+      if(number<9){
+          return '0'+number;
+      }else{
+          return number;
+      }
   }
 
-  // getUserInfo(cb) {
-  //   const that = this;
-  //   if (this.globalData.userInfo) {
-  //     return this.globalData.userInfo
-  //   }
-  //   wepy.getUserInfo({
-  //     success (res) {
-  //       that.globalData.userInfo = res.userInfo
-  //       cb && cb(res.userInfo)
-  //     }
-  //   })
-  // }
 }
 </script>

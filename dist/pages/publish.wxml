@@ -46,6 +46,10 @@
             <input type="text" placeholder="请输入职位名称" maxlength="20" placeholder-class="input-placeholder" value="{{$jobform$jobname}}" bindinput="$jobform$jobChange"/>
         </view>
         <view class="lable-control">
+            <text>月薪: <text class="label-require">*</text></text>
+            <input type="number" placeholder="请输入月薪(单位: 元起/月)" maxlength="10" placeholder-class="input-placeholder" value="{{$jobform$jobprice}}" bindinput="$jobform$priceChange"/>
+        </view>
+        <view class="lable-control">
             <text>职位类型: <text class="label-require">*</text></text>
             <view class="label-picker">
                 <image src="../images/arrow.png"/>

@@ -74,7 +74,7 @@ export default class User extends wepy.page {
         }
     };
     onLoad(){
-        this.userInfo = this.$parent.globalData.userInfo;
+        this.userInfo = this.$parent.globalData.userNick;
         this.cityname = this.$parent.globalData.cityname;
     };
 }

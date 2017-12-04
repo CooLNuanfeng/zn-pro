@@ -6,37 +6,28 @@
           <view class="index-container">
               <view class="index-title">最新发布</view>
               <view class="index-list">
-                  <view class="index-flex" @tap="goDetail('{id:1,type:job}')">
+                  <view class="index-flex" @tap="goDetail({{item}})" wx:for="{{listData}}" wx:key>
+                      <view class="item-img"><image src="../images/{{themeimg}}{{item.type}}.png"></image></view>
+                      <view class="item-info">
+                          <view class="item-title"><text wx:if="{{item.formdata.images}}">图</text>{{item.title}}</view>
+                          <view class="item-desc"><text>{{item.subtitle}}</text><text>发布者: {{item.nickname}}</text></view>
+                          <view class="item-price">
+                              <text wx:if="{{item.type == 'job'}}" class="price">￥<text class="price-number">{{item.formdata.jobprice}}</text>元起/月</text>
+                              <text class="pub-time">{{item.updatedAt}}</text>
+                          </view>
+                      </view>
+                  </view>
+                  <!-- <view class="index-flex" @tap="goDetail('{id:1,type:job}')">
                       <view class="item-img"><image src="../images/{{themeimg}}car.png"></image></view>
                       <view class="item-info">
                           <view class="item-title"><text>图</text>新平佳节快乐姐姐加快拉倒了杰拉德</view>
-                          <view class="item-desc">简单 方便</view>
+                          <view class="item-desc"><text>简单 方便</text><text>发布者: 一只小绵羊</text></view>
                           <view class="item-price">
                               <text class="price">￥<text class="price-number">123</text>元</text>
                               <text class="pub-time">2017-10-08</text>
                           </view>
                       </view>
-                  </view>
-                  <view class="index-flex">
-                      <view class="item-img"><image src="../images/{{themeimg}}food.png"></image></view>
-                      <view class="item-info">
-                          <view class="item-title"><text>图</text>新平佳节快乐姐姐加快拉倒了杰拉德新平佳节快乐姐姐加快拉倒了杰拉德新平佳节快乐姐姐加快拉倒了杰拉德</view>
-                          <view class="item-desc">美味 方便 快捷</view>
-                          <view class="item-price">
-                              <text class="price">￥<text class="price-number">123</text>元</text>
-                              <text class="pub-time">2017-10-08</text>
-                          </view>
-                      </view>
-                  </view>
-                  <view class="index-flex">
-                      <view class="item-img"><image src="../images/{{themeimg}}other.png"></image></view>
-                      <view class="item-info">
-                          <view class="item-title">新平佳节快乐姐姐加快拉倒了杰拉德新平佳节快乐姐姐加快拉倒了杰拉德新平佳节快乐姐姐加快拉倒了杰拉德</view>
-                          <view class="item-price">
-                              <text class="pub-time">2017-10-08</text>
-                          </view>
-                      </view>
-                  </view>
+                  </view> -->
               </view>
           </view>
       </view>
@@ -45,6 +36,7 @@
           <image src="../images/help.png" @tap="about"></image>
           <image src="../images/publish.png" @tap="publish"></image>
       </view>
+      <toast></toast>
   </view>
 </template>
 
@@ -53,7 +45,9 @@
   import Location from '../components/location'
   import Grid from '../components/grid'
   import Footer from '../components/footer'
-  // import Toast from 'wepy-com-toast'
+  import Toast from '../components/toast';
+
+  import AV from '../utils/av-weapp-min.js';
 
   export default class Index extends wepy.page {
       config = {
@@ -62,16 +56,18 @@
       components = {
           location : Location,
           gird : Grid,
-          footer : Footer
+          footer : Footer,
+          toast: Toast
       };
       data = {
           themeimg : '',
+          listData : null
       };
       methods = {
-          goDetail(params){
-              console.log(params);
+          goDetail(item){
+              console.log(item);
               wx.navigateTo({
-                  url : 'detail'
+                  url : 'detail?id='+item.id
               });
           },
           publish(){
@@ -84,15 +80,39 @@
                   url : 'about'
               });
           }
-      }
+      };
       onLoad(){
           this.themeimg = this.$parent.globalData.themeimg;
-      }
+      };
       onShow(){
-          var ref = this.$parent.getWilddog('/newslist');
-          ref.orderByChild('updated').limitToLast(20).on('value',function(snapshot){
-             console.log(snapshot.val());
+          var vm = this;
+          var query = new AV.Query('NewsList');
+          var now = new Date();
+          query.lessThanOrEqualTo('updatedAt', now);
+          query.descending('updatedAt');
+          query.limit(30);
+          query.find().then(function(data){
+              // console.log('query data',data);
+              vm.makeParam(data);
+          }).catch(function(err){
+              console.log(err);
+              vm.$invoke('toast', 'show', {
+                  message: '服务异常，请稍后重试',
+              });
           });
+      };
+      makeParam(data){
+          var len = data.length;
+          var arr = [];
+          for(let i=0; i<len; i++){
+              let json = data[i].attributes;
+              json.id = data[i].id;
+              json.updatedAt = this.$parent.timeFormate(data[i].updatedAt);
+              arr.push(json);
+          }
+          this.listData = arr;
+          this.$apply();
+          console.log(this.listData);
       }
   }
 </script>
@@ -156,9 +176,19 @@
 }
 .item-desc{
     padding: 5rpx 0;
-    font-size: 26rpx;
+    font-size: 24rpx;
     color: $gray;
-    @include text-overflow(1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text{
+        flex: 1;
+        @include text-overflow(1);
+        &:last-child{
+            padding-left: 20rpx;
+            text-align: right;
+        }
+    }
 }
 .item-price{
     display: flex;

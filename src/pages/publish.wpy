@@ -82,9 +82,22 @@ import EduForm from '../components/eduform';
 import OtherForm from '../components/otherform';
 import Toast from '../components/toast';
 
+
+import AV from '../utils/av-weapp-min.js';
+import NewsList from '../models/newslist';
+
+const qiniuUploader = require("../utils/qiniuUploader");
+const genToken = require('../utils/getUpToken.js').genToken;
+const options = {
+  "scope": "images",
+  "deadline": Date.parse(new Date()) + 1800,
+  "mimeLimit":"image/*"
+}
+const uploadToken = genToken('-2rQ7jMWwI1PHe_i8c60WOgx7isexE1SI-K5eSPx', 'uWkWvwDwucTA9ekkbSWMDQPMBt4t8KYtFRkkvrMW', options);
+// console.log(uploadToken)
+
 export default class Publish extends wepy.page {
     data = {
-        ref : null, //野狗数据对象
         themeimg : '',
         title : '', //require
         subtitle : '',
@@ -106,7 +119,8 @@ export default class Publish extends wepy.page {
         toast: Toast
     }
     onLoad(){
-        this.themeimg = this.$parent.globalData.themeimg;
+        var vm = this;
+        vm.themeimg = vm.$parent.globalData.themeimg;
     }
     methods = {
         tap(params){
@@ -138,31 +152,83 @@ export default class Publish extends wepy.page {
 
         },
     }
-    ajaxSend(){
-        let vm = this;
-        let timestamp = this.$parent.getTimeStamp();
-        var data = {
-            title : this.title, //require
-            subtitle : this.subtitle,
-            phone : this.phone, //require
-            type : this.type, //require
-            formdata : this.formdata, //表单的信息
-            created : timestamp, //创建时间
-            updated : timestamp, //更新时间
+    uploadImgs(data){
+        let filePaths = data.formdata.images;
+        let len = filePaths.length;
+        var vm = this,imgArr = [],domain = vm.$parent.globalData.domain;
+        for(let i=0;i<len;i++){
+            qiniuUploader.upload(filePaths[i], (res) => {
+              console.log(res,'upload res');
+              imgArr.push(domain+res.imageURL);
+              if(i == len-1){
+                  console.log(i,'end',imgArr);
+                  data.formdata.images = imgArr;
+                  vm.saveData(data);
+              }
+            }, (error) => {
+              console.log('error: ' + error);
+            },{
+                region: 'ECN',
+                uptoken: uploadToken
+            });
         }
-        console.log('save data',data);
-        var ref = vm.$parent.getWilddog('/');
-        ref.child('newslist').push(data).then(function(){
-            // console.log('success send');
+
+    }
+    saveData(data){
+        console.log(data,'send data');
+        var onelist = new NewsList(),vm = this;
+        onelist.set('nickname',data.nickname);
+        onelist.set('uid',data.uid);
+        onelist.set('title',data.title);
+        onelist.set('subtitle',data.subtitle);
+        onelist.set('subtitle',data.subtitle);
+        onelist.set('phone',data.phone);
+        onelist.set('type',data.type);
+        onelist.set('formdata',data.formdata);
+        onelist.save().then(function(list){
+            vm.hideLoading();
             wx.redirectTo({
                 url : 'success'
             });
         }).catch(function(err){
+            console.log(err);
+            vm.hideLoading();
             vm.$invoke('toast', 'show', {
                 message: '发布失败，请重试',
             });
         });
+    }
+    ajaxSend(){
+        let vm = this;
+        let userNick = vm.$parent.globalData.userNick;
+        let userInfo = vm.$parent.globalData.userInfo;
+        var data = {
+            nickname : userNick.nickName,
+            uid : userInfo.objectId,
+            title : vm.title, //require
+            subtitle : vm.subtitle,
+            phone : vm.phone, //require
+            type : vm.type, //require
+            formdata : vm.formdata, //表单的信息
+        }
+        vm.showLoading();
+        if(vm.formdata.images){
+            vm.uploadImgs(data);
+        }else{
+            vm.saveData(data);
+        }
+
     };
+    showLoading(){
+        wx.showLoading({
+            title : '提交中...'
+        });
+    }
+    hideLoading(){
+        setTimeout(function(){
+          wx.hideLoading();
+        },100)
+    }
     checkFormInfo(){
         var json = null;
         json = this.checkHeadeInfo(); //检测头部分
@@ -174,7 +240,6 @@ export default class Publish extends wepy.page {
                 case 'sale':
                     json = this.checkSaleFrom();
                     break;
-
             }
         }else{
             this.$invoke('toast', 'show', {
@@ -221,6 +286,11 @@ export default class Publish extends wepy.page {
         if(!jobData.jobname){
             json.flag = false;
             json.info = '请填写招聘职位';
+            return json;
+        }
+        if(!jobData.jobprice){
+            json.flag = false;
+            json.info = '请填写职位月薪';
             return json;
         }
         if(!jobData.number){
