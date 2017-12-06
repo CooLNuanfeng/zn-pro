@@ -60,7 +60,13 @@
 
           <view class="index-container">
               <view class="index-title">最新发布</view>
-              <view class="index-list">
+              
+   <view class="loading">
+       <view hidden="{{!$vLoading$loading}}">加载中...</view>
+       <view hidden="{{$vLoading$loading || !$vLoading$loadend}}">我也是有底线的~</view>
+   </view>
+
+              <view class="index-list" hidden="{{loading}}">
                   <view class="index-flex" bindtap="goDetail"  wx:for="{{listData}}" wx:key="wx:key" data-wpygodetail-a="{{item}}">
                       <view class="item-img"><image src="../images/{{themeimg}}{{item.type}}.png"/></view>
                       <view class="item-info">
@@ -94,6 +100,6 @@
           <image src="../images/publish.png" bindtap="publish"/>
       </view>
       
-    <view hidden="{{$toast$hidden}}" class="toast">{{$toast$infoObj.message}}</view>
+    <view hidden="{{$toast$hidden}}" class="{{!$toast$load ? 'toast':'toast load'}}">{{$toast$infoObj.message}}</view>
 
   </view>

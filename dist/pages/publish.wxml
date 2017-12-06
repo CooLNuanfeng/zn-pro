@@ -18,6 +18,12 @@
                 <input type="number" placeholder="请输入您的手机号" maxlength="11" placeholder-class="input-placeholder" value="{{phone}}" bindinput="phoneChange"/>
             </view>
         </view>
+        <view class="publish-input">
+            <view>
+                <image src="../images/{{themeimg}}user.png"/>
+                <input type="text" placeholder="请输入您的姓名或姓氏" maxlength="8" placeholder-class="input-placeholder" value="{{publishername}}" bindinput="nameChange"/>
+            </view>
+        </view>
         <view class="publish-type">
             <view class="publish-notice">请选择发布所属分类</view>
             <view class="publish-tags">
@@ -454,6 +460,6 @@
             <view class="btn-submit" bindtap="submit">提交</view>
         </view>
         
-    <view hidden="{{$toast$hidden}}" class="toast">{{$toast$infoObj.message}}</view>
+    <view hidden="{{$toast$hidden}}" class="{{!$toast$load ? 'toast':'toast load'}}">{{$toast$infoObj.message}}</view>
 
     </view>

@@ -18,6 +18,12 @@
                 <input type="number" placeholder="请输入您的手机号" maxlength="11" placeholder-class="input-placeholder" value="{{phone}}" @input="phoneChange">
             </view>
         </view>
+        <view class="publish-input">
+            <view>
+                <image src="../images/{{themeimg}}user.png"></image>
+                <input type="text" placeholder="请输入您的姓名或姓氏" maxlength="8" placeholder-class="input-placeholder" value="{{publishername}}" @input="nameChange">
+            </view>
+        </view>
         <view class="publish-type">
             <view class="publish-notice">请选择发布所属分类</view>
             <view class="publish-tags">
@@ -100,8 +106,9 @@ export default class Publish extends wepy.page {
     data = {
         themeimg : '',
         title : '', //require
-        subtitle : '',
+        subtitle : '', //require
         phone : '', //require
+        publishername : '',
         type : 'job', //require
         formdata : null, //各个表单的信息
     }
@@ -138,6 +145,9 @@ export default class Publish extends wepy.page {
         phoneChange(evt){
             this.phone = evt.detail.value;
         },
+        nameChange(evt){
+            this.publishername = evt.detail.value;
+        }
         submit(){
             this.$broadcast('fetch');
             var result = this.checkFormInfo();
@@ -183,6 +193,7 @@ export default class Publish extends wepy.page {
         onelist.set('subtitle',data.subtitle);
         onelist.set('subtitle',data.subtitle);
         onelist.set('phone',data.phone);
+        onelist.set('publishername',data.publishername);
         onelist.set('type',data.type);
         onelist.set('formdata',data.formdata);
         onelist.save().then(function(list){
@@ -207,6 +218,7 @@ export default class Publish extends wepy.page {
             uid : userInfo.objectId,
             title : vm.title, //require
             subtitle : vm.subtitle,
+            publishername : vm.publishername,
             phone : vm.phone, //require
             type : vm.type, //require
             formdata : vm.formdata, //表单的信息

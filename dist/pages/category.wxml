@@ -84,8 +84,8 @@
 
         
    <view class="loading">
-       <text  wx:if="{{$loading$loading}}">加载中...</text>
-       <text  wx:else>我也是有底线的~</text>
+       <view hidden="{{!$vLoading$loading}}">加载中...</view>
+       <view hidden="{{$vLoading$loading || !$vLoading$loadend}}">我也是有底线的~</view>
    </view>
 
     </view>

@@ -38,7 +38,7 @@ export default class Success extends wepy.page {
         },
         goIndex(){
             wx.switchTab({
-                url : 'index'
+                url : 'index?from=success'
             });
         }
     }

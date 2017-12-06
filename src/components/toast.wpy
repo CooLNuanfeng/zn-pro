@@ -1,5 +1,5 @@
 <template>
-    <view hidden="{{hidden}}" class="toast">{{infoObj.message}}</view>
+    <view hidden="{{hidden}}" class="{{!load ? 'toast':'toast load'}}">{{infoObj.message}}</view>
 </template>
 
 <script>
@@ -7,25 +7,31 @@ import wepy from 'wepy';
 var timer = null;
 export default class Toast extends wepy.component{
     data = {
+        load : false,
         hidden : true,
         infoObj : null
     }
     methods = {
         show(params){
-            this.infoObj = params;
-            this.hidden = false;
+            var vm = this;
+            vm.infoObj = params;
+            vm.hidden = false;
             clearTimeout(timer);
             timer = setTimeout(() => {
-                this.hidden = true;
-                this.$apply();
+                vm.hidden = true;
+                vm.$apply();
             }, 2000);
         }
+    }
+    onLoad(){
+        this.load = true;
     }
 }
 </script>
 
 <style lang="scss">
 .toast{
+    display: none;
     position: fixed;
     bottom: 30%;
     left: 50%;
@@ -37,6 +43,10 @@ export default class Toast extends wepy.component{
     background: rgba(0,0,0,.8);
     font-size: 26rpx;
     animation: hidden 2s ease-in;
+    z-index: 999;
+}
+.load{
+    display: block;
 }
 @keyframes hidden {
     0%{

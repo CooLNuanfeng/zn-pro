@@ -5,7 +5,8 @@
           <gird></gird>
           <view class="index-container">
               <view class="index-title">最新发布</view>
-              <view class="index-list">
+              <v-loading :loading.sync="loading" :loadend.sync="loadend"></v-loading>
+              <view class="index-list" hidden="{{loading}}">
                   <view class="index-flex" @tap="goDetail({{item}})" wx:for="{{listData}}" wx:key>
                       <view class="item-img"><image src="../images/{{themeimg}}{{item.type}}.png"></image></view>
                       <view class="item-info">
@@ -46,26 +47,28 @@
   import Grid from '../components/grid'
   import Footer from '../components/footer'
   import Toast from '../components/toast';
+  import Loading from '../components/loading';
 
   import AV from '../utils/av-weapp-min.js';
 
   export default class Index extends wepy.page {
       config = {
-
+          // enablePullDownRefresh : true
       };
       components = {
-          location : Location,
-          gird : Grid,
-          footer : Footer,
-          toast: Toast
+          'location' : Location,
+          'gird' : Grid,
+          'footer' : Footer,
+          'toast': Toast,
+          'v-loading' : Loading,
       };
       data = {
           themeimg : '',
-          listData : null
+          listData : null,
+          loading : false,
       };
       methods = {
           goDetail(item){
-              console.log(item);
               wx.navigateTo({
                   url : 'detail?id='+item.id
               });
@@ -83,19 +86,32 @@
       };
       onLoad(){
           this.themeimg = this.$parent.globalData.themeimg;
+          this.fetch();
       };
-      onShow(){
+      onShow(options){
+          if(options && options.from == 'success'){
+              console.log('show');
+              this.fetch();
+          }
+      };
+      // onPullDownRefresh(){
+      //     this.fetch();
+      // };
+      fetch(){
           var vm = this;
           var query = new AV.Query('NewsList');
           var now = new Date();
           query.lessThanOrEqualTo('updatedAt', now);
           query.descending('updatedAt');
           query.limit(30);
+          vm.loading = true;
           query.find().then(function(data){
+              vm.loading = false;
               // console.log('query data',data);
               vm.makeParam(data);
           }).catch(function(err){
               console.log(err);
+              vm.loading = false;
               vm.$invoke('toast', 'show', {
                   message: '服务异常，请稍后重试',
               });
@@ -112,7 +128,7 @@
           }
           this.listData = arr;
           this.$apply();
-          console.log(this.listData);
+          // console.log(this.listData);
       }
   }
 </script>

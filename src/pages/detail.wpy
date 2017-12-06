@@ -6,7 +6,7 @@
                 <view class="detail-title">{{title}}</view>
                 <view class="detail-des">{{subtitle}}</view>
                 <view class="detail-info">
-                    <view class="detail-nickname">发布者: {{publisher}}</view>
+                    <view class="detail-nickname">发布者: {{nickname}}</view>
                     <view class="detail-timer">发布时间: {{pubTimer}}</view>
                 </view>
             </view>
@@ -203,7 +203,7 @@
             </view>
         </view>
         <view class="detail-btn">
-            <view class="detail-name">联系人: 好好好 (先生/女生)</view>
+            <view class="detail-name">联系人: {{publisher||nickname}} (先生/女生)</view>
             <view class="detail-phone" @tap="doPhone">拨打电话</view>
         </view>
         <footer />
@@ -223,6 +223,7 @@ export default class Detail extends wepy.page {
     data = {
         title : '',
         subtitle: '',
+        nickname : '',
         publisher : '',
         pubTimer : '',
         phone : '',
@@ -243,7 +244,8 @@ export default class Detail extends wepy.page {
             console.log(data);
             vm.title = data.attributes.title;
             vm.subtitle = data.attributes.subtitle;
-            vm.publisher = data.attributes.nickname;
+            vm.nickname = data.attributes.nickname;
+            vm.publisher = data.attributes.publishername;
             vm.pubTimer = vm.$parent.timeFormate(data.updatedAt);
             vm.categoryType = data.attributes.type;
             vm.content = data.attributes.formdata;

@@ -1,1 +1,1 @@
-.loading{padding:40rpx;color:#999;font-size:20rpx;text-align:center}
+.loading{color:#999;font-size:20rpx;text-align:center}.loading view{padding:40rpx}

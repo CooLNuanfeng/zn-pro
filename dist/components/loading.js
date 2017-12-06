@@ -32,7 +32,8 @@ var Loading = function (_wepy$component) {
         }
 
         return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = Loading.__proto__ || Object.getPrototypeOf(Loading)).call.apply(_ref, [this].concat(args))), _this), _this.props = {
-            'loading': Boolean
+            'loading': Boolean,
+            'loadend': Boolean
         }, _temp), _possibleConstructorReturn(_this, _ret);
     }
 
@@ -40,4 +41,4 @@ var Loading = function (_wepy$component) {
 }(_wepy2.default.component);
 
 exports.default = Loading;
-//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImxvYWRpbmcuanMiXSwibmFtZXMiOlsiTG9hZGluZyIsInByb3BzIiwiQm9vbGVhbiIsImNvbXBvbmVudCJdLCJtYXBwaW5ncyI6Ijs7Ozs7OztBQUNBOzs7Ozs7Ozs7Ozs7SUFDcUJBLE87Ozs7Ozs7Ozs7Ozs7OzRMQUNqQkMsSyxHQUFRO0FBQ0osdUJBQVlDO0FBRFIsUzs7OztFQUR5QixlQUFLQyxTOztrQkFBckJILE8iLCJmaWxlIjoibG9hZGluZy5qcyIsInNvdXJjZXNDb250ZW50IjpbIlxuaW1wb3J0IHdlcHkgZnJvbSAnd2VweSc7XG5leHBvcnQgZGVmYXVsdCBjbGFzcyBMb2FkaW5nIGV4dGVuZHMgd2VweS5jb21wb25lbnR7XG4gICAgcHJvcHMgPSB7XG4gICAgICAgICdsb2FkaW5nJyA6IEJvb2xlYW5cbiAgICB9XG59XG4iXX0=
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImxvYWRpbmcuanMiXSwibmFtZXMiOlsiTG9hZGluZyIsInByb3BzIiwiQm9vbGVhbiIsImNvbXBvbmVudCJdLCJtYXBwaW5ncyI6Ijs7Ozs7OztBQUNBOzs7Ozs7Ozs7Ozs7SUFDcUJBLE87Ozs7Ozs7Ozs7Ozs7OzRMQUNqQkMsSyxHQUFRO0FBQ0osdUJBQVlDLE9BRFI7QUFFSix1QkFBWUE7QUFGUixTOzs7O0VBRHlCLGVBQUtDLFM7O2tCQUFyQkgsTyIsImZpbGUiOiJsb2FkaW5nLmpzIiwic291cmNlc0NvbnRlbnQiOlsiXG5pbXBvcnQgd2VweSBmcm9tICd3ZXB5JztcbmV4cG9ydCBkZWZhdWx0IGNsYXNzIExvYWRpbmcgZXh0ZW5kcyB3ZXB5LmNvbXBvbmVudHtcbiAgICBwcm9wcyA9IHtcbiAgICAgICAgJ2xvYWRpbmcnIDogQm9vbGVhbixcbiAgICAgICAgJ2xvYWRlbmQnIDogQm9vbGVhblxuICAgIH1cbn1cbiJdfQ==

@@ -1,7 +1,7 @@
 <template>
    <view class="loading">
-       <text wx:if="{{loading}}">加载中...</text>
-       <text wx:else>我也是有底线的~</text>
+       <view hidden="{{!loading}}">加载中...</view>
+       <view hidden="{{loading || !loadend}}">我也是有底线的~</view>
    </view>
 </template>
 
@@ -9,7 +9,8 @@
 import wepy from 'wepy';
 export default class Loading extends wepy.component{
     props = {
-        'loading' : Boolean
+        'loading' : Boolean,
+        'loadend' : Boolean
     }
 }
 </script>
@@ -17,9 +18,11 @@ export default class Loading extends wepy.component{
 <style lang="scss">
 @import "../sass/_mixin.scss";
 .loading{
-    padding: 40rpx;
     color: $gray;
     font-size: 20rpx;
     text-align: center;
+    view{
+        padding: 40rpx;
+    }
 }
 </style>

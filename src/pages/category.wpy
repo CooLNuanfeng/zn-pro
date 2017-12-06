@@ -18,7 +18,7 @@
         </view>
         <nav-bar></nav-bar>
         <news-list></news-list>
-        <loading :loading="loading"></loading>
+        <v-loading :loading="loading" :loadend="loadend"></v-loading>
     </view>
 </template>
 
@@ -33,10 +33,11 @@ export default class Category extends wepy.page {
     components = {
         'nav-bar' : NavBar,
         'news-list': ListNews,
-        'loading': Loading
+        'v-loading': Loading
     }
     data = {
-        loading : false
+        loading : true,
+        loadend : false
     }
     onLoad(options) {
         console.log('onLoad',options.id);
