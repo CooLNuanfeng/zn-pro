@@ -1,6 +1,6 @@
 <template>
     <view class="img-container">
-        <view class="img-tips">最多上传6张图片(建议尺寸 750 * 600)</view>
+        <view class="img-tips">最多上传6张图片(建议尺寸 750 * 560)</view>
         <view class="img-warp">
             <view class="img-box">
                 <view class="img-item" wx:for="{{imgArr}}" wx:key>
@@ -80,7 +80,7 @@ export default class imgUploadForm extends wepy.component{
 .img-item{
     position: relative;
     width: 230rpx;
-    height: 184rpx;
+    height: 170rpx;
     display: inline-flex;
     justify-content: center;
     align-items: center;

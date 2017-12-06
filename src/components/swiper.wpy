@@ -1,5 +1,5 @@
 <template>
-    <view class="swiper-container">
+    <view class="swiper-container" wx:if="{{imgUrls}}">
         <swiper class="swiper" indicator-dots="{{dots}}" indicator-color="rgba(255,255,255,.5)" indicator-active-color="#ffffff"
           autoplay="{{autoplay}}" interval="3000" duration="500">
           <block wx:for="{{imgUrls}}" wx:key="{{index}}">
@@ -23,8 +23,10 @@ export default class Swiper  extends wepy.component{
         info : Object
     }
     watch = {
-        imgUrls(newValue){
-            if(newValue.length>1){
+        imgUrls(newValue,oldValue){
+            console.log('newValue',newValue);
+            console.log('oldValue',oldValue);
+            if(newValue && newValue.length>1){
                 this.dots = true;
                 this.autoplay = true;
                 this.$apply();
@@ -38,7 +40,7 @@ export default class Swiper  extends wepy.component{
 <style lang="scss">
 .swiper{
     overflow: hidden;
-    height: 600rpx;
+    height: 560rpx;
 }
 .slider{
     width: 100%;

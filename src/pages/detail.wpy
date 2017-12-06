@@ -1,7 +1,7 @@
 <template>
     <view class="container detail-container">
         <view class="warp">
-            <swiper wx:if="imgUrls" :imgUrls.sync="imgUrls"></swiper>
+            <swiper :imgUrls.sync="imgUrls"></swiper>
             <view class="detail-nav">
                 <view class="detail-title">{{title}}</view>
                 <view class="detail-des">{{subtitle}}</view>
@@ -23,10 +23,10 @@
                     <view class="item-title">职位介绍</view>
                     <view class="item-text">
                         <view class="item-sub-title">岗位职责：</view>
-                        <view wx:for="{{content.dutyArr}}" wx:key>{{index+1}}、{{item}}</view>
+                        <view wx:for="{{content.dutyArr}}" wx:key><text>•</text>{{item}}</view>
                         <!-- <view>2、离开家阿卡丽地方实际付的灯光都是改款了</view> -->
                         <view class="item-sub-title">职位要求：</view>
-                        <view wx:for="{{content.claimArr}}" wx:key>{{index+1}}、{{item}}</view>
+                        <view wx:for="{{content.claimArr}}" wx:key><text>•</text>{{item}}</view>
                         <!-- <view>2、离开家阿卡丽地方实际付的灯光都是改款了</view> -->
                     </view>
                 </view>
@@ -44,16 +44,17 @@
             <!-- 打折促销 -->
             <view hidden="{{categoryType == 'sale' ? false: true}}" class="sale-box mt20">
                 <view class="item-rule">
-                    <view><text>活动时间: </text> 2017-08-20</view>
-                    <view><text>活动地址: </text> XXXXXXXXXXXX</view>
+                    <view><text>开始日期: </text> {{content.startdate}}</view>
+                    <view><text>结束日期: </text> {{content.enddate}}</view>
+                    <view><text>开始时间: </text> {{content.starttime}}</view>
+                    <view><text>结束时间: </text> {{content.endtime}}</view>
+                    <view><text>活动类型: </text> {{content.saleJson.name}}</view>
+                    <view><text>活动地址: </text> {{content.address}}</view>
                 </view>
                 <view class="item-flex pd20">
                     <view class="item-title">活动内容</view>
                     <view class="item-text">
-                        <view>1、离开家阿卡丽地方实际付款了</view>
-                        <view>2、离开家阿卡丽地方实际付的灯光都是改款了</view>
-                        <view>3、离开家阿卡丽地方实际付款了</view>
-                        <view>4、离开家阿卡丽地方实际付的灯光都是改款了</view>
+                        <view wx:for="{{content.activityArr}}" wx:key><text>•</text>{{item}}</view>
                     </view>
                 </view>
             </view>
@@ -61,17 +62,15 @@
             <!-- 房屋租售 -->
             <view hidden="{{categoryType == 'home' ? false: true}}" class="house-box mt20">
                 <view class="item-rule">
-                    <view><text>户型: </text>两室一厅</view>
-                    <view><text>价格: </text>50万</view>
-                    <view><text>地址: </text>XXXXXXXXXXXXXX</view>
+                    <view><text>户型: </text>{{content.homeJson.name}}</view>
+                    <view wx:if="{{content.typeJson.type == 0}}"><text>价格: </text><text class="text-red">￥{{content.price}}元/月</text></view>
+                    <view wx:else><text>价格: </text><text class="text-red">￥{{content.price}}万元</text></view>
+                    <view><text>地址: </text>{{content.address}}</view>
                 </view>
                 <view class="item-flex pd20">
                     <view class="item-title">房屋信息</view>
                     <view class="item-text">
-                        <view>1、离开家阿卡丽地方实际付款了</view>
-                        <view>2、离开家阿卡丽地方实际付的灯光都是改款了</view>
-                        <view>3、离开家阿卡丽地方实际付款了</view>
-                        <view>4、离开家阿卡丽地方实际付的灯光都是改款了</view>
+                        <view wx:for="{{content.homeInfoArr}}" wx:key><text>•</text>{{item}}</view>
                     </view>
                 </view>
             </view>
@@ -277,6 +276,9 @@ export default class Detail extends wepy.page {
 .mt20{
     margin-top: 20rpx;
 }
+.text-red{
+    color: $red;
+}
 .detail-container{
     padding-bottom: 60rpx;
 }
@@ -285,13 +287,13 @@ export default class Detail extends wepy.page {
     background: #fff;
 }
 .detail-title{
-    font-size: 30rpx;
+    font-size: 36rpx;
     color: $fontBlack;
     @include text-overflow(2);
 }
 .detail-des{
     font-size: 28rpx;
-    color: #666;
+    color: $gray;
     @include text-overflow(1);
 }
 .detail-info{
@@ -353,7 +355,7 @@ export default class Detail extends wepy.page {
         padding-left: 80rpx;
         word-wrap: break-word;
         word-break: break-all;
-        text{
+        text:first-child{
             padding-right: 20rpx;
             color: $gray;
             float: left;
@@ -371,6 +373,11 @@ export default class Detail extends wepy.page {
     padding: 20rpx 0;
     font-size: 28rpx;
     color: $fontBlack;
+    text{
+        padding-right: 15rpx;
+        font-size: 28rpx;
+        color: $gray;
+    }
     view{
         line-height: 50rpx;
     }

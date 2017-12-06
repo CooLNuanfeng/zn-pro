@@ -1,6 +1,10 @@
 <template>
     <view class="home-form">
         <view class="lable-control">
+            <text>房屋地址: <text class="label-require">*</text></text>
+            <input type="text" placeholder="请输入房屋地址" maxlength="40" placeholder-class="input-placeholder" value="{{address}}" @input="addressChange">
+        </view>
+        <view class="lable-control">
             <text>租售类型: <text class="label-require">*</text></text>
             <view class="label-picker">
                 <image src="../images/arrow.png"></image>
@@ -18,13 +22,13 @@
                 </picker>
             </view>
         </view>
-        <view hidden="{{!typeIndex}}" class="lable-control">
+        <view hidden="{{typeIndex == 0}}" class="lable-control">
             <text>出售价格: <text class="label-require">*</text></text>
-            <input type="text" placeholder="请输价格单位(万元)" maxlength="20" placeholder-class="input-placeholder" value="{{price}}">
+            <input type="digit" placeholder="请输入价格 (单位:万元)" maxlength="20" placeholder-class="input-placeholder" value="{{price}}" @input="priceChange">
         </view>
-        <view hidden="{{typeIndex}}" class="lable-control">
+        <view hidden="{{typeIndex == 1}}" class="lable-control">
             <text>出租价格: <text class="label-require">*</text></text>
-            <input type="text" placeholder="请输价格单位(元/月)" maxlength="20" placeholder-class="input-placeholder" value="{{price}}">
+            <input type="digit" placeholder="请输入价格 (单位:元/月)" maxlength="20" placeholder-class="input-placeholder" value="{{price}}" @input="priceChange">
         </view>
         <view class="lable-control-list">
             <view class="label-flex">
@@ -36,17 +40,21 @@
                 <view wx:if="{{index>0}}" @tap="deleteItem({{index}})"><image src="../images/delete-item.png"></image></view>
             </view>
         </view>
+        <view class="publish-notice">房屋图片展示</view>
+        <uploadform @uploadEnd.user="uploadChange" @uploadDel.user="uploadChange"></uploadform>
     </view>
 </template>
 
 <script>
 import wepy from 'wepy';
+import imgUploadForm from './imgupload';
 
 export default class HomeForm  extends wepy.component{
     data = {
         'typeIndex' : 0, // 0 表示出租 1表示出售
         'typeArr' : ['出租','出售'],
         'price' : '',
+        'address' : '',
         'homeIndex' : 1,
         'homeJson' : [
             {'id':'001','name':'一室一厅'},
@@ -58,12 +66,22 @@ export default class HomeForm  extends wepy.component{
             {'id':'007','name':'平房'},
             {'id':'008','name':'其他'}
         ],
-        'homeInfoArr' : ['']
+        'homeInfoArr' : [''],
+        'uploadImgs' : null,
+    };
+    components = {
+        'uploadform' : imgUploadForm
     };
     methods = {
+        addressChange(evt){
+            this.address = evt.detail.value;
+        },
+        priceChange(evt){
+            this.price = evt.detail.value;
+        },
         typeChange(evt){
             this.typeIndex = evt.detail.value;
-            console.log(this.typeIndex);
+            // console.log(this.typeIndex);
         },
         homeChange(evt){
             this.homeIndex = evt.detail.value;
@@ -76,13 +94,25 @@ export default class HomeForm  extends wepy.component{
         },
         deleteItem(index){
             this.homeInfoArr.splice(index,1);
+        },
+        uploadChange(imgs){
+            // console.log('upload change');
+            this.uploadImgs = imgs;
         }
     };
     events = {
-        fetch(){
+        homeFetch(){
             var json = {};
-
-            this.$emit('getForm',json);
+            json.typeJson = {
+                type : this.typeIndex,
+                name : this.typeArr[this.typeIndex]
+            };
+            json.address = this.address;
+            json.price = this.price;
+            json.homeJson = this.homeJson[this.homeIndex];
+            json.homeInfoArr = this.homeInfoArr;
+            json.images = this.uploadImgs;
+            this.$emit('getHomeForm',json);
         }
     };
 }

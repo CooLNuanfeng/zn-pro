@@ -8,12 +8,32 @@
               <v-loading :loading.sync="loading" :loadend.sync="loadend"></v-loading>
               <view class="index-list" hidden="{{loading}}">
                   <view class="index-flex" @tap="goDetail({{item}})" wx:for="{{listData}}" wx:key>
-                      <view class="item-img"><image src="../images/{{themeimg}}{{item.type}}.png"></image></view>
+                      <view class="item-img">
+                          <image src="../images/{{themeimg}}{{item.type}}.png"></image>
+                          <text wx:if="{{item.type=='home'}}">{{item.formdata.typeJson.type==0? '房屋出租':'房屋出售'}}</text>
+                          <text wx:elif="{{item.type=='job'}}">职位招聘</text>
+                          <text wx:elif="{{item.type=='sale'}}">打折促销</text>
+                          <text wx:elif="{{item.type=='car'}}">车辆交易</text>
+                          <text wx:elif="{{item.type=='find'}}">寻人寻物</text>
+                          <text wx:elif="{{item.type=='food'}}">美食推荐</text>
+                          <text wx:elif="{{item.type=='friend'}}">相亲交友</text>
+                          <text wx:elif="{{item.type=='pet'}}">宠物领养</text>
+                          <text wx:elif="{{item.type=='edu'}}">教育培训</text>
+                          <text wx:elif="{{item.type=='other'}}">其他消息</text>
+                      </view>
                       <view class="item-info">
-                          <view class="item-title"><text wx:if="{{item.formdata.images}}">图</text>{{item.title}}</view>
-                          <view class="item-desc"><text>{{item.subtitle}}</text><text>发布者: {{item.nickname}}</text></view>
+                          <view class="item-title">
+                              <text wx:if="{{item.formdata.images}}">图</text>
+                              {{item.title}}
+                          </view>
+                          <view class="item-desc">
+                              <text>{{item.subtitle}}</text>
+                              <text>发布者: {{item.nickname}}</text>
+                          </view>
                           <view class="item-price">
                               <text wx:if="{{item.type == 'job'}}" class="price">￥<text class="price-number">{{item.formdata.jobprice}}</text>元起/月</text>
+                              <text wx:elif="{{item.type == 'home'}}" class="price">￥<text class="price-number">{{item.formdata.price}}</text>{{item.formdata.typeJson.type==0? '元/月':'万元'}}</text>
+                              <text wx:else></text>
                               <text class="pub-time">{{item.updatedAt}}</text>
                           </view>
                       </view>
@@ -88,11 +108,16 @@
           this.themeimg = this.$parent.globalData.themeimg;
           this.fetch();
       };
-      onShow(options){
-          if(options && options.from == 'success'){
-              console.log('show');
-              this.fetch();
-          }
+      onShow(){
+          var vm = this;
+          setTimeout(function(){
+              var refresh = vm.$parent.globalData.refresh;
+              // console.log(refresh,'refresh');
+              if(refresh){
+                  vm.fetch();
+                  vm.$parent.globalData.refresh = false;
+              }
+          },100);
       };
       // onPullDownRefresh(){
       //     this.fetch();
@@ -109,6 +134,7 @@
               vm.loading = false;
               // console.log('query data',data);
               vm.makeParam(data);
+              wx.stopPullDownRefresh();
           }).catch(function(err){
               console.log(err);
               vm.loading = false;
@@ -160,12 +186,17 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
     width: 120rpx;
     padding-left: 10rpx;
     overflow: hidden;
     image{
         width: 80rpx;
         height: 80rpx;
+    }
+    text{
+        font-size: 20rpx;
+        color: $themeColor;
     }
 }
 .item-info{
@@ -186,8 +217,8 @@
         margin-right: 10rpx;
         padding: 0 5rpx;
         font-size: 22rpx;
-        border: 1rpx solid $themeColor;
         color: $themeColor;
+        border: 1rpx solid $themeColor;
     }
 }
 .item-desc{

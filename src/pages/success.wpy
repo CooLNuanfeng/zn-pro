@@ -37,8 +37,12 @@ export default class Success extends wepy.page {
             });
         },
         goIndex(){
+            var vm = this;
             wx.switchTab({
-                url : 'index?from=success'
+                url : 'index',
+                success : function(){
+                    vm.$parent.globalData.refresh = true;
+                }
             });
         }
     }

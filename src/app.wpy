@@ -76,6 +76,7 @@ export default class extends wepy.app {
     cityid : myConfig.cityid,
     themeimg : myConfig.themeimg,
     domain : 'https://oyo2k3vrc.bkt.clouddn.com',
+    refresh : false, //是否刷新
   }
 
   constructor () {
@@ -123,7 +124,7 @@ export default class extends wepy.app {
     return year+'-'+this.toDouble(month+1)+'-'+this.toDouble(day)+' '+this.toDouble(hour)+':'+this.toDouble(min);
   }
   toDouble(number){
-      if(number<9){
+      if(number<10){
           return '0'+number;
       }else{
           return number;

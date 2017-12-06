@@ -1,26 +1,44 @@
 <template>
     <view class="sale-form">
         <view class="lable-control">
-            <text>活动日期: <text class="label-require">*</text></text>
+            <text>起始日期: <text class="label-require">*</text></text>
             <view class="label-picker">
                 <image src="../images/arrow.png"></image>
-                <picker mode="date" @change="dateChange" value="{{date}}" start="{{date}}">
-                    <view class="picker">{{date}}</view>
+                <picker mode="date" @change="startdateChange" value="{{startdate}}" start="{{startdate}}">
+                    <view class="picker">{{startdate}}</view>
                 </picker>
             </view>
         </view>
         <view class="lable-control">
-            <text>活动时间: <text class="label-require">*</text></text>
+            <text>截止日期: <text class="label-require">*</text></text>
             <view class="label-picker">
                 <image src="../images/arrow.png"></image>
-                <picker mode="time" @change="timeChange" value="{{time}}">
-                    <view class="picker">{{time}}</view>
+                <picker mode="date" @change="enddateChange" value="{{enddate}}" start="{{enddate}}">
+                    <view class="picker">{{enddate}}</view>
+                </picker>
+            </view>
+        </view>
+        <view class="lable-control">
+            <text>开始时间: <text class="label-require">*</text></text>
+            <view class="label-picker">
+                <image src="../images/arrow.png"></image>
+                <picker mode="time" @change="starttimeChange" value="{{starttime}}">
+                    <view class="picker">{{starttime}}</view>
+                </picker>
+            </view>
+        </view>
+        <view class="lable-control">
+            <text>结束时间: <text class="label-require">*</text></text>
+            <view class="label-picker">
+                <image src="../images/arrow.png"></image>
+                <picker mode="time" @change="endtimeChange" value="{{endtime}}">
+                    <view class="picker">{{endtime}}</view>
                 </picker>
             </view>
         </view>
         <view class="lable-control">
             <text>活动地点: <text class="label-require">*</text></text>
-            <input type="text" placeholder="请输入活动地点" maxlength="50" placeholder-class="input-placeholder" value="{{address}}">
+            <input type="text" placeholder="请输入活动地点" maxlength="50" placeholder-class="input-placeholder" value="{{address}}" @input="addressChange">
         </view>
         <view class="lable-control">
             <text>活动类型: <text class="label-require">*</text></text>
@@ -42,18 +60,20 @@
             </view>
         </view>
         <view class="publish-notice">活动图片展示</view>
-        <!-- <uploadform></uploadform> -->
+        <uploadform @uploadEnd.user="uploadChange" @uploadDel.user="uploadChange"></uploadform>
     </view>
 </template>
 
 <script>
 import wepy from 'wepy';
-// import imgUploadForm from './imgupload';
+import imgUploadForm from './imgupload';
 
 export default class SaleForm  extends wepy.component{
     data = {
-        'date' : '',
-        'time' : '08:00',
+        'startdate' : '',
+        'enddate' : '',
+        'starttime' : '08:00',
+        'endtime' : '18:00',
         'address' : '',
         'activityArr' : [''],
         'saleIndex' : 0,
@@ -62,21 +82,31 @@ export default class SaleForm  extends wepy.component{
             {'id':'002','name':'服饰'},
             {'id':'003','name':'餐饮'},
             {'id':'004','name':'其他'},
-        ]
+        ],
+        'uploadImgs' : null,
     };
     porps = {};
     components = {
-        // 'uploadform' : imgUploadForm
+        'uploadform' : imgUploadForm
     };
     methods = {
         saleChange(evt){
             this.saleIndex = evt.detail.value;
         },
-        timeChange(evt){
-            this.time = evt.detail.value;
+        starttimeChange(evt){
+            this.starttime = evt.detail.value;
         },
-        dateChange(evt){
-            this.date = evt.detail.value;
+        endtimeChange(evt){
+            this.endtime = evt.detail.value;
+        },
+        startdateChange(evt){
+            this.startdate = evt.detail.value;
+        },
+        enddateChange(evt){
+            this.enddate = evt.detail.value;
+        },
+        addressChange(evt){
+            this.address = evt.detail.value;
         },
         addItem(){
             this.activityArr.push('');
@@ -86,30 +116,44 @@ export default class SaleForm  extends wepy.component{
         },
         deleteItem(index){
             this.activityArr.splice(index,1);
+        },
+        uploadChange(imgs){
+            // console.log('upload change');
+            this.uploadImgs = imgs;
         }
     };
     events = {
-        fetch(){
+        saleFetch(){
             var json = {};
-            json.date = this.date;
-            json.time = this.time;
+            json.startdate = this.startdate;
+            json.enddate = this.enddate;
+            json.starttime = this.starttime;
+            json.endtime = this.endtime;
             json.address = this.address;
-            json.saleId = this.saleJson[this.saleIndex].id;
-            json.sale = this.saleJson[this.saleIndex].name;
+            json.saleJson = this.saleJson[this.saleIndex];
             json.activityArr = this.activityArr;
-            this.$emit('getForm',json);
+            json.images = this.uploadImgs;
+            this.$emit('getSaleForm',json);
 
         }
     };
     onLoad(){
-        this.dateFormate();
-    };
-    dateFormate(){
         var now = new Date();
-        var year = now.getFullYear();
-        var month = now.getMonth() + 1;
-        var day = now.getDate();
-        this.date = year + '-' + month + '-' + day;
+        this.startdate = this.dateFormate(now);
+        this.enddate = this.dateFormate(now);
+    };
+    dateFormate(oDate){
+        var year = oDate.getFullYear();
+        var month = oDate.getMonth() + 1;
+        var day = oDate.getDate();
+        return year + '-' + this.toDouble(month) + '-' + this.toDouble(day);
+    };
+    toDouble(number){
+        if(number<10){
+            return '0'+number;
+        }else{
+            return number;
+        }
     }
 }
 </script>

@@ -147,9 +147,10 @@ export default class Publish extends wepy.page {
         },
         nameChange(evt){
             this.publishername = evt.detail.value;
-        }
+        },
         submit(){
-            this.$broadcast('fetch');
+            var fetchType = this.type+'Fetch';
+            this.$broadcast(fetchType);
             var result = this.checkFormInfo();
             if(result.flag){
                 // console.log('from child form',this.formdata);
@@ -168,10 +169,10 @@ export default class Publish extends wepy.page {
         var vm = this,imgArr = [],domain = vm.$parent.globalData.domain;
         for(let i=0;i<len;i++){
             qiniuUploader.upload(filePaths[i], (res) => {
-              console.log(res,'upload res');
+              // console.log(res,'upload res');
               imgArr.push(domain+res.imageURL);
               if(i == len-1){
-                  console.log(i,'end',imgArr);
+                  // console.log(i,'end',imgArr);
                   data.formdata.images = imgArr;
                   vm.saveData(data);
               }
@@ -185,7 +186,8 @@ export default class Publish extends wepy.page {
 
     }
     saveData(data){
-        console.log(data,'send data');
+        // console.log(data,'send data');
+        // return;
         var onelist = new NewsList(),vm = this;
         onelist.set('nickname',data.nickname);
         onelist.set('uid',data.uid);
@@ -239,7 +241,7 @@ export default class Publish extends wepy.page {
     hideLoading(){
         setTimeout(function(){
           wx.hideLoading();
-        },100)
+        },100);
     }
     checkFormInfo(){
         var json = null;
@@ -247,11 +249,13 @@ export default class Publish extends wepy.page {
         if(json.flag){
             switch (this.type) {
                 case 'job':
-                    json = this.checkJobFrom();
+                    json = this.checkJobForm();
                     break;
                 case 'sale':
-                    json = this.checkSaleFrom();
+                    json = this.checkSaleForm();
                     break;
+                case 'home':
+                    json = this.checkHomeForm();
             }
         }else{
             this.$invoke('toast', 'show', {
@@ -289,7 +293,7 @@ export default class Publish extends wepy.page {
         }
         return json;
     }
-    checkJobFrom(){
+    checkJobForm(){
         var json = {
             flag : true,
             info : ''
@@ -322,8 +326,36 @@ export default class Publish extends wepy.page {
         }
         return json;
     }
-    checkSaleFrom(){
-
+    checkSaleForm(){
+        var json = {
+            flag : true,
+            info : ''
+        };
+        var saleData = this.formdata;
+        if(!saleData.address){
+            json.flag = false;
+            json.info = '请填写活动地址';
+            return json;
+        }
+        return json;
+    }
+    checkHomeForm(){
+        var json = {
+            flag : true,
+            info : ''
+        };
+        var homeData = this.formdata;
+        if(!homeData.address){
+            json.flag = false;
+            json.info = '请填写房屋地址';
+            return json;
+        }
+        if(!homeData.price){
+            json.flag = false;
+            json.info = '请填写房屋价格';
+            return json;
+        }
+        return json;
     }
 }
 </script>
@@ -331,7 +363,7 @@ export default class Publish extends wepy.page {
 <style lang="scss">
 @import "../sass/_mixin.scss";
 .input-placeholder{
-    color: #ccc;
+    color: #ddd;
 }
 .publish-container{
 

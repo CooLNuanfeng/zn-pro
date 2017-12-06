@@ -53,7 +53,7 @@
         </view>
         <view class="lable-control">
             <text>月薪: <text class="label-require">*</text></text>
-            <input type="number" placeholder="请输入月薪(单位: 元起/月)" maxlength="10" placeholder-class="input-placeholder" value="{{$jobform$jobprice}}" bindinput="$jobform$priceChange"/>
+            <input type="digit" placeholder="请输入月薪(单位: 元起/月)" maxlength="10" placeholder-class="input-placeholder" value="{{$jobform$jobprice}}" bindinput="$jobform$priceChange"/>
         </view>
         <view class="lable-control">
             <text>职位类型: <text class="label-require">*</text></text>
@@ -122,7 +122,7 @@
         <view class="publish-notice">工作环境展示</view>
         
     <view class="img-container">
-        <view class="img-tips">最多上传6张图片(建议尺寸 750 * 600)</view>
+        <view class="img-tips">最多上传6张图片(建议尺寸 750 * 560)</view>
         <view class="img-warp">
             <view class="img-box">
                 <view class="img-item"  wx:for="{{$jobform$uploadform$imgArr}}" wx:key="wx:key">
@@ -146,26 +146,44 @@
             
     <view class="sale-form" hidden="{{type == 'sale'? false:true}}">
         <view class="lable-control">
-            <text>活动日期: <text class="label-require">*</text></text>
+            <text>起始日期: <text class="label-require">*</text></text>
             <view class="label-picker">
                 <image src="../images/arrow.png"/>
-                <picker mode="date" bindchange="$saleform$dateChange" value="{{$saleform$date}}" start="{{$saleform$date}}">
-                    <view class="picker">{{$saleform$date}}</view>
+                <picker mode="date" bindchange="$saleform$startdateChange" value="{{$saleform$startdate}}" start="{{$saleform$startdate}}">
+                    <view class="picker">{{$saleform$startdate}}</view>
                 </picker>
             </view>
         </view>
         <view class="lable-control">
-            <text>活动时间: <text class="label-require">*</text></text>
+            <text>截止日期: <text class="label-require">*</text></text>
             <view class="label-picker">
                 <image src="../images/arrow.png"/>
-                <picker mode="time" bindchange="$saleform$timeChange" value="{{$saleform$time}}">
-                    <view class="picker">{{$saleform$time}}</view>
+                <picker mode="date" bindchange="$saleform$enddateChange" value="{{$saleform$enddate}}" start="{{$saleform$enddate}}">
+                    <view class="picker">{{$saleform$enddate}}</view>
+                </picker>
+            </view>
+        </view>
+        <view class="lable-control">
+            <text>开始时间: <text class="label-require">*</text></text>
+            <view class="label-picker">
+                <image src="../images/arrow.png"/>
+                <picker mode="time" bindchange="$saleform$starttimeChange" value="{{$saleform$starttime}}">
+                    <view class="picker">{{$saleform$starttime}}</view>
+                </picker>
+            </view>
+        </view>
+        <view class="lable-control">
+            <text>结束时间: <text class="label-require">*</text></text>
+            <view class="label-picker">
+                <image src="../images/arrow.png"/>
+                <picker mode="time" bindchange="$saleform$endtimeChange" value="{{$saleform$endtime}}">
+                    <view class="picker">{{$saleform$endtime}}</view>
                 </picker>
             </view>
         </view>
         <view class="lable-control">
             <text>活动地点: <text class="label-require">*</text></text>
-            <input type="text" placeholder="请输入活动地点" maxlength="50" placeholder-class="input-placeholder" value="{{$saleform$address}}"/>
+            <input type="text" placeholder="请输入活动地点" maxlength="50" placeholder-class="input-placeholder" value="{{$saleform$address}}" bindinput="$saleform$addressChange"/>
         </view>
         <view class="lable-control">
             <text>活动类型: <text class="label-require">*</text></text>
@@ -187,12 +205,35 @@
             </view>
         </view>
         <view class="publish-notice">活动图片展示</view>
-        <!-- <uploadform></uploadform> -->
+        
+    <view class="img-container">
+        <view class="img-tips">最多上传6张图片(建议尺寸 750 * 560)</view>
+        <view class="img-warp">
+            <view class="img-box">
+                <view class="img-item"  wx:for="{{$saleform$uploadform$imgArr}}" wx:key="wx:key">
+                    <view class="img-del" bindtap="$saleform$uploadform$del" data-wpydel-a="{{index}}"><image src="../images/close.png"/></view>
+                    <image class="img" mode="aspectFit" src="{{item}}"/>
+                </view>
+                <!-- <view class="img-item">
+                    <view class="img-del" bindtap="del(index,item)"><image src="../image/close.png"></image></view>
+                    <image mode="aspectFit" src="../images/pic1.jpg"></image>
+                </view> -->
+                <view class="img-item img-item-add" bindtap="$saleform$uploadform$chooseImage">
+                    <image src="../images/upload-add.png"/>
+                </view>
+            </view>
+        </view>
+    </view>
+
     </view>
 
             <!-- 房屋租售 -->
             
     <view class="home-form" hidden="{{type == 'home'? false:true}}">
+        <view class="lable-control">
+            <text>房屋地址: <text class="label-require">*</text></text>
+            <input type="text" placeholder="请输入房屋地址" maxlength="40" placeholder-class="input-placeholder" value="{{$homeform$address}}" bindinput="$homeform$addressChange"/>
+        </view>
         <view class="lable-control">
             <text>租售类型: <text class="label-require">*</text></text>
             <view class="label-picker">
@@ -211,13 +252,13 @@
                 </picker>
             </view>
         </view>
-        <view hidden="{{!$homeform$typeIndex}}" class="lable-control">
+        <view hidden="{{$homeform$typeIndex == 0}}" class="lable-control">
             <text>出售价格: <text class="label-require">*</text></text>
-            <input type="text" placeholder="请输价格单位(万元)" maxlength="20" placeholder-class="input-placeholder" value="{{$homeform$price}}"/>
+            <input type="digit" placeholder="请输入价格 (单位:万元)" maxlength="20" placeholder-class="input-placeholder" value="{{$homeform$price}}" bindinput="$homeform$priceChange"/>
         </view>
-        <view hidden="{{$homeform$typeIndex}}" class="lable-control">
+        <view hidden="{{$homeform$typeIndex == 1}}" class="lable-control">
             <text>出租价格: <text class="label-require">*</text></text>
-            <input type="text" placeholder="请输价格单位(元/月)" maxlength="20" placeholder-class="input-placeholder" value="{{$homeform$price}}"/>
+            <input type="digit" placeholder="请输入价格 (单位:元/月)" maxlength="20" placeholder-class="input-placeholder" value="{{$homeform$price}}" bindinput="$homeform$priceChange"/>
         </view>
         <view class="lable-control-list">
             <view class="label-flex">
@@ -229,6 +270,27 @@
                 <view wx:if="{{index>0}}" bindtap="$homeform$deleteItem" data-wpydeleteitem-a="{{index}}"><image src="../images/delete-item.png"/></view>
             </view>
         </view>
+        <view class="publish-notice">房屋图片展示</view>
+        
+    <view class="img-container">
+        <view class="img-tips">最多上传6张图片(建议尺寸 750 * 560)</view>
+        <view class="img-warp">
+            <view class="img-box">
+                <view class="img-item"  wx:for="{{$homeform$uploadform$imgArr}}" wx:key="wx:key">
+                    <view class="img-del" bindtap="$homeform$uploadform$del" data-wpydel-a="{{index}}"><image src="../images/close.png"/></view>
+                    <image class="img" mode="aspectFit" src="{{item}}"/>
+                </view>
+                <!-- <view class="img-item">
+                    <view class="img-del" bindtap="del(index,item)"><image src="../image/close.png"></image></view>
+                    <image mode="aspectFit" src="../images/pic1.jpg"></image>
+                </view> -->
+                <view class="img-item img-item-add" bindtap="$homeform$uploadform$chooseImage">
+                    <image src="../images/upload-add.png"/>
+                </view>
+            </view>
+        </view>
+    </view>
+
     </view>
 
             <!-- 车辆交易 -->
@@ -236,7 +298,7 @@
     <view class="car-form" hidden="{{type == 'car'? false:true}}">
         <view class="lable-control">
             <text>出售价格: <text class="label-require">*</text></text>
-            <input type="text" placeholder="请输入价格(单位万元)" maxlength="20" placeholder-class="input-placeholder" value="{{$carform$price}}"/>
+            <input type="digit" placeholder="请输入价格 (单位:万元)" maxlength="10" placeholder-class="input-placeholder" value="{{$carform$price}}" bindinput="$carform$priceChange"/>
         </view>
         <view class="lable-control">
             <text>上牌时间: <text class="label-require">*</text></text>
@@ -249,7 +311,7 @@
         </view>
         <view class="lable-control">
             <text>行驶里程: <text class="label-require">*</text></text>
-            <input type="text" placeholder="请输入行驶里程(单位万公里)" maxlength="20" placeholder-class="input-placeholder" value="{{$carform$mileage}}"/>
+            <input type="digit" placeholder="请输入行驶里程 (单位:万公里)" maxlength="20" placeholder-class="input-placeholder" value="{{$carform$mileage}}" bindinput="$carform$mileChange"/>
         </view>
         <view hidden="{{$carform$typeIndex}}" class="lable-control">
             <text>年检到期: <text class="label-require">*</text></text>
@@ -270,6 +332,27 @@
                 <view wx:if="{{index>0}}" bindtap="$carform$deleteItem" data-wpydeleteitem-a="{{index}}"><image src="../images/delete-item.png"/></view>
             </view>
         </view>
+        <view class="publish-notice">车辆图片展示</view>
+        
+    <view class="img-container">
+        <view class="img-tips">最多上传6张图片(建议尺寸 750 * 560)</view>
+        <view class="img-warp">
+            <view class="img-box">
+                <view class="img-item"  wx:for="{{$carform$uploadform$imgArr}}" wx:key="wx:key">
+                    <view class="img-del" bindtap="$carform$uploadform$del" data-wpydel-a="{{index}}"><image src="../images/close.png"/></view>
+                    <image class="img" mode="aspectFit" src="{{item}}"/>
+                </view>
+                <!-- <view class="img-item">
+                    <view class="img-del" bindtap="del(index,item)"><image src="../image/close.png"></image></view>
+                    <image mode="aspectFit" src="../images/pic1.jpg"></image>
+                </view> -->
+                <view class="img-item img-item-add" bindtap="$carform$uploadform$chooseImage">
+                    <image src="../images/upload-add.png"/>
+                </view>
+            </view>
+        </view>
+    </view>
+
     </view>
 
             <!-- 寻人寻物 -->

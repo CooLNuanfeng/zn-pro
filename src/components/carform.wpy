@@ -2,7 +2,7 @@
     <view class="car-form">
         <view class="lable-control">
             <text>出售价格: <text class="label-require">*</text></text>
-            <input type="text" placeholder="请输入价格(单位万元)" maxlength="20" placeholder-class="input-placeholder" value="{{price}}">
+            <input type="digit" placeholder="请输入价格 (单位:万元)" maxlength="10" placeholder-class="input-placeholder" value="{{price}}" @input="priceChange">
         </view>
         <view class="lable-control">
             <text>上牌时间: <text class="label-require">*</text></text>
@@ -15,7 +15,7 @@
         </view>
         <view class="lable-control">
             <text>行驶里程: <text class="label-require">*</text></text>
-            <input type="text" placeholder="请输入行驶里程(单位万公里)" maxlength="20" placeholder-class="input-placeholder" value="{{mileage}}">
+            <input type="digit" placeholder="请输入行驶里程 (单位:万公里)" maxlength="20" placeholder-class="input-placeholder" value="{{mileage}}" @input="mileChange">
         </view>
         <view hidden="{{typeIndex}}" class="lable-control">
             <text>年检到期: <text class="label-require">*</text></text>
@@ -36,11 +36,14 @@
                 <view wx:if="{{index>0}}" @tap="deleteItem({{index}})"><image src="../images/delete-item.png"></image></view>
             </view>
         </view>
+        <view class="publish-notice">车辆图片展示</view>
+        <uploadform @uploadEnd.user="uploadChange" @uploadDel.user="uploadChange"></uploadform>
     </view>
 </template>
 
 <script>
 import wepy from 'wepy';
+import imgUploadForm from './imgupload';
 
 export default class CarForm  extends wepy.component{
     data = {
@@ -48,7 +51,11 @@ export default class CarForm  extends wepy.component{
         'mileage' : '',
         'endDate' : '',
         'startDate' : '',
-        'carInfoArr' : ['']
+        'carInfoArr' : [''],
+        'uploadImgs' : null,
+    };
+    components = {
+        'uploadform' : imgUploadForm
     };
     methods = {
         startdateChange(evt){
@@ -65,13 +72,17 @@ export default class CarForm  extends wepy.component{
         },
         deleteItem(index){
             this.carInfoArr.splice(index,1);
+        },
+        uploadChange(imgs){
+            // console.log('upload change');
+            this.uploadImgs = imgs;
         }
     };
     events = {
-        fetch(){
+        carFetch(){
             var json = {};
 
-            this.$emit('getForm',json);
+            this.$emit('getCarForm',json);
         }
     };
     onLoad(){

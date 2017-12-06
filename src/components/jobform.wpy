@@ -6,7 +6,7 @@
         </view>
         <view class="lable-control">
             <text>月薪: <text class="label-require">*</text></text>
-            <input type="number" placeholder="请输入月薪(单位: 元起/月)" maxlength="10" placeholder-class="input-placeholder" value="{{jobprice}}" @input="priceChange">
+            <input type="digit" placeholder="请输入月薪(单位: 元起/月)" maxlength="10" placeholder-class="input-placeholder" value="{{jobprice}}" @input="priceChange">
         </view>
         <view class="lable-control">
             <text>职位类型: <text class="label-require">*</text></text>
@@ -185,7 +185,7 @@ export default class JobForm extends wepy.component{
         }
     };
     events = {
-        fetch(){ //组织用户填写数据
+        jobFetch(){ //组织用户填写数据
             var json = {
                 'jobname' : this.jobname,  //职位 require
                 'jobprice' : this.jobprice, //月薪 require

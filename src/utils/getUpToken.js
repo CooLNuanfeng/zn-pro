@@ -145,12 +145,12 @@ var safe64 = function (base64) {
 function genToken(accessKey, secretKey, putPolicy) {
 
   var put_policy = JSON.stringify(putPolicy);
-  console.log("put_policy = ", put_policy);
+  // console.log("put_policy = ", put_policy);
 
 
   //SETP 3
   var encoded = base64encode(utf16to8(put_policy));
-  console.log("encoded = ", encoded);
+  // console.log("encoded = ", encoded);
 
   //SETP 4
   var hash = CryptoJS.HmacSHA1(encoded, secretKey);
