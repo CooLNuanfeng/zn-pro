@@ -57,7 +57,7 @@
             <!-- 美食推荐 -->
             <foodform  hidden="{{type == 'food'? false:true}}" @getFoodForm.user="getForm"></foodform>
             <!-- 相亲交友 -->
-            <friendform hidden="{{type == 'friend'? false:true}}" @getFirendForm.user="getForm"></friendform>
+            <friendform hidden="{{type == 'friend'? false:true}}" @getFriendForm.user="getForm"></friendform>
             <!-- 宠物领养 -->
             <petform hidden="{{type == 'pet'? false:true}}" @getPetForm.user="getForm"></petform>
             <!-- 教育培训 -->
@@ -266,6 +266,18 @@ export default class Publish extends wepy.page {
                 case 'food':
                     json = this.checkFoodForm();
                     break;
+                case 'friend':
+                    json = this.checkFriendForm();
+                    break;
+                case 'pet':
+                    json = this.checkPetForm();
+                    break;
+                case 'edu':
+                    json = this.checkEduForm();
+                    break;
+                case 'other':
+                    json = this.checkOtherForm();
+                    break;
             }
         }else{
             this.$invoke('toast', 'show', {
@@ -412,6 +424,73 @@ export default class Publish extends wepy.page {
         if(!foodData.address){
             json.flag = false;
             json.info = '请填写美食地点';
+            return json;
+        }
+        return json;
+    }
+    checkFriendForm(){
+        var json = {
+            flag : true,
+            info : ''
+        };
+        var friendData = this.formdata;
+        if(friendData.aboutMeArr.length < 2 && !friendData.aboutMeArr[0]){
+            json.flag = false;
+            json.info = '请填写关于我信息';
+            return json;
+        }
+        if(friendData.hopeTaArr.length < 2 && !friendData.hopeTaArr[0]){
+            json.flag = false;
+            json.info = '请填写关于Ta信息';
+            return json;
+        }
+        return json;
+    }
+    checkPetForm(){
+        var json = {
+            flag : true,
+            info : ''
+        };
+        var petData = this.formdata;
+        if(!petData.category){
+            json.flag = false;
+            json.info = '请填写宠物类别';
+            return json;
+        }
+        if(!petData.price){
+            json.flag = false;
+            json.info = '请填写宠物价格';
+            return json;
+        }
+        return json;
+    }
+    checkEduForm(){
+        var json = {
+            flag : true,
+            info : ''
+        };
+        var eduData = this.formdata;
+        if(!eduData.price){
+            json.flag = false;
+            json.info = '请填写培训价格';
+            return json;
+        }
+        if(!eduData.address){
+            json.flag = false;
+            json.info = '请填写培训地点';
+            return json;
+        }
+        return json;
+    }
+    checkOtherForm(){
+        var json = {
+            flag : true,
+            info : ''
+        };
+        var otherData = this.formdata;
+        if(otherData.otherInfoArr.length < 2 && !otherData.otherInfoArr[0]){
+            json.flag = false;
+            json.info = '请填写信息';
             return json;
         }
         return json;

@@ -457,22 +457,22 @@
     <view class="car-form" hidden="{{type == 'friend'? false:true}}">
         <view class="lable-control">
             <text>微信号:</text>
-            <input type="text" placeholder="请输入微信号" maxlength="20" placeholder-class="input-placeholder" value="{{$friendform$wechartnumber}}"/>
+            <input type="text" placeholder="请输入微信号" maxlength="20" placeholder-class="input-placeholder" value="{{$friendform$wechartnumber}}" bindinput="$friendform$wxnumChange"/>
         </view>
         <view class="lable-control">
             <text>QQ号:</text>
-            <input type="text" placeholder="请输入QQ号" maxlength="20" placeholder-class="input-placeholder" value="{{$friendform$qqnumber}}"/>
+            <input type="number" placeholder="请输入QQ号" maxlength="20" placeholder-class="input-placeholder" value="{{$friendform$qqnumber}}" bindinput="$friendform$qqnumChange"/>
         </view>
         <view class="lable-control">
             <text>地址: </text>
-            <input type="text" placeholder="请输入所在地址" maxlength="50" placeholder-class="input-placeholder" value="{{$friendform$address}}"/>
+            <input type="text" placeholder="请输入所在地址" maxlength="50" placeholder-class="input-placeholder" value="{{$friendform$address}}" bindinput="$friendform$addressChange"/>
         </view>
         <view class="lable-control-list">
             <view class="label-flex">
                 <text>关于我: <text class="label-require">*</text><text class="label-small">(请分条例填写，点右侧添加条例)</text></text>
                 <view><image src="../images/add-item.png" bindtap="$friendform$addMeItem" data-wpyaddmeitem-a=""/></view>
             </view>
-            <view class="label-add"  wx:for="{{$friendform$aboutMeArr}}" wx:key="">
+            <view class="label-add"  wx:for="{{$friendform$aboutMeArr}}" wx:key="wx:key">
                 <input type="text" placeholder="请分条输入相关内容" maxlength="150" placeholder-class="input-placeholder" value="{{item}}" bindinput="$friendform$itemMeInput" data-wpyitemmeinput-a="{{index}}"/>
                 <view wx:if="{{index>0}}" bindtap="$friendform$deleteMeItem" data-wpydeletemeitem-a="{{index}}"><image src="../images/delete-item.png"/></view>
             </view>
@@ -482,11 +482,32 @@
                 <text>希望Ta: <text class="label-require">*</text><text class="label-small">(请分条例填写，点右侧添加条例)</text></text>
                 <view><image src="../images/add-item.png" bindtap="$friendform$addTaItem" data-wpyaddtaitem-a=""/></view>
             </view>
-            <view class="label-add"  wx:for="{{$friendform$hopeTaArr}}" wx:key="">
+            <view class="label-add"  wx:for="{{$friendform$hopeTaArr}}" wx:key="wx:key">
                 <input type="text" placeholder="请分条输入相关内容" maxlength="150" placeholder-class="input-placeholder" value="{{item}}" bindinput="$friendform$itemTaInput" data-wpyitemtainput-a="{{index}}"/>
                 <view wx:if="{{index>0}}" bindtap="$friendform$deleteTaItem" data-wpydeletetaitem-a="{{index}}"><image src="../images/delete-item.png"/></view>
             </view>
         </view>
+        <view class="publish-notice">上传照片</view>
+        
+    <view class="img-container">
+        <view class="img-tips">最多上传6张图片(建议尺寸 750 * 560)</view>
+        <view class="img-warp">
+            <view class="img-box">
+                <view class="img-item"  wx:for="{{$friendform$uploadform$imgArr}}" wx:key="wx:key">
+                    <view class="img-del" bindtap="$friendform$uploadform$del" data-wpydel-a="{{index}}"><image src="../images/close.png"/></view>
+                    <image class="img" mode="aspectFit" src="{{item}}"/>
+                </view>
+                <!-- <view class="img-item">
+                    <view class="img-del" bindtap="del(index,item)"><image src="../image/close.png"></image></view>
+                    <image mode="aspectFit" src="../images/pic1.jpg"></image>
+                </view> -->
+                <view class="img-item img-item-add" bindtap="$friendform$uploadform$chooseImage">
+                    <image src="../images/upload-add.png"/>
+                </view>
+            </view>
+        </view>
+    </view>
+
     </view>
 
             <!-- 宠物领养 -->
@@ -494,11 +515,11 @@
     <view class="car-form" hidden="{{type == 'pet'? false:true}}">
         <view class="lable-control">
             <text>类别: <text class="label-require">*</text></text>
-            <input type="text" placeholder="请输入宠物类别(如：金毛)" maxlength="50" placeholder-class="input-placeholder" value="{{$petform$category}}"/>
+            <input type="text" placeholder="请输入宠物类别(如：金毛)" maxlength="10" placeholder-class="input-placeholder" value="{{$petform$category}}" bindinput="$petform$categoryChange"/>
         </view>
         <view class="lable-control">
             <text>价格: <text class="label-require">*</text></text>
-            <input type="number" placeholder="请输入价格(单位为元)" maxlength="10" placeholder-class="input-placeholder" value="{{$petform$price}}"/>
+            <input type="digit" placeholder="请输入价格 (单位:元/只)" maxlength="10" placeholder-class="input-placeholder" value="{{$petform$price}}" bindinput="$petform$priceChange"/>
         </view>
         <view class="lable-control">
             <text>年龄: <text class="label-require">*</text></text>
@@ -519,6 +540,27 @@
                 <view wx:if="{{index>0}}" bindtap="$petform$deleteItem" data-wpydeleteitem-a="{{index}}"><image src="../images/delete-item.png"/></view>
             </view>
         </view>
+        <view class="publish-notice">萌宠照片</view>
+        
+    <view class="img-container">
+        <view class="img-tips">最多上传6张图片(建议尺寸 750 * 560)</view>
+        <view class="img-warp">
+            <view class="img-box">
+                <view class="img-item"  wx:for="{{$petform$uploadform$imgArr}}" wx:key="wx:key">
+                    <view class="img-del" bindtap="$petform$uploadform$del" data-wpydel-a="{{index}}"><image src="../images/close.png"/></view>
+                    <image class="img" mode="aspectFit" src="{{item}}"/>
+                </view>
+                <!-- <view class="img-item">
+                    <view class="img-del" bindtap="del(index,item)"><image src="../image/close.png"></image></view>
+                    <image mode="aspectFit" src="../images/pic1.jpg"></image>
+                </view> -->
+                <view class="img-item img-item-add" bindtap="$petform$uploadform$chooseImage">
+                    <image src="../images/upload-add.png"/>
+                </view>
+            </view>
+        </view>
+    </view>
+
     </view>
 
             <!-- 教育培训 -->
@@ -544,11 +586,11 @@
         </view>
         <view class="lable-control">
             <text>培训费用: <text class="label-require">*</text></text>
-            <input type="number" placeholder="请输入价格(单位元)" maxlength="20" placeholder-class="input-placeholder" value="{{$eduform$price}}"/>
+            <input type="digit" placeholder="请输入价格(单位:元/人)" maxlength="10" placeholder-class="input-placeholder" value="{{$eduform$price}}" bindinput="$eduform$priceChange"/>
         </view>
         <view class="lable-control">
             <text>培训地点: <text class="label-require">*</text></text>
-            <input type="text" placeholder="请输入培训地址" maxlength="20" placeholder-class="input-placeholder" value="{{$eduform$address}}"/>
+            <input type="text" placeholder="请输入培训地址" maxlength="20" placeholder-class="input-placeholder" value="{{$eduform$address}}" bindinput="$eduform$addressChange"/>
         </view>
 
         <view class="lable-control-list">
@@ -556,11 +598,32 @@
                 <text>培训内容: <text class="label-small">(请分条例填写，点右侧添加条例)</text></text>
                 <view><image src="../images/add-item.png" bindtap="$eduform$addItem" data-wpyadditem-a=""/></view>
             </view>
-            <view class="label-add"  wx:for="{{$eduform$eduInfoArr}}" wx:key="">
+            <view class="label-add"  wx:for="{{$eduform$eduInfoArr}}" wx:key="wx:key">
                 <input type="text" placeholder="请分条输入相关内容" maxlength="150" placeholder-class="input-placeholder" value="{{item}}" bindinput="$eduform$itemInput" data-wpyiteminput-a="{{index}}"/>
                 <view wx:if="{{index>0}}" bindtap="$eduform$deleteItem" data-wpydeleteitem-a="{{index}}"><image src="../images/delete-item.png"/></view>
             </view>
         </view>
+        <view class="publish-notice">培训环境展示</view>
+        
+    <view class="img-container">
+        <view class="img-tips">最多上传6张图片(建议尺寸 750 * 560)</view>
+        <view class="img-warp">
+            <view class="img-box">
+                <view class="img-item"  wx:for="{{$eduform$uploadform$imgArr}}" wx:key="wx:key">
+                    <view class="img-del" bindtap="$eduform$uploadform$del" data-wpydel-a="{{index}}"><image src="../images/close.png"/></view>
+                    <image class="img" mode="aspectFit" src="{{item}}"/>
+                </view>
+                <!-- <view class="img-item">
+                    <view class="img-del" bindtap="del(index,item)"><image src="../image/close.png"></image></view>
+                    <image mode="aspectFit" src="../images/pic1.jpg"></image>
+                </view> -->
+                <view class="img-item img-item-add" bindtap="$eduform$uploadform$chooseImage">
+                    <image src="../images/upload-add.png"/>
+                </view>
+            </view>
+        </view>
+    </view>
+
     </view>
 
             <!-- 其他消息 -->
@@ -571,11 +634,32 @@
                 <text>描述信息: <text class="label-require">*</text><text class="label-small">(请分条例填写，点右侧添加条例)</text></text>
                 <view><image src="../images/add-item.png" bindtap="$otherform$addItem" data-wpyadditem-a=""/></view>
             </view>
-            <view class="label-add"  wx:for="{{$otherform$otherInfoArr}}" wx:key="">
+            <view class="label-add"  wx:for="{{$otherform$otherInfoArr}}" wx:key="wx:key">
                 <input type="text" placeholder="请分条输入相关内容" maxlength="150" placeholder-class="input-placeholder" value="{{item}}" bindinput="$otherform$itemInput" data-wpyiteminput-a="{{index}}"/>
                 <view wx:if="{{index>0}}" bindtap="$otherform$deleteItem" data-wpydeleteitem-a="{{index}}"><image src="../images/delete-item.png"/></view>
             </view>
         </view>
+        <view class="publish-notice">上传图片</view>
+        
+    <view class="img-container">
+        <view class="img-tips">最多上传6张图片(建议尺寸 750 * 560)</view>
+        <view class="img-warp">
+            <view class="img-box">
+                <view class="img-item"  wx:for="{{$otherform$uploadform$imgArr}}" wx:key="wx:key">
+                    <view class="img-del" bindtap="$otherform$uploadform$del" data-wpydel-a="{{index}}"><image src="../images/close.png"/></view>
+                    <image class="img" mode="aspectFit" src="{{item}}"/>
+                </view>
+                <!-- <view class="img-item">
+                    <view class="img-del" bindtap="del(index,item)"><image src="../image/close.png"></image></view>
+                    <image mode="aspectFit" src="../images/pic1.jpg"></image>
+                </view> -->
+                <view class="img-item img-item-add" bindtap="$otherform$uploadform$chooseImage">
+                    <image src="../images/upload-add.png"/>
+                </view>
+            </view>
+        </view>
+    </view>
+
     </view>
 
         </view>

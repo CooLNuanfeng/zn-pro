@@ -39,6 +39,22 @@ module.exports = {
     }
   },
   plugins: {
+      uglifyjs: {
+        filter: /\.js$/,
+        config: {
+        }
+      },
+      imagemin: {
+        filter: /\.(jpg|png|jpeg)$/,
+        config: {
+          jpg: {
+            quality: 80
+          },
+          png: {
+            quality: 80
+          }
+        }
+      }
   },
   appConfig: {
     noPromiseAPI: ['createSelectorQuery']

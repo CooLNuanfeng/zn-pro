@@ -94,17 +94,14 @@
             <!-- 美食推荐 -->
             <view hidden="{{categoryType == 'food' ? false: true}}" class="food-box mt20">
                 <view class="item-rule">
-                    <view><text>人均: </text>50元</view>
-                    <view><text>特色: </text>XXXXXXXXX</view>
-                    <view><text>地址: </text>XXXXXXXXX</view>
+                    <view><text>人均: </text><text class="text-red">￥{{content.price}}元/人</text></view>
+                    <view><text>特色: </text>{{content.features}}</view>
+                    <view><text>地址: </text>{{content.address}}</view>
                 </view>
                 <view class="item-flex pd20">
                     <view class="item-title">美食推荐描述</view>
                     <view class="item-text">
-                        <view>1、离开家阿卡丽地方实际付款了</view>
-                        <view>2、离开家阿卡丽地方实际付的灯光都是改款了</view>
-                        <view>3、离开家阿卡丽地方实际付款了</view>
-                        <view>4、离开家阿卡丽地方实际付的灯光都是改款了</view>
+                        <view wx:for="{{content.foodInfoArr}}" wx:key><text>•</text>{{item}}</view>
                     </view>
                 </view>
             </view>
@@ -112,19 +109,21 @@
             <!-- 相亲交友 -->
             <view hidden="{{categoryType == 'friend' ? false: true}}" class="friend-box mt20">
                 <view class="item-rule">
-                    <view><text>微信: </text>xxxxx</view>
-                    <view><text>QQ: </text>XXXXXXXXX</view>
-                    <view><text>地址: </text>XXXXXXXXX</view>
+                    <view><text>微信: </text>{{content.wechartnumber}}</view>
+                    <view><text>QQ: </text>{{content.qqnumber}}</view>
+                    <view><text>地址: </text>{{content.address}}</view>
                 </view>
                 <view class="item-flex pd20">
                     <view class="item-title">交友描述</view>
                     <view class="item-text">
                         <view class="item-sub-title">关于我：</view>
-                        <view>1、离开家阿卡丽地方实际付款了</view>
-                        <view>2、离开家阿卡丽地方实际付的灯光都是改款了</view>
+                        <view wx:for="{{content.aboutMeArr}}" wx:key>
+                            <text>•</text>{{item}}
+                        </view>
                         <view class="item-sub-title">希望ta：</view>
-                        <view>3、离开家阿卡丽地方实际付款了</view>
-                        <view>4、离开家阿卡丽地方实际付的灯光都是改款了</view>
+                        <view wx:for="{{content.hopeTaArr}}" wx:key>
+                            <text>•</text>{{item}}
+                        </view>
                     </view>
                 </view>
             </view>
@@ -132,17 +131,16 @@
             <!-- 宠物 -->
             <view hidden="{{categoryType == 'pet' ? false: true}}" class="pet-box mt20">
                 <view class="item-rule">
-                    <view><text>价格: </text>免费</view>
-                    <view><text>类别: </text>xxxxx</view>
-                    <view><text>年龄: </text>1年</view>
+                    <view><text>价格: </text><text class="text-red">￥{{content.price}}元/只</text></view>
+                    <view><text>类别: </text>{{content.category}}</view>
+                    <view><text>年龄: </text>{{content.age}}</view>
                 </view>
                 <view class="item-flex pd20">
                     <view class="item-title">宠物描述信息</view>
                     <view class="item-text">
-                        <view>1、离开家阿卡丽地方实际付款了</view>
-                        <view>2、离开家阿卡丽地方实际付的灯光都是改款了</view>
-                        <view>3、离开家阿卡丽地方实际付款了</view>
-                        <view>4、离开家阿卡丽地方实际付的灯光都是改款了</view>
+                        <view wx:for="{{content.petInfoArr}}" wx:key>
+                            <text>•</text>{{item}}
+                        </view>
                     </view>
                 </view>
             </view>
@@ -165,18 +163,15 @@
             <!-- 教育培训 -->
             <view hidden="{{categoryType == 'edu' ? false: true}}" class="edu-box mt20">
                 <view class="item-rule">
-                    <view><text>开始时间: </text>2017-10-10</view>
-                    <view><text>结束时间: </text>2017-10-10</view>
-                    <view><text>培训费用: </text>XXXXXX</view>
-                    <view><text>培训地点: </text>XXXXXX</view>
+                    <view><text>开始时间: </text>{{content.startDate}}</view>
+                    <view><text>结束时间: </text>{{content.endDate}}</view>
+                    <view><text>培训费用: </text><text class="text-red">￥{{content.price}}元/人</text></view>
+                    <view><text>培训地点: </text>{{content.address}}</view>
                 </view>
                 <view class="item-flex pd20">
                     <view class="item-title">培训内容描述</view>
                     <view class="item-text">
-                        <view>1、离开家阿卡丽地方实际付款了</view>
-                        <view>2、离开家阿卡丽地方实际付的灯光都是改款了</view>
-                        <view>3、离开家阿卡丽地方实际付款了</view>
-                        <view>4、离开家阿卡丽地方实际付的灯光都是改款了</view>
+                        <view wx:for="{{content.eduInfoArr}}" wx:key><text>•</text>{{item}}</view>
                     </view>
                 </view>
             </view>
@@ -187,10 +182,7 @@
                 <view class="item-flex pd20">
                     <view class="item-title">相关描述</view>
                     <view class="item-text">
-                        <view>1、离开家阿卡丽地方实际付款了</view>
-                        <view>2、离开家阿卡丽地方实际付的灯光都是改款了</view>
-                        <view>3、离开家阿卡丽地方实际付款了</view>
-                        <view>4、离开家阿卡丽地方实际付的灯光都是改款了</view>
+                        <view wx:for="{{content.otherInfoArr}}" wx:key><text>•</text>{{item}}</view>
                     </view>
                 </view>
             </view>

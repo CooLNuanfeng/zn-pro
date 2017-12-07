@@ -33,6 +33,9 @@
                           <view class="item-price">
                               <text wx:if="{{item.type == 'job'}}" class="price">￥<text class="price-number">{{item.formdata.jobprice}}</text>元起/月</text>
                               <text wx:elif="{{item.type == 'home'}}" class="price">￥<text class="price-number">{{item.formdata.price}}</text>{{item.formdata.typeJson.type==0? '元/月':'万元'}}</text>
+                              <text wx:elif="{{item.type == 'car'}}" class="price">￥<text class="price-number">{{item.formdata.price}}</text>万元</text>
+                              <text wx:elif="{{item.type == 'food'||item.type == 'edu'}}" class="price">￥<text class="price-number">{{item.formdata.price}}</text>元/人</text>
+                              <text wx:elif="{{item.type == 'pet'}}" class="price">￥<text class="price-number">{{item.formdata.price}}</text>元/只</text>
                               <text wx:else></text>
                               <text class="pub-time">{{item.updatedAt}}</text>
                           </view>
@@ -73,7 +76,7 @@
 
   export default class Index extends wepy.page {
       config = {
-          // enablePullDownRefresh : true
+          enablePullDownRefresh : true
       };
       components = {
           'location' : Location,
@@ -119,9 +122,9 @@
               }
           },100);
       };
-      // onPullDownRefresh(){
-      //     this.fetch();
-      // };
+      onPullDownRefresh(){
+          this.fetch();
+      };
       fetch(){
           var vm = this;
           var query = new AV.Query('NewsList');

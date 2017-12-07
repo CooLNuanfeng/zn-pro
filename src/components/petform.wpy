@@ -2,11 +2,11 @@
     <view class="car-form">
         <view class="lable-control">
             <text>类别: <text class="label-require">*</text></text>
-            <input type="text" placeholder="请输入宠物类别(如：金毛)" maxlength="50" placeholder-class="input-placeholder" value="{{category}}">
+            <input type="text" placeholder="请输入宠物类别(如：金毛)" maxlength="10" placeholder-class="input-placeholder" value="{{category}}" @input="categoryChange">
         </view>
         <view class="lable-control">
             <text>价格: <text class="label-require">*</text></text>
-            <input type="number" placeholder="请输入价格(单位为元)" maxlength="10" placeholder-class="input-placeholder" value="{{price}}">
+            <input type="digit" placeholder="请输入价格 (单位:元/只)" maxlength="10" placeholder-class="input-placeholder" value="{{price}}" @input="priceChange">
         </view>
         <view class="lable-control">
             <text>年龄: <text class="label-require">*</text></text>
@@ -27,11 +27,14 @@
                 <view wx:if="{{index>0}}" @tap="deleteItem({{index}})"><image src="../images/delete-item.png"></image></view>
             </view>
         </view>
+        <view class="publish-notice">萌宠照片</view>
+        <uploadform @uploadEnd.user="uploadChange" @uploadDel.user="uploadChange"></uploadform>
     </view>
 </template>
 
 <script>
 import wepy from 'wepy';
+import imgUploadForm from './imgupload';
 
 export default class FindForm  extends wepy.component{
     data = {
@@ -39,9 +42,19 @@ export default class FindForm  extends wepy.component{
         'price' : '',
         'petInfoArr' : [''],
         'ageIndex' : 0,
-        'age' : ['一个月','两个月','三个月','一年','两年','三年','三年以上']
+        'age' : ['一个月','两个月','三个月','一年','两年','三年','三年以上'],
+        'uploadImgs' : null,
+    };
+    components = {
+        'uploadform' : imgUploadForm
     };
     methods = {
+        categoryChange(evt){
+            this.category = evt.detail.value;
+        },
+        priceChange(evt){
+            this.price = evt.detail.value;
+        },
         ageChange(evt){
             this.ageIndex = evt.detail.value;
         },
@@ -53,13 +66,21 @@ export default class FindForm  extends wepy.component{
         },
         deleteItem(index){
             this.petInfoArr.splice(index,1);
+        },
+        uploadChange(imgs){
+            // console.log('upload change');
+            this.uploadImgs = imgs;
         }
     };
     events = {
-        fetch(){
+        petFetch(){
             var json = {};
-
-            this.$emit('getForm',json);
+            json.category = this.category;
+            json.price = this.price;
+            json.age = this.age[this.ageIndex];
+            json.petInfoArr = this.petInfoArr;
+            json.images = this.uploadImgs;
+            this.$emit('getPetForm',json);
         }
     };
     onLoad(){
@@ -70,7 +91,7 @@ export default class FindForm  extends wepy.component{
         var year = now.getFullYear();
         var month = now.getMonth() + 1;
         var day = now.getDate();
-        this.date = year + '-' + month + '-' +day;
+        this.date = year + '-' + this.$parent.$parent.toDouble(month) + '-' +this.$parent.$parent.toDouble(day);
     }
 }
 </script>

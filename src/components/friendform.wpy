@@ -2,22 +2,22 @@
     <view class="car-form">
         <view class="lable-control">
             <text>微信号:</text>
-            <input type="text" placeholder="请输入微信号" maxlength="20" placeholder-class="input-placeholder" value="{{wechartnumber}}">
+            <input type="text" placeholder="请输入微信号" maxlength="20" placeholder-class="input-placeholder" value="{{wechartnumber}}" @input="wxnumChange">
         </view>
         <view class="lable-control">
             <text>QQ号:</text>
-            <input type="text" placeholder="请输入QQ号" maxlength="20" placeholder-class="input-placeholder" value="{{qqnumber}}">
+            <input type="number" placeholder="请输入QQ号" maxlength="20" placeholder-class="input-placeholder" value="{{qqnumber}}" @input="qqnumChange">
         </view>
         <view class="lable-control">
             <text>地址: </text>
-            <input type="text" placeholder="请输入所在地址" maxlength="50" placeholder-class="input-placeholder" value="{{address}}">
+            <input type="text" placeholder="请输入所在地址" maxlength="50" placeholder-class="input-placeholder" value="{{address}}" @input="addressChange">
         </view>
         <view class="lable-control-list">
             <view class="label-flex">
                 <text>关于我: <text class="label-require">*</text><text class="label-small">(请分条例填写，点右侧添加条例)</text></text>
                 <view><image src="../images/add-item.png" @tap="addMeItem()"></image></view>
             </view>
-            <view class="label-add" wx:for="{{aboutMeArr}}" wx:key="">
+            <view class="label-add" wx:for="{{aboutMeArr}}" wx:key>
                 <input type="text" placeholder="请分条输入相关内容" maxlength="150" placeholder-class="input-placeholder" value="{{item}}" @input="itemMeInput({{index}})">
                 <view wx:if="{{index>0}}" @tap="deleteMeItem({{index}})"><image src="../images/delete-item.png"></image></view>
             </view>
@@ -27,16 +27,19 @@
                 <text>希望Ta: <text class="label-require">*</text><text class="label-small">(请分条例填写，点右侧添加条例)</text></text>
                 <view><image src="../images/add-item.png" @tap="addTaItem()"></image></view>
             </view>
-            <view class="label-add" wx:for="{{hopeTaArr}}" wx:key="">
+            <view class="label-add" wx:for="{{hopeTaArr}}" wx:key>
                 <input type="text" placeholder="请分条输入相关内容" maxlength="150" placeholder-class="input-placeholder" value="{{item}}" @input="itemTaInput({{index}})">
                 <view wx:if="{{index>0}}" @tap="deleteTaItem({{index}})"><image src="../images/delete-item.png"></image></view>
             </view>
         </view>
+        <view class="publish-notice">上传照片</view>
+        <uploadform @uploadEnd.user="uploadChange" @uploadDel.user="uploadChange"></uploadform>
     </view>
 </template>
 
 <script>
 import wepy from 'wepy';
+import imgUploadForm from './imgupload';
 
 export default class FriendForm  extends wepy.component{
     data = {
@@ -45,8 +48,21 @@ export default class FriendForm  extends wepy.component{
         'wechartnumber' : '',
         'aboutMeArr' : [''],
         'hopeTaArr' : [''],
+        'uploadImgs' : null,
+    };
+    components = {
+        'uploadform' : imgUploadForm
     };
     methods = {
+        wxnumChange(evt){
+            this.wechartnumber = evt.detail.value;
+        },
+        qqnumChange(evt){
+            this.qqnumber = evt.detail.value;
+        },
+        addressChange(evt){
+            this.address = evt.detail.value;
+        },
         addMeItem(){
             this.aboutMeArr.push('');
         },
@@ -64,13 +80,22 @@ export default class FriendForm  extends wepy.component{
         },
         deleteTaItem(index){
             this.hopeTaArr.splice(index,1);
+        },
+        uploadChange(imgs){
+            // console.log('upload change');
+            this.uploadImgs = imgs;
         }
     };
     events = {
-        fetch(){
+        friendFetch(){
             var json = {};
-
-            this.$emit('getForm',json);
+            json.wechartnumber = this.wechartnumber;
+            json.qqnumber = this.qqnumber;
+            json.address = this.address;
+            json.aboutMeArr = this.aboutMeArr;
+            json.hopeTaArr = this.hopeTaArr;
+            json.images = this.uploadImgs;
+            this.$emit('getFriendForm',json);
         }
     };
 }
