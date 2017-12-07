@@ -78,18 +78,15 @@
             <!-- 车辆交易 -->
             <view hidden="{{categoryType == 'car' ? false: true}}" class="car-box mt20">
                 <view class="item-rule">
-                    <view><text>出售价格: </text>50万</view>
-                    <view><text>上牌时间: </text>2017-10-20</view>
-                    <view><text>行驶里程: </text>1万公里</view>
-                    <view><text>年检到期: </text>2017-10-20</view>
+                    <view><text>出售价格: </text><text class="text-red">￥{{content.price}}万元</text></view>
+                    <view><text>上牌时间: </text>{{content.endDate}}</view>
+                    <view><text>行驶里程: </text>{{content.mileage}}万公里</view>
+                    <view><text>年检到期: </text>{{content.startDate}}</view>
                 </view>
                 <view class="item-flex pd20">
                     <view class="item-title">车辆信息</view>
                     <view class="item-text">
-                        <view>1、离开家阿卡丽地方实际付款了</view>
-                        <view>2、离开家阿卡丽地方实际付的灯光都是改款了</view>
-                        <view>3、离开家阿卡丽地方实际付款了</view>
-                        <view>4、离开家阿卡丽地方实际付的灯光都是改款了</view>
+                        <view wx:for="{{content.carInfoArr}}" wx:key><text>•</text>{{item}}</view>
                     </view>
                 </view>
             </view>
@@ -153,16 +150,13 @@
             <!-- 寻人寻物 -->
             <view hidden="{{categoryType == 'find' ? false: true}}" class="find-box mt20">
                 <view class="item-rule">
-                    <view><text>丢失时间: </text>2017-10-10</view>
-                    <view><text>丢失地点: </text>XXXXXX</view>
+                    <view><text>丢失时间: </text>{{content.date}}</view>
+                    <view><text>丢失地点: </text>{{content.address}}</view>
                 </view>
                 <view class="item-flex pd20">
-                    <view class="item-title">描述信息</view>
+                    <view class="item-title">附加信息</view>
                     <view class="item-text">
-                        <view>1、离开家阿卡丽地方实际付款了</view>
-                        <view>2、离开家阿卡丽地方实际付的灯光都是改款了</view>
-                        <view>3、离开家阿卡丽地方实际付款了</view>
-                        <view>4、离开家阿卡丽地方实际付的灯光都是改款了</view>
+                        <view wx:for="{{content.findInfoArr}}" wx:key><text>•</text>{{item}}</view>
                     </view>
                 </view>
             </view>

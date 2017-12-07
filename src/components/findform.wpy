@@ -11,11 +11,11 @@
         </view>
         <view class="lable-control">
             <text>丢失地点: <text class="label-require">*</text></text>
-            <input type="text" placeholder="请输入丢失地点" maxlength="50" placeholder-class="input-placeholder" value="{{address}}">
+            <input type="text" placeholder="请输入丢失地点" maxlength="50" placeholder-class="input-placeholder" value="{{address}}" @input="addressChange">
         </view>
         <view class="lable-control-list">
             <view class="label-flex">
-                <text>描述信息: <text class="label-small">(请分条例填写，点右侧添加条例)</text></text>
+                <text>附加信息: <text class="label-small">(请分条例填写，点右侧添加条例)</text></text>
                 <view><image src="../images/add-item.png" @tap="addItem()"></image></view>
             </view>
             <view class="label-add" wx:for="{{findInfoArr}}" wx:key="">
@@ -23,19 +23,29 @@
                 <view wx:if="{{index>0}}" @tap="deleteItem({{index}})"><image src="../images/delete-item.png"></image></view>
             </view>
         </view>
+        <view class="publish-notice">上传人/物图片</view>
+        <uploadform @uploadEnd.user="uploadChange" @uploadDel.user="uploadChange"></uploadform>
     </view>
 </template>
 
 <script>
 import wepy from 'wepy';
+import imgUploadForm from './imgupload';
 
 export default class FindForm  extends wepy.component{
     data = {
         'address' : '',
         'date' : '',
-        'findInfoArr' : ['']
+        'findInfoArr' : [''],
+        'uploadImgs' : null,
+    };
+    components = {
+        'uploadform' : imgUploadForm
     };
     methods = {
+        addressChange(evt){
+            this.address = evt.detail.value;
+        },
         dateChange(evt){
             this.date = evt.detail.value;
         },
@@ -47,13 +57,20 @@ export default class FindForm  extends wepy.component{
         },
         deleteItem(index){
             this.findInfoArr.splice(index,1);
+        },
+        uploadChange(imgs){
+            // console.log('upload change');
+            this.uploadImgs = imgs;
         }
     };
     events = {
-        fetch(){
+        findFetch(){
             var json = {};
-
-            this.$emit('getForm',json);
+            json.address = this.address;
+            json.date = this.date;
+            json.findInfoArr = this.findInfoArr;
+            json.images = this.uploadImgs;
+            this.$emit('getFindForm',json);
         }
     };
     onLoad(){
@@ -64,7 +81,7 @@ export default class FindForm  extends wepy.component{
         var year = now.getFullYear();
         var month = now.getMonth() + 1;
         var day = now.getDate();
-        this.date = year + '-' + month + '-' +day;
+        this.date = year + '-' + this.$parent.$parent.toDouble(month) + '-' +this.$parent.$parent.toDouble(day);
     }
 }
 </script>

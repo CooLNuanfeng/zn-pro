@@ -177,7 +177,7 @@ export default class Publish extends wepy.page {
                   vm.saveData(data);
               }
             }, (error) => {
-              console.log('error: ' + error);
+                  console.log('error: ' + error);
             },{
                 region: 'ECN',
                 uptoken: uploadToken
@@ -256,6 +256,16 @@ export default class Publish extends wepy.page {
                     break;
                 case 'home':
                     json = this.checkHomeForm();
+                    break;
+                case 'car':
+                    json = this.checkCarForm();
+                    break;
+                case 'find':
+                    json = this.checkFindForm();
+                    break;
+                case 'food':
+                    json = this.checkFoodForm();
+                    break;
             }
         }else{
             this.$invoke('toast', 'show', {
@@ -353,6 +363,55 @@ export default class Publish extends wepy.page {
         if(!homeData.price){
             json.flag = false;
             json.info = '请填写房屋价格';
+            return json;
+        }
+        return json;
+    }
+    checkCarForm(){
+        var json = {
+            flag : true,
+            info : ''
+        };
+        var carData = this.formdata;
+        if(!carData.price){
+            json.flag = false;
+            json.info = '请填写车辆价格';
+            return json;
+        }
+        if(!carData.mileage){
+            json.flag = false;
+            json.info = '请填写行驶里程';
+            return json;
+        }
+        return json;
+    }
+    checkFindForm(){
+        var json = {
+            flag : true,
+            info : ''
+        };
+        var findData = this.formdata;
+        if(!findData.address){
+            json.flag = false;
+            json.info = '请填写丢失地点';
+            return json;
+        }
+        return json;
+    }
+    checkFoodForm(){
+        var json = {
+            flag : true,
+            info : ''
+        };
+        var foodData = this.formdata;
+        if(!foodData.price){
+            json.flag = false;
+            json.info = '请填写人均消费';
+            return json;
+        }
+        if(!foodData.address){
+            json.flag = false;
+            json.info = '请填写美食地点';
             return json;
         }
         return json;

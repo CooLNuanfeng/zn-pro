@@ -2,40 +2,56 @@
     <view class="car-form">
         <view class="lable-control">
             <text>人均: <text class="label-require">*</text></text>
-            <input type="number" placeholder="请输入人均消费(单位元/人)" maxlength="10" placeholder-class="input-placeholder" value="{{price}}">
+            <input type="digit" placeholder="请输入人均消费 (单位:元/人)" maxlength="8" placeholder-class="input-placeholder" value="{{price}}" @input="priceChange">
         </view>
         <view class="lable-control">
             <text>特色: </text>
-            <input type="text" placeholder="请输入特色推荐" maxlength="50" placeholder-class="input-placeholder" value="{{features}}">
+            <input type="text" placeholder="请输入特色推荐" maxlength="50" placeholder-class="input-placeholder" value="{{features}}" @input="feaChange">
         </view>
         <view class="lable-control">
             <text>地址: <text class="label-require">*</text></text>
-            <input type="text" placeholder="请输入地址" maxlength="50" placeholder-class="input-placeholder" value="{{address}}">
+            <input type="text" placeholder="请输入地址" maxlength="50" placeholder-class="input-placeholder" value="{{address}}" @input="addressChange">
         </view>
         <view class="lable-control-list">
             <view class="label-flex">
                 <text>推荐描述: <text class="label-small">(请分条例填写，点右侧添加条例)</text></text>
                 <view><image src="../images/add-item.png" @tap="addItem()"></image></view>
             </view>
-            <view class="label-add" wx:for="{{foodInfoArr}}" wx:key="">
+            <view class="label-add" wx:for="{{foodInfoArr}}" wx:key>
                 <input type="text" placeholder="请分条输入相关内容" maxlength="150" placeholder-class="input-placeholder" value="{{item}}" @input="itemInput({{index}})">
                 <view wx:if="{{index>0}}" @tap="deleteItem({{index}})"><image src="../images/delete-item.png"></image></view>
             </view>
         </view>
+        <view class="publish-notice">图片展示</view>
+        <uploadform @uploadEnd.user="uploadChange" @uploadDel.user="uploadChange"></uploadform>
     </view>
 </template>
 
 <script>
 import wepy from 'wepy';
+import imgUploadForm from './imgupload';
 
 export default class FindForm  extends wepy.component{
     data = {
         'price': '',
         'address' : '',
         'features' : '',
-        'foodInfoArr' : ['']
+        'foodInfoArr' : [''],
+        'uploadImgs' : null,
+    };
+    components = {
+        'uploadform' : imgUploadForm
     };
     methods = {
+        priceChange(evt){
+            this.price = evt.detail.value;
+        },
+        feaChange(evt){
+            this.features = evt.detail.value;
+        },
+        addressChange(evt){
+            this.address = evt.detail.value;
+        },
         addItem(){
             this.foodInfoArr.push('');
         },
@@ -44,13 +60,21 @@ export default class FindForm  extends wepy.component{
         },
         deleteItem(index){
             this.foodInfoArr.splice(index,1);
+        },
+        uploadChange(imgs){
+            // console.log('upload change');
+            this.uploadImgs = imgs;
         }
     };
     events = {
-        fetch(){
+        foodFetch(){
             var json = {};
-
-            this.$emit('getForm',json);
+            json.price = this.price;
+            json.address = this.address;
+            json.features = this.features;
+            json.foodInfoArr = this.foodInfoArr;
+            json.images = this.uploadImgs;
+            this.$emit('getFoodForm',json);
         }
     };
 }

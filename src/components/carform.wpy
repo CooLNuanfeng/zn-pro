@@ -2,7 +2,7 @@
     <view class="car-form">
         <view class="lable-control">
             <text>出售价格: <text class="label-require">*</text></text>
-            <input type="digit" placeholder="请输入价格 (单位:万元)" maxlength="10" placeholder-class="input-placeholder" value="{{price}}" @input="priceChange">
+            <input type="digit" placeholder="请输入价格 (单位:万元)" maxlength="8" placeholder-class="input-placeholder" value="{{price}}" @input="priceChange">
         </view>
         <view class="lable-control">
             <text>上牌时间: <text class="label-require">*</text></text>
@@ -15,7 +15,7 @@
         </view>
         <view class="lable-control">
             <text>行驶里程: <text class="label-require">*</text></text>
-            <input type="digit" placeholder="请输入行驶里程 (单位:万公里)" maxlength="20" placeholder-class="input-placeholder" value="{{mileage}}" @input="mileChange">
+            <input type="digit" placeholder="请输入行驶里程 (单位:万公里)" maxlength="10" placeholder-class="input-placeholder" value="{{mileage}}" @input="mileChange">
         </view>
         <view hidden="{{typeIndex}}" class="lable-control">
             <text>年检到期: <text class="label-require">*</text></text>
@@ -31,7 +31,7 @@
                 <text>车辆介绍: <text class="label-small">(请分条例填写，点右侧添加条例)</text></text>
                 <view><image src="../images/add-item.png" @tap="addItem()"></image></view>
             </view>
-            <view class="label-add" wx:for="{{carInfoArr}}" wx:key="">
+            <view class="label-add" wx:for="{{carInfoArr}}" wx:key>
                 <input type="text" placeholder="请分条输入相关内容" maxlength="150" placeholder-class="input-placeholder" value="{{item}}" @input="itemInput({{index}})">
                 <view wx:if="{{index>0}}" @tap="deleteItem({{index}})"><image src="../images/delete-item.png"></image></view>
             </view>
@@ -58,6 +58,12 @@ export default class CarForm  extends wepy.component{
         'uploadform' : imgUploadForm
     };
     methods = {
+        priceChange(evt){
+            this.price = evt.detail.value;
+        },
+        mileChange(evt){
+            this.mileage = evt.detail.value;
+        },
         startdateChange(evt){
             this.startDate = evt.detail.value;
         },
@@ -81,7 +87,12 @@ export default class CarForm  extends wepy.component{
     events = {
         carFetch(){
             var json = {};
-
+            json.price = this.price;
+            json.mileage = this.mileage;
+            json.endDate = this.endDate;
+            json.startDate = this.startDate;
+            json.carInfoArr = this.carInfoArr;
+            json.images = this.uploadImgs;
             this.$emit('getCarForm',json);
         }
     };
@@ -93,8 +104,8 @@ export default class CarForm  extends wepy.component{
         var year = now.getFullYear();
         var month = now.getMonth() + 1;
         // var day = now.getDate();
-        this.startDate = year + '-' + month;
-        this.endDate = year + '-' + month;
+        this.startDate = year + '-' + this.$parent.$parent.toDouble(month);
+        this.endDate = year + '-' + this.$parent.$parent.toDouble(month);
     }
 }
 </script>

@@ -13,7 +13,7 @@
 
 <script>
 import wepy from 'wepy'
-export default class Swiper  extends wepy.component{
+export default class Swiper extends wepy.component{
     data = {
         dots : false,
         autoplay : false

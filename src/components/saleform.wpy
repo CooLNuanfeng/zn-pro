@@ -146,15 +146,15 @@ export default class SaleForm  extends wepy.component{
         var year = oDate.getFullYear();
         var month = oDate.getMonth() + 1;
         var day = oDate.getDate();
-        return year + '-' + this.toDouble(month) + '-' + this.toDouble(day);
+        return year + '-' + this.$parent.$parent.toDouble(month) + '-' + this.$parent.$parent.toDouble(day);
     };
-    toDouble(number){
-        if(number<10){
-            return '0'+number;
-        }else{
-            return number;
-        }
-    }
+    // toDouble(number){
+    //     if(number<10){
+    //         return '0'+number;
+    //     }else{
+    //         return number;
+    //     }
+    // }
 }
 </script>
 

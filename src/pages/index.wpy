@@ -227,7 +227,7 @@
     color: $gray;
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-end;
     text{
         flex: 1;
         @include text-overflow(1);
@@ -239,8 +239,9 @@
 }
 .item-price{
     display: flex;
+    height: 30rpx;
     justify-content: space-between;
-    align-items: flex-end;
+    align-items: center;
 }
 .price{
     font-size: 26rpx;
