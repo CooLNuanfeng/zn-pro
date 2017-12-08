@@ -1,12 +1,20 @@
 <template>
     <view class="list-contaier">
-        <view class="list-flex" @tap="goDetail('{id:1,typ:job}')">
-            <view class="list-title"><text>图</text>距离可垃圾地方李经理卡机法律框架拉动房价看了监考老师放假了是就发即可拉伸减肥的爱是理解对方考虑</view>
+        <view wx:for="{{lists}}" wx:key class="list-flex" @tap="goDetail('{id:1,typ:job}')">
+            <view class="list-title"><text wx:if="{{item.formdata.images}}">图</text>{{item.title}}</view>
             <view class="list-body">
                 <view class="list-info">
-                    <view>简单 方便 快捷</view>
-                    <view class="list-price">￥<text>1234</text>元</view>
-                    <view class="list-time"><text>发布者: 小程序</text> <text>2017-10-20</text></view>
+                    <view>{{item.subtitle}}</view>
+                    <!-- <view class="list-price">￥<text>1234</text>元</view> -->
+                    <view wx:if="{{item.type == 'job'}}" class="list-price"> ￥{{item.formdata.jobprice}}元起/月</view>
+                    <view wx:elif="{{item.type == 'home'}}" class="list-price">￥{{item.formdata.price}}{{item.formdata.typeJson.type==0? '元/月':'万元'}}</view>
+                    <view wx:elif="{{item.type == 'car'}}" class="list-price">￥{{item.formdata.price}}万元</view>
+                    <view wx:elif="{{item.type == 'food'||item.type == 'edu'}}" class="list-price">￥{{item.formdata.price}}元/人</view>
+                    <view wx:elif="{{item.type == 'pet'}}" class="list-price">￥{{item.formdata.price}}元/只</view>
+                    <view class="list-time">
+                        <text>发布者: {{item.nickname}}</text>
+                        <text>{{item.updatedAt}}</text>
+                    </view>
                 </view>
                 <view class="list-btn">
                     <view><image src="../images/{{themeimg}}add-care.png"></image> 关注 </view>
@@ -14,7 +22,7 @@
                 </view>
             </view>
         </view>
-        <view class="list-flex">
+        <!-- <view class="list-flex">
             <view class="list-title"><text>图</text>距离可垃圾地方李经理卡机法律框架拉动房价看了监考老师放假了是就发即可拉伸减肥的爱是理解对方考虑</view>
             <view class="list-body">
                 <view class="list-info">
@@ -29,21 +37,7 @@
                     <view><image src="../images/{{themeimg}}phone.png"></image> 电话</view>
                 </view>
             </view>
-        </view>
-        <view class="list-flex">
-            <view class="list-title"><text>图</text>距离可垃圾地方李经理卡机法律框架拉动房价看了监考老师放假了是就发即可拉伸减肥的爱是理解对方考虑</view>
-            <view class="list-body">
-                <view class="list-info">
-                    <view>简单 方便 快捷</view>
-                    <view class="list-price">￥<text>1234</text>元</view>
-                    <view class="list-time"><text>发布者: 小程序</text> <text>2017-10-20</text></view>
-                </view>
-                <view class="list-btn">
-                    <view><image src="../images/{{themeimg}}add-care.png"></image> 关注 </view>
-                    <view><image src="../images/{{themeimg}}phone.png"></image> 电话</view>
-                </view>
-            </view>
-        </view>
+        </view>-->
     </view>
 </template>
 
@@ -52,6 +46,9 @@ import wepy from 'wepy';
 export default class ListNews extends wepy.component{
     data = {
         themeimg : ''
+    }
+    props = {
+        lists : Array
     }
     methods = {
         goDetail(params){
@@ -116,8 +113,8 @@ export default class ListNews extends wepy.component{
         text{
             flex: 1;
             @include text-overflow(1);
-            &:first-child{
-                flex: 2
+            &:last-child{
+                text-align: right;
             }
         }
     }

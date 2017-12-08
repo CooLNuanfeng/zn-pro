@@ -13,65 +13,60 @@
           
     <view class="grids">
         <view class="grids-flex">
-            <view class="grids-item" bindtap="$gird$tap" data-wpytap-a="job">
-                <image src="../images/{{$gird$themeimg}}job.png"/>
-                <text>招聘信息</text>
+            <view  wx:for="{{$gird$gridsArr}}" wx:if="{{index<5}}" wx:key="wx:key" class="grids-item" bindtap="$gird$tap" data-wpytap-a="{{item.type}}">
+                <image src="../images/{{$gird$themeimg}}{{item.type}}.png"/>
+                <text>{{item.name}}</text>
             </view>
-            <view class="grids-item" bindtap="$gird$tap" data-wpytap-a="sale">
-                <image src="../images/{{$gird$themeimg}}sale.png"/>
+            <!-- <view class="grids-item" bindtap="tap('sale')">
+                <image src="../images/{{themeimg}}sale.png"></image>
                 <text>打折促销</text>
             </view>
-            <view class="grids-item" bindtap="$gird$tap" data-wpytap-a="home">
-                <image src="../images/{{$gird$themeimg}}home.png"/>
+            <view class="grids-item" bindtap="tap('home')">
+                <image src="../images/{{themeimg}}home.png"></image>
                 <text>房屋租售</text>
             </view>
-            <view class="grids-item" bindtap="$gird$tap" data-wpytap-a="car">
-                <image src="../images/{{$gird$themeimg}}car.png"/>
+            <view class="grids-item" bindtap="tap('car')">
+                <image src="../images/{{themeimg}}car.png"></image>
                 <text>车辆交易</text>
             </view>
-            <view class="grids-item" bindtap="$gird$tap" data-wpytap-a="find">
-                <image src="../images/{{$gird$themeimg}}find.png"/>
+            <view class="grids-item" bindtap="tap('find')">
+                <image src="../images/{{themeimg}}find.png"></image>
                 <text>寻人寻物</text>
-            </view>
+            </view> -->
         </view>
         <view class="grids-flex">
-            <view class="grids-item" bindtap="$gird$tap" data-wpytap-a="food">
-                <image src="../images/{{$gird$themeimg}}food.png"/>
-                <text>美食推荐</text>
+            <view  wx:for="{{$gird$gridsArr}}" wx:if="{{index>4}}" wx:key="wx:key" class="grids-item" bindtap="$gird$tap" data-wpytap-a="{{item.type}}">
+                <image src="../images/{{$gird$themeimg}}{{item.type}}.png"/>
+                <text>{{item.name}}</text>
             </view>
-            <view class="grids-item" bindtap="$gird$tap" data-wpytap-a="friend">
-                <image src="../images/{{$gird$themeimg}}friend.png"/>
+            <!-- <view class="grids-item" bindtap="tap('friend')">
+                <image src="../images/{{themeimg}}friend.png"></image>
                 <text>相亲交友</text>
             </view>
-            <view class="grids-item" bindtap="$gird$tap" data-wpytap-a="pet">
-                <image src="../images/{{$gird$themeimg}}pet.png"/>
+            <view class="grids-item" bindtap="tap('pet')">
+                <image src="../images/{{themeimg}}pet.png"></image>
                 <text>宠物领养</text>
             </view>
-            <view class="grids-item" bindtap="$gird$tap" data-wpytap-a="edu">
-                <image src="../images/{{$gird$themeimg}}edu.png"/>
+            <view class="grids-item" bindtap="tap('edu')">
+                <image src="../images/{{themeimg}}edu.png"></image>
                 <text>教育培训</text>
             </view>
-            <view class="grids-item" bindtap="$gird$tap" data-wpytap-a="other">
-                <image src="../images/{{$gird$themeimg}}other.png"/>
+            <view class="grids-item" bindtap="tap('other')">
+                <image src="../images/{{themeimg}}other.png"></image>
                 <text>其他消息</text>
-            </view>
+            </view> -->
         </view>
     </view>
 
           <view class="index-container">
               <view class="index-title">最新发布</view>
-              
-   <view class="loading">
-       <view hidden="{{!$vLoading$loading}}">加载中...</view>
-       <view hidden="{{$vLoading$loading || !$vLoading$loadend}}">我也是有底线的~</view>
-   </view>
-
               <view class="index-list" hidden="{{loading}}">
                   <view class="index-flex" bindtap="goDetail"  wx:for="{{listData}}" wx:key="wx:key" data-wpygodetail-a="{{item}}">
                       <view class="item-img">
                           <image src="../images/{{themeimg}}{{item.type}}.png"/>
                           <text wx:if="{{item.type=='home'}}">{{item.formdata.typeJson.type==0? '房屋出租':'房屋出售'}}</text>
-                          <text wx:elif="{{item.type=='job'}}">职位招聘</text>
+                          <text wx:else>{{item.typename}}</text>
+                          <!-- <text wx:elif="{{item.type=='job'}}">职位招聘</text>
                           <text wx:elif="{{item.type=='sale'}}">打折促销</text>
                           <text wx:elif="{{item.type=='car'}}">车辆交易</text>
                           <text wx:elif="{{item.type=='find'}}">寻人寻物</text>
@@ -79,7 +74,7 @@
                           <text wx:elif="{{item.type=='friend'}}">相亲交友</text>
                           <text wx:elif="{{item.type=='pet'}}">宠物领养</text>
                           <text wx:elif="{{item.type=='edu'}}">教育培训</text>
-                          <text wx:elif="{{item.type=='other'}}">其他消息</text>
+                          <text wx:elif="{{item.type=='other'}}">其他消息</text> -->
                       </view>
                       <view class="item-info">
                           <view class="item-title">
@@ -113,6 +108,12 @@
                       </view>
                   </view> -->
               </view>
+              
+   <view class="loading">
+       <view hidden="{{!$vLoading$loading}}">加载中...</view>
+       <view hidden="{{$vLoading$loading || !$vLoading$loadend}}">我也是有底线的~</view>
+   </view>
+
           </view>
       </view>
       

@@ -1,48 +1,48 @@
 
-    <view class="category">
-        <view class="category-title">
-            <view class="title-l"><text>当前：</text> 招聘信息</view>
-            <view class="title-r active"><image src="../images/arrow.png"/></view>
-        </view>
-        <view class="category-grid">
-            <view class="active">招聘信息</view>
-            <view>打折促销</view>
-            <view>房屋租售</view>
-            <view>车辆交易</view>
-            <view>寻人寻物</view>
-            <view>美食推荐</view>
-            <view>相亲交友</view>
-            <view>宠物领养</view>
-            <view>教育培训</view>
-            <view>其他消息</view>
-        </view>
-        
+    <view class="container">
+        <view class="warp category">
+            <view class="category-title">
+                <view class="title-l"><text>当前：</text> 招聘信息</view>
+                <view class="title-r {{!slideUp?'active':''}}"><image src="../images/arrow.png" bindtap="slideChange"/></view>
+            </view>
+            <view hidden="{{slideUp}}" class="category-grid">
+                <view class="{{curTab=='job'?'active':''}}" bindtap="tabChange" data-wpytabchange-a="job">招聘信息</view>
+                <view class="{{curTab=='sale'?'active':''}}" bindtap="tabChange" data-wpytabchange-a="sale">打折促销</view>
+                <view class="{{curTab=='home'?'active':''}}" bindtap="tabChange" data-wpytabchange-a="home">房屋租售</view>
+                <view class="{{curTab=='car'?'active':''}}" bindtap="tabChange" data-wpytabchange-a="car">车辆交易</view>
+                <view class="{{curTab=='find'?'active':''}}" bindtap="tabChange" data-wpytabchange-a="find">寻人寻物</view>
+                <view class="{{curTab=='food'?'active':''}}" bindtap="tabChange" data-wpytabchange-a="food">美食推荐</view>
+                <view class="{{curTab=='friend'?'active':''}}" bindtap="tabChange" data-wpytabchange-a="friend">相亲交友</view>
+                <view class="{{curTab=='pet'?'active':''}}" bindtap="tabChange" data-wpytabchange-a="pet">宠物领养</view>
+                <view class="{{curTab=='edu'?'active':''}}" bindtap="tabChange" data-wpytabchange-a="edu">教育培训</view>
+                <view class="{{curTab=='other'?'active':''}}" bindtap="tabChange" data-wpytabchange-a="other">其他消息</view>
+            </view>
+            <view class="category-nav"  wx:if="{{navlist}}">
+                
     <scroll-view scroll-x class="nav-container">
-        <view class="active">全 部</view>
-        <view>餐饮/酒店</view>
-        <view>销售/客服</view>
-        <view>物业/安保</view>
-        <view>教育/培训</view>
-        <view>行政/人事</view>
-        <view>超市/零售</view>
-        <view>美发/按摩</view>
-        <view>技工/普工</view>
-        <view>物流/仓储</view>
-        <view>化工/能源</view>
-        <view>服装/纺织</view>
-        <view>电气/机械</view>
-        <view>建筑/房产</view>
+        <view class="{{$navBar$current == 'all'? 'active':''}}" bindtap="$navBar$change" data-wpychange-a="all">全 部</view>
+        <view  wx:for="{{$navBar$navlist}}" wx:key="wx:key" class="{{$navBar$current == item.name ? 'active':''}}" bindtap="$navBar$change" data-wpychange-a="{{item}}">{{item.name}}</view>
     </scroll-view>
 
-        
-    <view class="list-contaier">
-        <view class="list-flex" bindtap="$newsList$goDetail" data-wpygodetail-a="{id:1,typ:job}">
-            <view class="list-title"><text>图</text>距离可垃圾地方李经理卡机法律框架拉动房价看了监考老师放假了是就发即可拉伸减肥的爱是理解对方考虑</view>
+            </view>
+            <view class="category-body {{navlist?'category-body-pt':''}}">
+                
+    <view class="list-contaier" hidden="{{loading}}">
+        <view  wx:for="{{$newsList$lists}}" wx:key="wx:key" class="list-flex" bindtap="$newsList$goDetail" data-wpygodetail-a="{id:1,typ:job}">
+            <view class="list-title"><text wx:if="{{item.formdata.images}}">图</text>{{item.title}}</view>
             <view class="list-body">
                 <view class="list-info">
-                    <view>简单 方便 快捷</view>
-                    <view class="list-price">￥<text>1234</text>元</view>
-                    <view class="list-time"><text>发布者: 小程序</text> <text>2017-10-20</text></view>
+                    <view>{{item.subtitle}}</view>
+                    <!-- <view class="list-price">￥<text>1234</text>元</view> -->
+                    <view wx:if="{{item.type == 'job'}}" class="list-price"> ￥{{item.formdata.jobprice}}元起/月</view>
+                    <view wx:elif="{{item.type == 'home'}}" class="list-price">￥{{item.formdata.price}}{{item.formdata.typeJson.type==0? '元/月':'万元'}}</view>
+                    <view wx:elif="{{item.type == 'car'}}" class="list-price">￥{{item.formdata.price}}万元</view>
+                    <view wx:elif="{{item.type == 'food'||item.type == 'edu'}}" class="list-price">￥{{item.formdata.price}}元/人</view>
+                    <view wx:elif="{{item.type == 'pet'}}" class="list-price">￥{{item.formdata.price}}元/只</view>
+                    <view class="list-time">
+                        <text>发布者: {{item.nickname}}</text>
+                        <text>{{item.updatedAt}}</text>
+                    </view>
                 </view>
                 <view class="list-btn">
                     <view><image src="../images/{{$newsList$themeimg}}add-care.png"/> 关注 </view>
@@ -50,7 +50,7 @@
                 </view>
             </view>
         </view>
-        <view class="list-flex">
+        <!-- <view class="list-flex">
             <view class="list-title"><text>图</text>距离可垃圾地方李经理卡机法律框架拉动房价看了监考老师放假了是就发即可拉伸减肥的爱是理解对方考虑</view>
             <view class="list-body">
                 <view class="list-info">
@@ -62,30 +62,24 @@
                     </view>
                 </view>
                 <view class="list-btn">
-                    <view><image src="../images/{{$newsList$themeimg}}phone.png"/> 电话</view>
+                    <view><image src="../images/{{themeimg}}phone.png"></image> 电话</view>
                 </view>
             </view>
-        </view>
-        <view class="list-flex">
-            <view class="list-title"><text>图</text>距离可垃圾地方李经理卡机法律框架拉动房价看了监考老师放假了是就发即可拉伸减肥的爱是理解对方考虑</view>
-            <view class="list-body">
-                <view class="list-info">
-                    <view>简单 方便 快捷</view>
-                    <view class="list-price">￥<text>1234</text>元</view>
-                    <view class="list-time"><text>发布者: 小程序</text> <text>2017-10-20</text></view>
-                </view>
-                <view class="list-btn">
-                    <view><image src="../images/{{$newsList$themeimg}}add-care.png"/> 关注 </view>
-                    <view><image src="../images/{{$newsList$themeimg}}phone.png"/> 电话</view>
-                </view>
-            </view>
-        </view>
+        </view>-->
     </view>
 
-        
+            </view>
+            
    <view class="loading">
        <view hidden="{{!$vLoading$loading}}">加载中...</view>
        <view hidden="{{$vLoading$loading || !$vLoading$loadend}}">我也是有底线的~</view>
    </view>
+
+        </view>
+        
+    <view class="footer">欢迎来到 {{$footer$cityname}}</view>
+
+        
+    <view hidden="{{$toast$hidden}}" class="{{!$toast$load ? 'toast':'toast load'}}">{{$toast$infoObj.message}}</view>
 
     </view>

@@ -1,24 +1,32 @@
 <template>
-    <view class="category">
-        <view class="category-title">
-            <view class="title-l"><text>当前：</text> 招聘信息</view>
-            <view class="title-r active"><image src="../images/arrow.png"></image></view>
+    <view class="container">
+        <view class="warp category">
+            <view class="category-title">
+                <view class="title-l"><text>当前：</text> 招聘信息</view>
+                <view class="title-r {{!slideUp?'active':''}}"><image src="../images/arrow.png" @tap="slideChange"></image></view>
+            </view>
+            <view hidden="{{slideUp}}" class="category-grid">
+                <view class="{{curTab=='job'?'active':''}}" @tap="tabChange('job')">招聘信息</view>
+                <view class="{{curTab=='sale'?'active':''}}" @tap="tabChange('sale')">打折促销</view>
+                <view class="{{curTab=='home'?'active':''}}" @tap="tabChange('home')">房屋租售</view>
+                <view class="{{curTab=='car'?'active':''}}" @tap="tabChange('car')">车辆交易</view>
+                <view class="{{curTab=='find'?'active':''}}" @tap="tabChange('find')">寻人寻物</view>
+                <view class="{{curTab=='food'?'active':''}}" @tap="tabChange('food')">美食推荐</view>
+                <view class="{{curTab=='friend'?'active':''}}" @tap="tabChange('friend')">相亲交友</view>
+                <view class="{{curTab=='pet'?'active':''}}" @tap="tabChange('pet')">宠物领养</view>
+                <view class="{{curTab=='edu'?'active':''}}" @tap="tabChange('edu')">教育培训</view>
+                <view class="{{curTab=='other'?'active':''}}" @tap="tabChange('other')">其他消息</view>
+            </view>
+            <view class="category-nav" wx:if="{{navlist}}">
+                <nav-bar :navlist.sync="navlist"></nav-bar>
+            </view>
+            <view class="category-body {{navlist?'category-body-pt':''}}">
+                <news-list hidden="{{loading}}" :lists.sync="listData"></news-list>
+            </view>
+            <v-loading :loading.sync="loading" :loadend.sync="loadend"></v-loading>
         </view>
-        <view class="category-grid">
-            <view class="active">招聘信息</view>
-            <view>打折促销</view>
-            <view>房屋租售</view>
-            <view>车辆交易</view>
-            <view>寻人寻物</view>
-            <view>美食推荐</view>
-            <view>相亲交友</view>
-            <view>宠物领养</view>
-            <view>教育培训</view>
-            <view>其他消息</view>
-        </view>
-        <nav-bar></nav-bar>
-        <news-list></news-list>
-        <v-loading :loading="loading" :loadend="loadend"></v-loading>
+        <footer/>
+        <toast></toast>
     </view>
 </template>
 
@@ -26,30 +34,136 @@
 import wepy from 'wepy';
 import NavBar from '../components/navbar';
 import ListNews from '../components/listnews';
+import Footer from '../components/footer'
 import Loading from '../components/loading';
+import Toast from '../components/toast';
+
+
+import AV from '../utils/av-weapp-min.js';
 
 export default class Category extends wepy.page {
-    config = {};
+    config = {
+        // onReachBottomDistance : 100
+    };
     components = {
         'nav-bar' : NavBar,
         'news-list': ListNews,
-        'v-loading': Loading
+        'footer' : Footer,
+        'v-loading': Loading,
+        'toast' : Toast
     }
     data = {
-        loading : true,
-        loadend : false
+        curname : '',
+        curTab : '',
+        curType : null,
+        slideUp : true,
+        loading : false,
+        loadend : false,
+        navlist : null,
+        listData: null,
     }
     onLoad(options) {
-        console.log('onLoad',options.id);
+        this.curTab = options.id;
+        this.fetch();
     };
+    // onReachBottom(){
+    //     console.log('aaaa');
+    // };
+    methods = {
+        slideChange(){
+            this.slideUp = !this.slideUp;
+        },
+        tabChange(type){
+            this.curTab = type;
+            this.slideUp = !this.slideUp;
+            this.fetch();
+        }
+    };
+    events = {
+        navChange(params){
+            console.log(params,'from child');
+        }
+    }
+    fetch(){
+        var vm = this;
+        var query = new AV.Query('NewsList');
+        vm.loading = true;
+        query.equalTo('type',vm.curTab);
+        query.descending('updatedAt');
+        query.limit(50);
+        query.find().then(function(data){
+            vm.loading = false;
+            vm.makeParam(data);
+        }).catch(function(err){
+            console.log(err);
+            vm.loading = false;
+            vm.$invoke('toast', 'show', {
+                message: '服务异常，请稍后重试',
+            });
+            vm.$apply();
+        });
+    }
+    filterList(){
+
+    }
+    makeParam(data){
+        var len = data.length;
+        var arr = [];
+        for(let i=0; i<len; i++){
+            let json = data[i].attributes;
+            json.id = data[i].id;
+            json.updatedAt = this.$parent.timeFormate(data[i].updatedAt);
+            arr.push(json);
+        }
+        if(this.curTab == 'job' || this.curTab == 'sale' || this.curTab == 'home'){
+            this.curType = 'all';
+            this.makeNavlist(data);
+        }else{
+            this.navlist = null;
+        }
+        this.listData = arr;
+        this.$apply();
+    }
+    makeNavlist(data){
+        var type = this.curTab;
+        var obj = {},len = data.length,jsonType,arr=[];
+        switch (type) {
+            case 'job':
+                jsonType = 'jobType';
+                break;
+            case 'sale':
+                jsonType = 'saleJson';
+                break;
+            case 'home':
+                jsonType = 'typeJson';
+                break;
+        }
+        for(let i=0; i<len; i++){
+            var hasown = false;
+            let json = data[i].attributes.formdata[jsonType];
+            if(!arr.length){
+                arr.push(json);
+            }else{
+                for(let j=0; j<arr.length; j++){
+                    if(arr[j].name == json.name){
+                        hasown = true;
+                    }
+                }
+                if(!hasown){
+                    arr.push(json);
+                }
+            }
+        }
+        this.navlist = arr;
+        console.log(this.navlist,'object assign');
+    }
 }
 </script>
 
 <style lang="scss">
 @import "../sass/_mixin.scss";
-$height : 60rpx;
 .category{
-    padding-top: $height;
+    padding-top: 60rpx;
 }
 .category-title{
     position: fixed;
@@ -59,10 +173,17 @@ $height : 60rpx;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    height: $height;
+    height: 60rpx;
     padding: 0 20rpx;
     background: #fff;
-    border-bottom: 1rpx solid #ebebeb;
+    // border-bottom: 1rpx solid #ebebeb;
+    z-index: 5;
+}
+.category-nav{
+    position: fixed;
+    top: 60rpx;
+    left: 0;
+    right: 0;
     z-index: 5;
 }
 .title-l{
@@ -97,14 +218,14 @@ $height : 60rpx;
     }
 }
 .category-grid{
-    display: none;
     position: fixed;
-    top: $height;
+    top: 60rpx;
     left: 0;
     right: 0;
-    padding: 10rpx 0;
-    z-index: 5;
+    padding: 10rpx 0 15rpx;
+    z-index: 10;
     background: #fff;
+    box-shadow: 0 5rpx 5rpx rgba(0,0,0,.2);
     view{
         width: 20%;
         height: 40rpx;
@@ -117,5 +238,11 @@ $height : 60rpx;
             color: $themeColor;
         }
     }
+}
+.category-body{
+
+}
+.category-body-pt{
+    padding-top: 80rpx;
 }
 </style>

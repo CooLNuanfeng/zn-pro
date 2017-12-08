@@ -76,6 +76,18 @@ export default class extends wepy.app {
     cityid : myConfig.cityid,
     themeimg : myConfig.themeimg,
     domain : 'https://oyo2k3vrc.bkt.clouddn.com',
+    gridsArr : [
+        {"type":"job","name":"招聘信息"},
+        {"type":"sale","name":"打折促销"},
+        {"type":"home","name":"房屋租售"},
+        {"type":"car","name":"车辆交易"},
+        {"type":"find","name":"寻人寻物"},
+        {"type":"food","name":"美食推荐"},
+        {"type":"friend","name":"相亲交友"},
+        {"type":"pet","name":"宠物领养"},
+        {"type":"edu","name":"教育培训"},
+        {"type":"other","name":"其他消息"},
+    ],
     refresh : false, //是否刷新
   }
 

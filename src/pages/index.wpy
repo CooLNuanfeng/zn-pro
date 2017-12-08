@@ -5,13 +5,13 @@
           <gird></gird>
           <view class="index-container">
               <view class="index-title">最新发布</view>
-              <v-loading :loading.sync="loading" :loadend.sync="loadend"></v-loading>
               <view class="index-list" hidden="{{loading}}">
                   <view class="index-flex" @tap="goDetail({{item}})" wx:for="{{listData}}" wx:key>
                       <view class="item-img">
                           <image src="../images/{{themeimg}}{{item.type}}.png"></image>
                           <text wx:if="{{item.type=='home'}}">{{item.formdata.typeJson.type==0? '房屋出租':'房屋出售'}}</text>
-                          <text wx:elif="{{item.type=='job'}}">职位招聘</text>
+                          <text wx:else>{{item.typename}}</text>
+                          <!-- <text wx:elif="{{item.type=='job'}}">职位招聘</text>
                           <text wx:elif="{{item.type=='sale'}}">打折促销</text>
                           <text wx:elif="{{item.type=='car'}}">车辆交易</text>
                           <text wx:elif="{{item.type=='find'}}">寻人寻物</text>
@@ -19,7 +19,7 @@
                           <text wx:elif="{{item.type=='friend'}}">相亲交友</text>
                           <text wx:elif="{{item.type=='pet'}}">宠物领养</text>
                           <text wx:elif="{{item.type=='edu'}}">教育培训</text>
-                          <text wx:elif="{{item.type=='other'}}">其他消息</text>
+                          <text wx:elif="{{item.type=='other'}}">其他消息</text> -->
                       </view>
                       <view class="item-info">
                           <view class="item-title">
@@ -53,6 +53,7 @@
                       </view>
                   </view> -->
               </view>
+              <v-loading :loading.sync="loading" :loadend.sync="loadend"></v-loading>
           </view>
       </view>
       <footer/>
@@ -86,6 +87,7 @@
           'v-loading' : Loading,
       };
       data = {
+          gridsArr : null,
           themeimg : '',
           listData : null,
           loading : false,
@@ -107,8 +109,25 @@
               });
           }
       };
+      computed = {
+          textTags(type){
+              console.log(type,'type');
+              var grids = this.gridsArr;
+              var str = '';
+              if(grids){
+                  for(var i=0; i<grids.length; i++){
+                      if(grids[i].type == type){
+                          str = grids[i].name;
+                          break;
+                      }
+                  }
+              }
+              return str;
+          }
+      }
       onLoad(){
           this.themeimg = this.$parent.globalData.themeimg;
+          this.gridsArr = this.$parent.globalData.gridsArr;
           this.fetch();
       };
       onShow(){
@@ -131,7 +150,7 @@
           var now = new Date();
           query.lessThanOrEqualTo('updatedAt', now);
           query.descending('updatedAt');
-          query.limit(30);
+          query.limit(50);
           vm.loading = true;
           query.find().then(function(data){
               vm.loading = false;
@@ -144,6 +163,7 @@
               vm.$invoke('toast', 'show', {
                   message: '服务异常，请稍后重试',
               });
+              vm.$apply();
           });
       };
       makeParam(data){

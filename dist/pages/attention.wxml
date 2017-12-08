@@ -2,20 +2,8 @@
     <view class="attention">
         
     <scroll-view scroll-x class="nav-container">
-        <view class="active">全 部</view>
-        <view>餐饮/酒店</view>
-        <view>销售/客服</view>
-        <view>物业/安保</view>
-        <view>教育/培训</view>
-        <view>行政/人事</view>
-        <view>超市/零售</view>
-        <view>美发/按摩</view>
-        <view>技工/普工</view>
-        <view>物流/仓储</view>
-        <view>化工/能源</view>
-        <view>服装/纺织</view>
-        <view>电气/机械</view>
-        <view>建筑/房产</view>
+        <view class="{{$navBar$current == 'all'? 'active':''}}" bindtap="$navBar$change" data-wpychange-a="all">全 部</view>
+        <view  wx:for="{{$navBar$navlist}}" wx:key="wx:key" class="{{$navBar$current == item.name ? 'active':''}}" bindtap="$navBar$change" data-wpychange-a="{{item}}">{{item.name}}</view>
     </scroll-view>
 
         <view class="attention-body">

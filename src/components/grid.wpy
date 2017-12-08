@@ -1,11 +1,11 @@
 <template>
     <view class="grids">
         <view class="grids-flex">
-            <view class="grids-item" @tap="tap('job')">
-                <image src="../images/{{themeimg}}job.png"></image>
-                <text>招聘信息</text>
+            <view wx:for="{{gridsArr}}" wx:if="{{index<5}}" wx:key class="grids-item" @tap="tap({{item.type}})">
+                <image src="../images/{{themeimg}}{{item.type}}.png"></image>
+                <text>{{item.name}}</text>
             </view>
-            <view class="grids-item" @tap="tap('sale')">
+            <!-- <view class="grids-item" @tap="tap('sale')">
                 <image src="../images/{{themeimg}}sale.png"></image>
                 <text>打折促销</text>
             </view>
@@ -20,14 +20,14 @@
             <view class="grids-item" @tap="tap('find')">
                 <image src="../images/{{themeimg}}find.png"></image>
                 <text>寻人寻物</text>
-            </view>
+            </view> -->
         </view>
         <view class="grids-flex">
-            <view class="grids-item" @tap="tap('food')">
-                <image src="../images/{{themeimg}}food.png"></image>
-                <text>美食推荐</text>
+            <view wx:for="{{gridsArr}}" wx:if="{{index>4}}" wx:key class="grids-item" @tap="tap({{item.type}})">
+                <image src="../images/{{themeimg}}{{item.type}}.png"></image>
+                <text>{{item.name}}</text>
             </view>
-            <view class="grids-item" @tap="tap('friend')">
+            <!-- <view class="grids-item" @tap="tap('friend')">
                 <image src="../images/{{themeimg}}friend.png"></image>
                 <text>相亲交友</text>
             </view>
@@ -42,7 +42,7 @@
             <view class="grids-item" @tap="tap('other')">
                 <image src="../images/{{themeimg}}other.png"></image>
                 <text>其他消息</text>
-            </view>
+            </view> -->
         </view>
     </view>
 </template>
@@ -52,7 +52,8 @@ import wepy from 'wepy';
 
 export default class Grid  extends wepy.component{
     data = {
-        themeimg : ''
+        themeimg : '',
+        gridsArr : null,
     };
     methods = {
         tap(params){
@@ -63,6 +64,7 @@ export default class Grid  extends wepy.component{
     };
     onLoad(){
          this.themeimg = this.$parent.$parent.globalData.themeimg;
+         this.gridsArr = this.$parent.$parent.globalData.gridsArr;
     }
 }
 </script>

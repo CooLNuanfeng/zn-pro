@@ -27,18 +27,21 @@
         <view class="publish-type">
             <view class="publish-notice">请选择发布所属分类</view>
             <view class="publish-tags">
-                <view class="{{type=='job'?'active':''}}" bindtap="tap" data-wpytap-a="job"><text>招聘信息</text></view>
-                <view class="{{type=='sale'?'active':''}}" bindtap="tap" data-wpytap-a="sale"><text>打折促销</text></view>
-                <view class="{{type=='home'?'active':''}}" bindtap="tap" data-wpytap-a="home"><text>房屋租售</text></view>
-                <view class="{{type=='car'?'active':''}}" bindtap="tap" data-wpytap-a="car"><text>车辆交易</text></view>
-                <view class="{{type=='find'?'active':''}}" bindtap="tap" data-wpytap-a="find"><text>寻人寻物</text></view>
+
+                <view  wx:for="{{gridsArr}}" wx:key="wx:key" wx:if="{{index<5}}" class="{{item.type==type?'active':''}}" bindtap="tap" data-wpytap-a="{{item}}"><text>{{item.name}}</text></view>
+                <!-- <view class="{{type=='job'?'active':''}}" bindtap="tap('job')"><text>招聘信息</text></view>
+                <view class="{{type=='sale'?'active':''}}" bindtap="tap('sale')"><text>打折促销</text></view>
+                <view class="{{type=='home'?'active':''}}" bindtap="tap('home')"><text>房屋租售</text></view>
+                <view class="{{type=='car'?'active':''}}" bindtap="tap('car')"><text>车辆交易</text></view>
+                <view class="{{type=='find'?'active':''}}" bindtap="tap('find')"><text>寻人寻物</text></view> -->
             </view>
             <view class="publish-tags">
-                <view class="{{type=='food'?'active':''}}" bindtap="tap" data-wpytap-a="food"><text>美食推荐</text></view>
-                <view class="{{type=='friend'?'active':''}}" bindtap="tap" data-wpytap-a="friend"><text>相亲交友</text></view>
-                <view class="{{type=='pet'?'active':''}}" bindtap="tap" data-wpytap-a="pet"><text>宠物领养</text></view>
-                <view class="{{type=='edu'?'active':''}}" bindtap="tap" data-wpytap-a="edu"><text>教育培训</text></view>
-                <view class="{{type=='other'?'active':''}}" bindtap="tap" data-wpytap-a="other"><text>其他消息</text></view>
+                <view  wx:for="{{gridsArr}}" wx:key="wx:key" wx:if="{{index>4}}" class="{{item.type==type?'active':''}}" bindtap="tap" data-wpytap-a="{{item}}"><text>{{item.name}}</text></view>
+                <!-- <view class="{{type=='food'?'active':''}}" bindtap="tap('food')"><text>美食推荐</text></view>
+                <view class="{{type=='friend'?'active':''}}" bindtap="tap('friend')"><text>相亲交友</text></view>
+                <view class="{{type=='pet'?'active':''}}" bindtap="tap('pet')"><text>宠物领养</text></view>
+                <view class="{{type=='edu'?'active':''}}" bindtap="tap('edu')"><text>教育培训</text></view>
+                <view class="{{type=='other'?'active':''}}" bindtap="tap('other')"><text>其他消息</text></view> -->
             </view>
         </view>
         <view class="publish-form">

@@ -51,7 +51,7 @@ import imgUploadForm from './imgupload';
 
 export default class HomeForm  extends wepy.component{
     data = {
-        'typeIndex' : 0, // 0 表示出租 1表示出售
+        'typeIndex' : '0', // 0 表示出租 1表示出售
         'typeArr' : ['出租','出售'],
         'price' : '',
         'address' : '',

@@ -27,18 +27,21 @@
         <view class="publish-type">
             <view class="publish-notice">请选择发布所属分类</view>
             <view class="publish-tags">
-                <view class="{{type=='job'?'active':''}}" @tap="tap('job')"><text>招聘信息</text></view>
+
+                <view wx:for="{{gridsArr}}" wx:key wx:if="{{index<5}}" class="{{item.type==type?'active':''}}" @tap="tap({{item}})"><text>{{item.name}}</text></view>
+                <!-- <view class="{{type=='job'?'active':''}}" @tap="tap('job')"><text>招聘信息</text></view>
                 <view class="{{type=='sale'?'active':''}}" @tap="tap('sale')"><text>打折促销</text></view>
                 <view class="{{type=='home'?'active':''}}" @tap="tap('home')"><text>房屋租售</text></view>
                 <view class="{{type=='car'?'active':''}}" @tap="tap('car')"><text>车辆交易</text></view>
-                <view class="{{type=='find'?'active':''}}" @tap="tap('find')"><text>寻人寻物</text></view>
+                <view class="{{type=='find'?'active':''}}" @tap="tap('find')"><text>寻人寻物</text></view> -->
             </view>
             <view class="publish-tags">
-                <view class="{{type=='food'?'active':''}}" @tap="tap('food')"><text>美食推荐</text></view>
+                <view wx:for="{{gridsArr}}" wx:key wx:if="{{index>4}}" class="{{item.type==type?'active':''}}" @tap="tap({{item}})"><text>{{item.name}}</text></view>
+                <!-- <view class="{{type=='food'?'active':''}}" @tap="tap('food')"><text>美食推荐</text></view>
                 <view class="{{type=='friend'?'active':''}}" @tap="tap('friend')"><text>相亲交友</text></view>
                 <view class="{{type=='pet'?'active':''}}" @tap="tap('pet')"><text>宠物领养</text></view>
                 <view class="{{type=='edu'?'active':''}}" @tap="tap('edu')"><text>教育培训</text></view>
-                <view class="{{type=='other'?'active':''}}" @tap="tap('other')"><text>其他消息</text></view>
+                <view class="{{type=='other'?'active':''}}" @tap="tap('other')"><text>其他消息</text></view> -->
             </view>
         </view>
         <view class="publish-form">
@@ -105,11 +108,13 @@ const uploadToken = genToken('-2rQ7jMWwI1PHe_i8c60WOgx7isexE1SI-K5eSPx', 'uWkWvw
 export default class Publish extends wepy.page {
     data = {
         themeimg : '',
+        gridsArr : null,
         title : '', //require
         subtitle : '', //require
         phone : '', //require
         publishername : '',
         type : 'job', //require
+        typename : '职位招聘',
         formdata : null, //各个表单的信息
     }
     components = {
@@ -128,10 +133,12 @@ export default class Publish extends wepy.page {
     onLoad(){
         var vm = this;
         vm.themeimg = vm.$parent.globalData.themeimg;
+        vm.gridsArr = vm.$parent.globalData.gridsArr;
     }
     methods = {
-        tap(params){
-            this.type = params;
+        tap(item){
+            this.type = item.type;
+            this.typename = item.name;
         },
         getForm(data){
             this.formdata = data;
@@ -197,6 +204,7 @@ export default class Publish extends wepy.page {
         onelist.set('phone',data.phone);
         onelist.set('publishername',data.publishername);
         onelist.set('type',data.type);
+        onelist.set('typename',data.typename);
         onelist.set('formdata',data.formdata);
         onelist.save().then(function(list){
             vm.hideLoading();
@@ -223,6 +231,7 @@ export default class Publish extends wepy.page {
             publishername : vm.publishername,
             phone : vm.phone, //require
             type : vm.type, //require
+            typename : vm.typename, //分类名称
             formdata : vm.formdata, //表单的信息
         }
         vm.showLoading();

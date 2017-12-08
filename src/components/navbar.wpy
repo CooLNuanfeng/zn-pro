@@ -1,27 +1,33 @@
 <template>
     <scroll-view scroll-x class="nav-container">
-        <view class="active">全 部</view>
-        <view>餐饮/酒店</view>
-        <view>销售/客服</view>
-        <view>物业/安保</view>
-        <view>教育/培训</view>
-        <view>行政/人事</view>
-        <view>超市/零售</view>
-        <view>美发/按摩</view>
-        <view>技工/普工</view>
-        <view>物流/仓储</view>
-        <view>化工/能源</view>
-        <view>服装/纺织</view>
-        <view>电气/机械</view>
-        <view>建筑/房产</view>
+        <view class="{{current == 'all'? 'active':''}}" @tap="change('all')">全 部</view>
+        <view wx:for="{{navlist}}" wx:key class="{{current == item.name ? 'active':''}}" @tap="change({{item}})">{{item.name}}</view>
     </scroll-view>
 </template>
 
 <script>
 import wepy from 'wepy';
 
-export default class NavBar  extends wepy.component{
-
+export default class NavBar extends wepy.component{
+    data = {
+        current : 'all'
+    }
+    props = {
+        navlist : Array
+    };
+    onLoad(){
+        console.log(this.navlist,'nav');
+    }
+    methods = {
+        change(item){
+            if(item == 'all'){
+                this.current = 'all';
+            }else{
+                this.current = item.name;
+            }
+            this.$emit('navChange',item);
+        }
+    }
 }
 </script>
 
@@ -34,7 +40,7 @@ export default class NavBar  extends wepy.component{
     white-space: nowrap;
     padding: 15rpx 20rpx;
     background: #fff;
-    border-bottom: 1rpx solid #ebebeb;
+    // border-bottom: 1rpx solid #ebebeb;
     box-sizing: border-box;
     view{
         display: inline-flex;
