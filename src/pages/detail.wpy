@@ -242,6 +242,7 @@ export default class Detail extends wepy.page {
             vm.content = data.attributes.formdata;
             vm.phone = data.attributes.phone;
             vm.imgUrls = data.attributes.formdata.images;
+            vm.changeUserInfo();
             vm.$apply();
         }).catch(function(err){
             // console.log(err);
@@ -259,6 +260,9 @@ export default class Detail extends wepy.page {
               phoneNumber: this.phone
             })
         }
+    }
+    changeUserInfo(){
+        var userQuery = new AV.Query('UserInfo');
     }
 }
 </script>
