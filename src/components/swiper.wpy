@@ -24,8 +24,8 @@ export default class Swiper extends wepy.component{
     }
     watch = {
         imgUrls(newValue,oldValue){
-            console.log('newValue',newValue);
-            console.log('oldValue',oldValue);
+            // console.log('newValue',newValue);
+            // console.log('oldValue',oldValue);
             if(newValue && newValue.length>1){
                 this.dots = true;
                 this.autoplay = true;

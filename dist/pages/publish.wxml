@@ -300,6 +300,10 @@
             
     <view class="car-form" hidden="{{type == 'car'? false:true}}">
         <view class="lable-control">
+            <text>车辆型号: <text class="label-require">*</text></text>
+            <input type="text" placeholder="请输入车辆名称型号" maxlength="20" placeholder-class="input-placeholder" value="{{$carform$carname}}" bindinput="$carform$carNameChange"/>
+        </view>
+        <view class="lable-control">
             <text>出售价格: <text class="label-require">*</text></text>
             <input type="digit" placeholder="请输入价格 (单位:万元)" maxlength="8" placeholder-class="input-placeholder" value="{{$carform$price}}" bindinput="$carform$priceChange"/>
         </view>
@@ -631,7 +635,7 @@
 
             <!-- 其他消息 -->
             
-    <view class="car-form" hidden="{{type == 'other'? false:true}}">
+    <view class="other-form" hidden="{{type == 'other'? false:true}}">
         <view class="lable-control-list">
             <view class="label-flex">
                 <text>描述信息: <text class="label-require">*</text><text class="label-small">(请分条例填写，点右侧添加条例)</text></text>

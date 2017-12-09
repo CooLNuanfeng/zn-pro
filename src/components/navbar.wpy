@@ -16,7 +16,7 @@ export default class NavBar extends wepy.component{
         navlist : Array
     };
     onLoad(){
-        console.log(this.navlist,'nav');
+        // console.log(this.navlist,'nav');
     }
     methods = {
         change(item){

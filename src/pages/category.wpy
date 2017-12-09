@@ -2,11 +2,12 @@
     <view class="container">
         <view class="warp category">
             <view class="category-title">
-                <view class="title-l"><text>当前：</text> 招聘信息</view>
+                <view class="title-l"><text>当前：</text> {{curname}}</view>
                 <view class="title-r {{!slideUp?'active':''}}"><image src="../images/arrow.png" @tap="slideChange"></image></view>
             </view>
             <view hidden="{{slideUp}}" class="category-grid">
-                <view class="{{curTab=='job'?'active':''}}" @tap="tabChange('job')">招聘信息</view>
+                <view wx:for="{{gridsArr}}" wx:key class="{{curTab== item.type?'active':''}}" @tap="tabChange({{item.type}},{{item.name}})">{{item.name}}</view>
+                <!-- <view class="{{curTab=='job'?'active':''}}" @tap="tabChange('job')">招聘信息</view>
                 <view class="{{curTab=='sale'?'active':''}}" @tap="tabChange('sale')">打折促销</view>
                 <view class="{{curTab=='home'?'active':''}}" @tap="tabChange('home')">房屋租售</view>
                 <view class="{{curTab=='car'?'active':''}}" @tap="tabChange('car')">车辆交易</view>
@@ -15,7 +16,7 @@
                 <view class="{{curTab=='friend'?'active':''}}" @tap="tabChange('friend')">相亲交友</view>
                 <view class="{{curTab=='pet'?'active':''}}" @tap="tabChange('pet')">宠物领养</view>
                 <view class="{{curTab=='edu'?'active':''}}" @tap="tabChange('edu')">教育培训</view>
-                <view class="{{curTab=='other'?'active':''}}" @tap="tabChange('other')">其他消息</view>
+                <view class="{{curTab=='other'?'active':''}}" @tap="tabChange('other')">其他消息</view> -->
             </view>
             <view class="category-nav" wx:if="{{navlist}}">
                 <nav-bar :navlist.sync="navlist"></nav-bar>
@@ -53,6 +54,7 @@ export default class Category extends wepy.page {
         'toast' : Toast
     }
     data = {
+        gridsArr : null,
         curname : '',
         curTab : '',
         curType : null,
@@ -61,9 +63,12 @@ export default class Category extends wepy.page {
         loadend : false,
         navlist : null,
         listData: null,
+        allLists : null, //当前所有list
     }
     onLoad(options) {
         this.curTab = options.id;
+        this.curname = options.name;
+        this.gridsArr = this.$parent.globalData.gridsArr;
         this.fetch();
     };
     // onReachBottom(){
@@ -73,8 +78,9 @@ export default class Category extends wepy.page {
         slideChange(){
             this.slideUp = !this.slideUp;
         },
-        tabChange(type){
+        tabChange(type,name){
             this.curTab = type;
+            this.curname = name;
             this.slideUp = !this.slideUp;
             this.fetch();
         }
@@ -82,6 +88,7 @@ export default class Category extends wepy.page {
     events = {
         navChange(params){
             console.log(params,'from child');
+            this.filterList(params);
         }
     }
     fetch(){
@@ -103,8 +110,21 @@ export default class Category extends wepy.page {
             vm.$apply();
         });
     }
-    filterList(){
-
+    filterList(params){
+        console.log(params,'filter params',this.curTab);
+        var arr=[],lists = this.allLists, tab = this.curTab;
+        if(params == 'all'){
+            this.listData = this.allLists;
+            return;
+        }
+        if(this.curTab == 'job' || this.curTab == 'sale' || this.curTab == 'home'){
+            for(var i=0; i<lists.length; i++){
+                if(lists[i].formdata[tab+'Type'].id == params.id){
+                    arr.push(lists[i]);
+                }
+            }
+            this.listData = arr;
+        }
     }
     makeParam(data){
         var len = data.length;
@@ -122,25 +142,15 @@ export default class Category extends wepy.page {
             this.navlist = null;
         }
         this.listData = arr;
+        this.allLists = arr;
         this.$apply();
     }
     makeNavlist(data){
-        var type = this.curTab;
-        var obj = {},len = data.length,jsonType,arr=[];
-        switch (type) {
-            case 'job':
-                jsonType = 'jobType';
-                break;
-            case 'sale':
-                jsonType = 'saleJson';
-                break;
-            case 'home':
-                jsonType = 'typeJson';
-                break;
-        }
+        var tab = this.curTab;
+        var obj = {},len = data.length,arr=[];
         for(let i=0; i<len; i++){
             var hasown = false;
-            let json = data[i].attributes.formdata[jsonType];
+            let json = data[i].attributes.formdata[tab+'Type'];
             if(!arr.length){
                 arr.push(json);
             }else{
@@ -155,7 +165,7 @@ export default class Category extends wepy.page {
             }
         }
         this.navlist = arr;
-        console.log(this.navlist,'object assign');
+        // console.log(this.navlist,'object assign');
     }
 }
 </script>

@@ -1,7 +1,7 @@
 <template>
     <view class="grids">
         <view class="grids-flex">
-            <view wx:for="{{gridsArr}}" wx:if="{{index<5}}" wx:key class="grids-item" @tap="tap({{item.type}})">
+            <view wx:for="{{gridsArr}}" wx:if="{{index<5}}" wx:key class="grids-item" @tap="tap({{item.type}},{{item.name}})">
                 <image src="../images/{{themeimg}}{{item.type}}.png"></image>
                 <text>{{item.name}}</text>
             </view>
@@ -23,7 +23,7 @@
             </view> -->
         </view>
         <view class="grids-flex">
-            <view wx:for="{{gridsArr}}" wx:if="{{index>4}}" wx:key class="grids-item" @tap="tap({{item.type}})">
+            <view wx:for="{{gridsArr}}" wx:if="{{index>4}}" wx:key class="grids-item" @tap="tap({{item.type}},{{item.name}})">
                 <image src="../images/{{themeimg}}{{item.type}}.png"></image>
                 <text>{{item.name}}</text>
             </view>
@@ -56,9 +56,9 @@ export default class Grid  extends wepy.component{
         gridsArr : null,
     };
     methods = {
-        tap(params){
+        tap(params,name){
             wx.navigateTo({
-                url : 'category?id='+params
+                url : 'category?id='+params+'&name='+name
             });
         }
     };

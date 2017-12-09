@@ -394,6 +394,11 @@ export default class Publish extends wepy.page {
             info : ''
         };
         var carData = this.formdata;
+        if(!carData.carname){
+            json.flag = false;
+            json.info = '请填写车辆型号/名称';
+            return json;
+        }
         if(!carData.price){
             json.flag = false;
             json.info = '请填写车辆价格';

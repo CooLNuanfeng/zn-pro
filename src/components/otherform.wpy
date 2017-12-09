@@ -1,5 +1,5 @@
 <template>
-    <view class="car-form">
+    <view class="other-form">
         <view class="lable-control-list">
             <view class="label-flex">
                 <text>描述信息: <text class="label-require">*</text><text class="label-small">(请分条例填写，点右侧添加条例)</text></text>
@@ -21,7 +21,8 @@ import imgUploadForm from './imgupload';
 
 export default class OtherForm extends wepy.component{
     data = {
-        'otherInfoArr' : ['']
+        'otherInfoArr' : [''],
+        'uploadImgs' : null,
     };
     components = {
         'uploadform' : imgUploadForm

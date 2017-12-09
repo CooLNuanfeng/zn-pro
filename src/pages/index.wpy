@@ -6,7 +6,7 @@
           <view class="index-container">
               <view class="index-title">最新发布</view>
               <view class="index-list" hidden="{{loading}}">
-                  <view class="index-flex" @tap="goDetail({{item}})" wx:for="{{listData}}" wx:key>
+                  <view class="index-flex" @tap="goDetail({{item.id}})" wx:for="{{listData}}" wx:key>
                       <view class="item-img">
                           <image src="../images/{{themeimg}}{{item.type}}.png"></image>
                           <text wx:if="{{item.type=='home'}}">{{item.formdata.typeJson.type==0? '房屋出租':'房屋出售'}}</text>
@@ -93,9 +93,9 @@
           loading : false,
       };
       methods = {
-          goDetail(item){
+          goDetail(id){
               wx.navigateTo({
-                  url : 'detail?id='+item.id
+                  url : 'detail?id='+id
               });
           },
           publish(){
@@ -111,7 +111,7 @@
       };
       computed = {
           textTags(type){
-              console.log(type,'type');
+              // console.log(type,'type');
               var grids = this.gridsArr;
               var str = '';
               if(grids){

@@ -1,6 +1,10 @@
 <template>
     <view class="car-form">
         <view class="lable-control">
+            <text>车辆型号: <text class="label-require">*</text></text>
+            <input type="text" placeholder="请输入车辆名称型号" maxlength="20" placeholder-class="input-placeholder" value="{{carname}}" @input="carNameChange">
+        </view>
+        <view class="lable-control">
             <text>出售价格: <text class="label-require">*</text></text>
             <input type="digit" placeholder="请输入价格 (单位:万元)" maxlength="8" placeholder-class="input-placeholder" value="{{price}}" @input="priceChange">
         </view>
@@ -47,6 +51,7 @@ import imgUploadForm from './imgupload';
 
 export default class CarForm  extends wepy.component{
     data = {
+        'carname': '',
         'price' : '',
         'mileage' : '',
         'endDate' : '',
@@ -58,6 +63,9 @@ export default class CarForm  extends wepy.component{
         'uploadform' : imgUploadForm
     };
     methods = {
+        carNameChange(evt){
+            this.carname = evt.detail.value;
+        },
         priceChange(evt){
             this.price = evt.detail.value;
         },
@@ -87,6 +95,7 @@ export default class CarForm  extends wepy.component{
     events = {
         carFetch(){
             var json = {};
+            json.carname = this.carname;
             json.price = this.price;
             json.mileage = this.mileage;
             json.endDate = this.endDate;

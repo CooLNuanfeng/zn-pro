@@ -23,11 +23,11 @@
             <!-- 招聘信息  -->
             <view  wx:if="{{categoryType == 'job' ? true: false}}" class="job-box mt20">
                 <view class="item-rule">
-                    <view><text>职位: </text>{{content.jobname}}</view>
-                    <view><text>薪资: </text>{{content.jobprice}}元起/月</view>
-                    <view><text>要求: </text>{{content.eduType.name}}</view>
+                    <view><text>职位: </text> {{content.jobname}}</view>
+                    <view><text>薪资: </text><text class="text-red"> {{content.jobprice}}元起/月</text></view>
+                    <view><text>要求: </text> {{content.eduType.name}}</view>
                     <view><text>人数: </text> {{content.number}}人 </view>
-                    <view><text>地址: </text>{{content.address}}</view>
+                    <view><text>地址: </text> {{content.address}}</view>
                 </view>
                 <view class="job-desc pd20">
                     <view class="item-title">职位介绍</view>
@@ -43,11 +43,11 @@
                 <view class="job-desc pd20">
                     <view class="item-title">公司介绍</view>
                     <view class="job-company">
-                        <view>公司名称: {{content.companyName}}</view>
-                        <view>公司人数: {{content.companyNumber}}</view>
-                        <view>公司地址: {{content.address}}</view>
+                        <view><text>公司名称: </text> {{content.companyName}}</view>
+                        <view><text>公司人数:</text> {{content.companyNumber}}</view>
+                        <view><text>公司地址: </text> {{content.address}}</view>
+                        <view wx:if="{{content.companyInfo}}"><text>公司简介:</text> {{content.companyInfo}}</view>
                     </view>
-                    <view class="item-text" wx:if="{{content.companyInfo}}">{{content.companyInfo}}</view>
                 </view>
             </view>
 
@@ -58,7 +58,7 @@
                     <view><text>结束日期: </text> {{content.enddate}}</view>
                     <view><text>开始时间: </text> {{content.starttime}}</view>
                     <view><text>结束时间: </text> {{content.endtime}}</view>
-                    <view><text>活动类型: </text> {{content.saleJson.name}}</view>
+                    <view><text>活动类型: </text> {{content.saleType.name}}</view>
                     <view><text>活动地址: </text> {{content.address}}</view>
                 </view>
                 <view class="item-flex pd20">
@@ -72,7 +72,7 @@
             <!-- 房屋租售 -->
             <view wx:if="{{categoryType == 'home' ? true: false}}" class="house-box mt20">
                 <view class="item-rule">
-                    <view><text>户型: </text>{{content.homeJson.name}}</view>
+                    <view><text>户型: </text>{{content.homeType.name}}</view>
                     <view wx:if="{{content.typeJson.type == 0}}"><text>价格: </text><text class="text-red">￥{{content.price}}元/月</text></view>
                     <view wx:else><text>价格: </text><text class="text-red">￥{{content.price}}万元</text></view>
                     <view><text>地址: </text>{{content.address}}</view>
@@ -88,10 +88,11 @@
             <!-- 车辆交易 -->
             <view wx:if="{{categoryType == 'car' ? true: false}}" class="car-box mt20">
                 <view class="item-rule">
-                    <view><text>出售价格: </text><text class="text-red">￥{{content.price}}万元</text></view>
-                    <view><text>上牌时间: </text>{{content.endDate}}</view>
-                    <view><text>行驶里程: </text>{{content.mileage}}万公里</view>
-                    <view><text>年检到期: </text>{{content.startDate}}</view>
+                    <view><text>车辆型号: </text> {{content.carname}}</view>
+                    <view><text>出售价格: </text><text class="text-red"> ￥{{content.price}}万元</text></view>
+                    <view><text>上牌时间: </text> {{content.endDate}}</view>
+                    <view><text>行驶里程: </text> {{content.mileage}}万公里</view>
+                    <view><text>年检到期: </text> {{content.startDate}}</view>
                 </view>
                 <view class="item-flex pd20">
                     <view class="item-title">车辆信息</view>

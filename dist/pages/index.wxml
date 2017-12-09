@@ -13,7 +13,7 @@
           
     <view class="grids">
         <view class="grids-flex">
-            <view  wx:for="{{$gird$gridsArr}}" wx:if="{{index<5}}" wx:key="wx:key" class="grids-item" bindtap="$gird$tap" data-wpytap-a="{{item.type}}">
+            <view  wx:for="{{$gird$gridsArr}}" wx:if="{{index<5}}" wx:key="wx:key" class="grids-item" bindtap="$gird$tap" data-wpytap-a="{{item.type}}" data-wpytap-b="{{item.name}}">
                 <image src="../images/{{$gird$themeimg}}{{item.type}}.png"/>
                 <text>{{item.name}}</text>
             </view>
@@ -35,7 +35,7 @@
             </view> -->
         </view>
         <view class="grids-flex">
-            <view  wx:for="{{$gird$gridsArr}}" wx:if="{{index>4}}" wx:key="wx:key" class="grids-item" bindtap="$gird$tap" data-wpytap-a="{{item.type}}">
+            <view  wx:for="{{$gird$gridsArr}}" wx:if="{{index>4}}" wx:key="wx:key" class="grids-item" bindtap="$gird$tap" data-wpytap-a="{{item.type}}" data-wpytap-b="{{item.name}}">
                 <image src="../images/{{$gird$themeimg}}{{item.type}}.png"/>
                 <text>{{item.name}}</text>
             </view>
@@ -61,7 +61,7 @@
           <view class="index-container">
               <view class="index-title">最新发布</view>
               <view class="index-list" hidden="{{loading}}">
-                  <view class="index-flex" bindtap="goDetail"  wx:for="{{listData}}" wx:key="wx:key" data-wpygodetail-a="{{item}}">
+                  <view class="index-flex" bindtap="goDetail"  wx:for="{{listData}}" wx:key="wx:key" data-wpygodetail-a="{{item.id}}">
                       <view class="item-img">
                           <image src="../images/{{themeimg}}{{item.type}}.png"/>
                           <text wx:if="{{item.type=='home'}}">{{item.formdata.typeJson.type==0? '房屋出租':'房屋出售'}}</text>

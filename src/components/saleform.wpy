@@ -130,7 +130,7 @@ export default class SaleForm  extends wepy.component{
             json.starttime = this.starttime;
             json.endtime = this.endtime;
             json.address = this.address;
-            json.saleJson = this.saleJson[this.saleIndex];
+            json.saleType = this.saleJson[this.saleIndex];
             json.activityArr = this.activityArr;
             json.images = this.uploadImgs;
             this.$emit('getSaleForm',json);

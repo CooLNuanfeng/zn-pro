@@ -2,20 +2,21 @@
     <view class="container">
         <view class="warp category">
             <view class="category-title">
-                <view class="title-l"><text>当前：</text> 招聘信息</view>
+                <view class="title-l"><text>当前：</text> {{curname}}</view>
                 <view class="title-r {{!slideUp?'active':''}}"><image src="../images/arrow.png" bindtap="slideChange"/></view>
             </view>
             <view hidden="{{slideUp}}" class="category-grid">
-                <view class="{{curTab=='job'?'active':''}}" bindtap="tabChange" data-wpytabchange-a="job">招聘信息</view>
-                <view class="{{curTab=='sale'?'active':''}}" bindtap="tabChange" data-wpytabchange-a="sale">打折促销</view>
-                <view class="{{curTab=='home'?'active':''}}" bindtap="tabChange" data-wpytabchange-a="home">房屋租售</view>
-                <view class="{{curTab=='car'?'active':''}}" bindtap="tabChange" data-wpytabchange-a="car">车辆交易</view>
-                <view class="{{curTab=='find'?'active':''}}" bindtap="tabChange" data-wpytabchange-a="find">寻人寻物</view>
-                <view class="{{curTab=='food'?'active':''}}" bindtap="tabChange" data-wpytabchange-a="food">美食推荐</view>
-                <view class="{{curTab=='friend'?'active':''}}" bindtap="tabChange" data-wpytabchange-a="friend">相亲交友</view>
-                <view class="{{curTab=='pet'?'active':''}}" bindtap="tabChange" data-wpytabchange-a="pet">宠物领养</view>
-                <view class="{{curTab=='edu'?'active':''}}" bindtap="tabChange" data-wpytabchange-a="edu">教育培训</view>
-                <view class="{{curTab=='other'?'active':''}}" bindtap="tabChange" data-wpytabchange-a="other">其他消息</view>
+                <view  wx:for="{{gridsArr}}" wx:key="wx:key" class="{{curTab== item.type?'active':''}}" bindtap="tabChange" data-wpytabchange-a="{{item.type}}" data-wpytabchange-b="{{item.name}}">{{item.name}}</view>
+                <!-- <view class="{{curTab=='job'?'active':''}}" bindtap="tabChange('job')">招聘信息</view>
+                <view class="{{curTab=='sale'?'active':''}}" bindtap="tabChange('sale')">打折促销</view>
+                <view class="{{curTab=='home'?'active':''}}" bindtap="tabChange('home')">房屋租售</view>
+                <view class="{{curTab=='car'?'active':''}}" bindtap="tabChange('car')">车辆交易</view>
+                <view class="{{curTab=='find'?'active':''}}" bindtap="tabChange('find')">寻人寻物</view>
+                <view class="{{curTab=='food'?'active':''}}" bindtap="tabChange('food')">美食推荐</view>
+                <view class="{{curTab=='friend'?'active':''}}" bindtap="tabChange('friend')">相亲交友</view>
+                <view class="{{curTab=='pet'?'active':''}}" bindtap="tabChange('pet')">宠物领养</view>
+                <view class="{{curTab=='edu'?'active':''}}" bindtap="tabChange('edu')">教育培训</view>
+                <view class="{{curTab=='other'?'active':''}}" bindtap="tabChange('other')">其他消息</view> -->
             </view>
             <view class="category-nav"  wx:if="{{navlist}}">
                 
@@ -28,8 +29,12 @@
             <view class="category-body {{navlist?'category-body-pt':''}}">
                 
     <view class="list-contaier" hidden="{{loading}}">
-        <view  wx:for="{{$newsList$lists}}" wx:key="wx:key" class="list-flex" bindtap="$newsList$goDetail" data-wpygodetail-a="{id:1,typ:job}">
-            <view class="list-title"><text wx:if="{{item.formdata.images}}">图</text>{{item.title}}</view>
+        <view  wx:for="{{$newsList$lists}}" wx:key="wx:key" class="list-flex" bindtap="$newsList$goDetail" data-wpygodetail-a="{{item.id}}">
+            <view class="list-title">
+                <text class="list-tag" wx:if="{{item.formdata.images}}">图</text>
+                <text wx:if="{{item.type == 'home'}}">[{{item.formdata.typeJson.name}}]</text>
+                {{item.title}}
+            </view>
             <view class="list-body">
                 <view class="list-info">
                     <view>{{item.subtitle}}</view>
@@ -45,8 +50,8 @@
                     </view>
                 </view>
                 <view class="list-btn">
-                    <view><image src="../images/{{$newsList$themeimg}}add-care.png"/> 关注 </view>
-                    <view><image src="../images/{{$newsList$themeimg}}phone.png"/> 电话</view>
+                    <view catchtap="$newsList$doAttention" data-wpydoattention-a="{{item}}"><image src="../images/{{$newsList$themeimg}}add-care.png"/> 关注 </view>
+                    <view catchtap="$newsList$doPhone" data-wpydophone-a="{{item.phone}}"><image src="../images/{{$newsList$themeimg}}phone.png"/> 电话</view>
                 </view>
             </view>
         </view>

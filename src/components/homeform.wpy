@@ -109,7 +109,7 @@ export default class HomeForm  extends wepy.component{
             };
             json.address = this.address;
             json.price = this.price;
-            json.homeJson = this.homeJson[this.homeIndex];
+            json.homeType = this.homeJson[this.homeIndex];
             json.homeInfoArr = this.homeInfoArr;
             json.images = this.uploadImgs;
             this.$emit('getHomeForm',json);

@@ -1,7 +1,11 @@
 <template>
     <view class="list-contaier">
-        <view wx:for="{{lists}}" wx:key class="list-flex" @tap="goDetail('{id:1,typ:job}')">
-            <view class="list-title"><text wx:if="{{item.formdata.images}}">图</text>{{item.title}}</view>
+        <view wx:for="{{lists}}" wx:key class="list-flex" @tap="goDetail({{item.id}})">
+            <view class="list-title">
+                <text class="list-tag" wx:if="{{item.formdata.images}}">图</text>
+                <text wx:if="{{item.type == 'home'}}">[{{item.formdata.typeJson.name}}]</text>
+                {{item.title}}
+            </view>
             <view class="list-body">
                 <view class="list-info">
                     <view>{{item.subtitle}}</view>
@@ -17,8 +21,8 @@
                     </view>
                 </view>
                 <view class="list-btn">
-                    <view><image src="../images/{{themeimg}}add-care.png"></image> 关注 </view>
-                    <view><image src="../images/{{themeimg}}phone.png"></image> 电话</view>
+                    <view @tap.stop="doAttention({{item}})"><image src="../images/{{themeimg}}add-care.png"></image> 关注 </view>
+                    <view @tap.stop="doPhone({{item.phone}})"><image src="../images/{{themeimg}}phone.png"></image> 电话</view>
                 </view>
             </view>
         </view>
@@ -51,11 +55,18 @@ export default class ListNews extends wepy.component{
         lists : Array
     }
     methods = {
-        goDetail(params){
-            console.log(params);
+        goDetail(id){
             wx.navigateTo({
-                url : 'detail'
+                url : 'detail?id='+id
             });
+        },
+        doPhone(phone){
+            wx.makePhoneCall({
+              phoneNumber: phone
+          });
+        },
+        doAttention(item){
+            console.log('currid',item.id,item.uid);
         }
     };
     onLoad(){
@@ -83,11 +94,16 @@ export default class ListNews extends wepy.component{
     font-size: 30rpx;
     color: $fontBlack;
     @include text-overflow(2);
-    text{
-        margin-right: 10rpx;
+    .list-tag{
         padding: 0 5rpx;
+        margin-right: 5rpx;
         font-size: 22rpx;
         border: 1rpx solid $themeColor;
+        color: $themeColor;
+    }
+    text{
+        padding: 0 5rpx;
+        font-size: 22rpx;
         color: $themeColor;
     }
 }
