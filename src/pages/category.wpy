@@ -239,6 +239,7 @@ export default class Category extends wepy.page {
     view{
         width: 20%;
         height: 40rpx;
+        padding: 8rpx 0;
         display: inline-block;
         text-align: center;
         line-height: 40rpx;
@@ -246,6 +247,7 @@ export default class Category extends wepy.page {
         color: $fontBlack;
         &.active{
             color: $themeColor;
+            font-weight: bold;
         }
     }
 }
