@@ -107,10 +107,15 @@ export default class extends wepy.app {
     AV.User.loginWithWeapp().then(user => {
       this.globalData.userInfo = user.toJSON();
       console.log(user.toJSON());
+      vm.findUserInfo();
     }).catch(console.error);
 
   }
 
+  findUserInfo(){
+      var userQuery = new AV.Query('UserInfo');
+      console.log(this.globalData.userInfo.objectId,'uid');
+  }
 
   getUserInfo(cb) {
     const that = this;
