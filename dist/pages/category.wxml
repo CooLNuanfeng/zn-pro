@@ -50,7 +50,7 @@
                     </view>
                 </view>
                 <view class="list-btn">
-                    <view catchtap="$newsList$doAttention" data-wpydoattention-a="{{item}}"><image src="../images/{{$newsList$themeimg}}add-care.png"/> 关注 </view>
+                    <view catchtap="$newsList$doAttention" data-wpydoattention-a="{{item}}" data-wpydoattention-b="{{index}}"><image src="../images/{{$newsList$themeimg}}add-care.png"/>{{item.attentionStatus ? '已关注':'关注'}} </view>
                     <view catchtap="$newsList$doPhone" data-wpydophone-a="{{item.phone}}"><image src="../images/{{$newsList$themeimg}}phone.png"/> 电话</view>
                 </view>
             </view>

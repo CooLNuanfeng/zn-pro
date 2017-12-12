@@ -1,5 +1,5 @@
 
-    <view class="container detail-container">
+    <view  wx:if="{{onload}}" class="container detail-container">
         <view class="warp">
             
     <view class="swiper-container"  wx:if="{{$swiper$imgUrls}}">
@@ -21,7 +21,7 @@
                 </view>
             </view>
             <!-- 招聘信息  -->
-            <view  wx:if="{{categoryType == 'job' ? true: false}}" class="job-box mt20">
+            <view wx:if="{{categoryType == 'job' ? true: false}}" class="job-box mt20">
                 <view class="item-rule">
                     <view><text>职位: </text> {{content.jobname}}</view>
                     <view><text>薪资: </text><text class="text-red"> {{content.jobprice}}元起/月</text></view>
@@ -52,7 +52,7 @@
             </view>
 
             <!-- 打折促销 -->
-            <view  wx:if="{{categoryType == 'sale' ? true: false}}" class="sale-box mt20">
+            <view wx:if="{{categoryType == 'sale' ? true: false}}" class="sale-box mt20">
                 <view class="item-rule">
                     <view><text>开始日期: </text> {{content.startdate}}</view>
                     <view><text>结束日期: </text> {{content.enddate}}</view>
@@ -200,7 +200,7 @@
         </view>
         <view class="detail-btn">
             <view class="detail-name">联系人: {{publisher||nickname}} (先生/女生)</view>
-            <view class="detail-attention" bindtap="doAttention">加关注</view>
+            <view class="detail-attention {{attentionStatus?'active':''}}" bindtap="doAttention">{{attentionStatus?'已关注':'加关注'}}</view>
             <view class="detail-phone" bindtap="doPhone">拨打电话</view>
         </view>
         

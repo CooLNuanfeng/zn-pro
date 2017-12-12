@@ -110,8 +110,16 @@ export default class Category extends wepy.page {
             vm.$apply();
         });
     }
+    checkUserAttentions(arr){
+        var curUserAttentions = this.$parent.globalData.curUserAttention;
+        for(let i=0; i<arr.length; i++){
+            if(curUserAttentions.indexOf(arr[i].id)!= -1){
+                arr[i].attentionStatus = 1;
+            }
+        }
+    }
     filterList(params){
-        console.log(params,'filter params',this.curTab);
+        // console.log(params,'filter params',this.curTab);
         var arr=[],lists = this.allLists, tab = this.curTab;
         if(params == 'all'){
             this.listData = this.allLists;
@@ -132,6 +140,7 @@ export default class Category extends wepy.page {
         for(let i=0; i<len; i++){
             let json = data[i].attributes;
             json.id = data[i].id;
+            json.attentionStatus = 0;
             json.updatedAt = this.$parent.timeFormate(data[i].updatedAt);
             arr.push(json);
         }
@@ -141,6 +150,7 @@ export default class Category extends wepy.page {
         }else{
             this.navlist = null;
         }
+        this.checkUserAttentions(arr);
         this.listData = arr;
         this.allLists = arr;
         this.$apply();

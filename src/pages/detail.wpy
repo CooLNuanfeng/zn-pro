@@ -1,5 +1,5 @@
 <template>
-    <view class="container detail-container">
+    <view wx:if="{{onload}}" class="container detail-container">
         <view class="warp">
             <swiper :imgUrls.sync="imgUrls"></swiper>
             <view class="detail-nav">
@@ -190,7 +190,7 @@
         </view>
         <view class="detail-btn">
             <view class="detail-name">联系人: {{publisher||nickname}} (先生/女生)</view>
-            <view class="detail-attention" @tap="doAttention">加关注</view>
+            <view class="detail-attention {{attentionStatus?'active':''}}" @tap="doAttention">{{attentionStatus?'已关注':'加关注'}}</view>
             <view class="detail-phone" @tap="doPhone">拨打电话</view>
         </view>
         <footer />
@@ -205,6 +205,7 @@ import Footer from '../components/footer';
 import Toast from '../components/toast';
 
 import AV from '../utils/av-weapp-min.js';
+import UserInfo from '../models/userinfo';
 
 export default class Detail extends wepy.page {
     data = {
@@ -218,7 +219,9 @@ export default class Detail extends wepy.page {
         phone : '',
         categoryType: '',
         imgUrls : [],
-        content : null
+        content : null,
+        attentionStatus : 0,
+        onload : false,
     }
     components = {
         swiper : Swiper,
@@ -226,7 +229,7 @@ export default class Detail extends wepy.page {
         toast : Toast
     }
     onLoad(options){
-        // console.log(optins);
+        // console.log(options);
         var vm = this;
         var query = new AV.Query('NewsList');
         vm.pageId = options.id;
@@ -242,6 +245,8 @@ export default class Detail extends wepy.page {
             vm.content = data.attributes.formdata;
             vm.phone = data.attributes.phone;
             vm.imgUrls = data.attributes.formdata.images;
+
+            vm.onload = true;
             vm.$apply();
         }).catch(function(err){
             // console.log(err);
@@ -249,16 +254,82 @@ export default class Detail extends wepy.page {
                 message: '服务异常，请稍后重试',
             });
         });
+        //检测用户关注
+        vm.checkUserAttentions();
     };
     methods = {
         doAttention(){
-            console.log(this.pageId,this.uid);
+            var vm = this;
+            var curUser = new UserInfo();
+            var query = new AV.Query('UserInfo');
+            if(vm.attentionStatus){
+                return;
+            }
+            // console.log(this.pageId,this.uid);
+            vm.showLoading();
+            query.equalTo('uid',vm.uid);
+            query.count().then(function(count){
+                 if(!count){ //第一次新增
+                     curUser.set('uid',vm.uid);
+                     curUser.set('attentions',[vm.pageId]);
+                     curUser.save().then(function(res){
+                         vm.hideLoading();
+                         vm.attentionStatus = 1;
+                         vm.$apply();
+                     });
+                 }else{
+                     query.equalTo('uid',vm.uid);
+                     query.first().then(function(data){
+                         var arr = data.attributes.attentions;
+                         arr.push(vm.pageId);
+                         data.addUnique('attentions', arr);
+                         return data.save(null,{
+                             fetchWhenSave: true
+                         });
+                     }).then(function(res){
+                         //保存成功
+                         vm.hideLoading();
+                         vm.attentionStatus = 1;
+                         vm.$apply();
+                     }).catch(function(err){
+                         console.log(err);
+                     });
+                 }
+                 vm.$parent.globalData.curUserAttention.push(vm.pageId);
+            }).catch(function(err){
+                console.log(err);
+                vm.hideLoading();
+            });
+
         },
         doPhone(){
             wx.makePhoneCall({
               phoneNumber: this.phone
             })
         }
+    }
+    checkUserAttentions(){
+        var pageId = this.pageId,flag = false;
+        var attentions = this.$parent.globalData.curUserAttention;
+        for(var i=0; i<attentions.length; i++){
+            if(pageId == attentions[i]){
+                flag = true;
+                break;
+            }
+        }
+        if(flag){
+            this.attentionStatus = 1;
+        }
+    }
+    showLoading(){
+        wx.showLoading({
+            title : ''
+        })
+    }
+    hideLoading(){
+        setTimeout(function(){
+          wx.hideLoading()
+        },200)
     }
 }
 </script>
@@ -336,6 +407,9 @@ export default class Detail extends wepy.page {
     color: #fff;
     font-size: 26rpx;
     background: $themeColor;
+    &.active{
+        opacity: .5;
+    }
 }
 .detail-phone{
     flex: 1;

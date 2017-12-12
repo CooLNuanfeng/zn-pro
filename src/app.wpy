@@ -88,7 +88,8 @@ export default class extends wepy.app {
         {"type":"edu","name":"教育培训"},
         {"type":"other","name":"其他消息"},
     ],
-    refresh : false, //是否刷新
+    curUserAttention : null, //当前用户的所有关注
+    refresh : false, //发布成功后 是否刷新
   }
 
   constructor () {
@@ -105,16 +106,26 @@ export default class extends wepy.app {
      appKey: 'k8F2aQ6iRTCL0ULe6c8a4sRg',
     });
     AV.User.loginWithWeapp().then(user => {
-      this.globalData.userInfo = user.toJSON();
-      console.log(user.toJSON());
-      vm.findUserInfo();
+        var uid
+        this.globalData.userInfo = user.toJSON();
+        console.log(user.toJSON());
+        uid = this.globalData.userInfo.objectId;
+        vm.findUserInfo(uid);
     }).catch(console.error);
 
   }
 
-  findUserInfo(){
-      var userQuery = new AV.Query('UserInfo');
-      console.log(this.globalData.userInfo.objectId,'uid');
+  findUserInfo(uid){
+      var userQuery = new AV.Query('UserInfo'),vm = this;
+      console.log(uid,'uid');
+      //查询用户关注数组,减少api请求
+      userQuery.equalTo('uid',uid);
+      userQuery.first().then(function(res){
+          console.log(res,'curUserAttention');
+          vm.globalData.curUserAttention = res.attributes.attentions;
+      }).catch(function(err){
+          console.log(err);
+      });
   }
 
   getUserInfo(cb) {

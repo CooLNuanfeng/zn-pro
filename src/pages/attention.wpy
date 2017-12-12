@@ -1,114 +1,83 @@
 <template>
-    <view class="attention">
-        <nav-bar></nav-bar>
-        <view class="attention-body">
-            <view class="attention-list">
+    <view class="container">
+        <view class="warp attention">
+            <nav-bar :navlist.sync="navlists"></nav-bar>
+            <view class="attention-body">
+                <view class="attention-list">
 
-                <view class="attention-item {{status == 1?'active':''}} {{status==-1?'delete':''}}" @touchstart="touchstart" @touchmove.stop="touchmove" @tap="goDetail('{id:1,type:job}')">
-                    <view class="item-att-select active"><text class="select-icon"></text></view>
-                    <view class="item-att-main">
-                        <view class="item-att-l">
-                            <view class="item-att-title"><text>图</text>距离可垃圾地方李经理卡机法律框架拉动房价看了监考老师放假了是就发即可拉伸减肥的爱是理解对方考虑</view>
-                            <view class="item-att-body">
-                                <view class="item-att-info">
-                                    <view>简单 方便 快捷</view>
-                                    <view class="item-att-price">￥<text>1234</text>元</view>
-                                    <view class="item-att-time"><text>发布者: 小程序</text> <text>2017-10-20</text></view>
+                    <view wx:for="{{lists}}" wx:key class="attention-item {{item.status == 1?'active':''}} {{item.status==-1?'delete':''}}" @touchstart="touchstart" @touchmove.stop="touchmove({{item}},{{index}})" @tap="goDetail({{item}})">
+                        <view class="item-att-select {{item.selected?'active':''}}" @tap.stop="selectItem({{index}})"><text class="select-icon"></text></view>
+                        <view class="item-att-main">
+                            <view class="item-att-l">
+                                <view class="item-att-title">
+                                    <text wx:if="{{item.formdata.images}}">图</text>
+                                    {{item.title}}
                                 </view>
-                                <view class="item-att-btn">
-                                    <view class="item-att-type">
-                                        <image src="../images/{{themeimg}}sale.png"></image>
+                                <view class="item-att-body">
+                                    <view class="item-att-info">
+                                        <view>{{item.subtitle}}</view>
+                                        <view class="item-att-price">
+                                            <text wx:if="{{item.type == 'job'}}" class="price">￥<text class="price-number">{{item.formdata.jobprice}}</text>元起/月</text>
+                                            <text wx:elif="{{item.type == 'home'}}" class="price">￥<text class="price-number">{{item.formdata.price}}</text>{{item.formdata.typeJson.type==0? '元/月':'万元'}}</text>
+                                            <text wx:elif="{{item.type == 'car'}}" class="price">￥<text class="price-number">{{item.formdata.price}}</text>万元</text>
+                                            <text wx:elif="{{item.type == 'food'||item.type == 'edu'}}" class="price">￥<text class="price-number">{{item.formdata.price}}</text>元/人</text>
+                                            <text wx:elif="{{item.type == 'pet'}}" class="price">￥<text class="price-number">{{item.formdata.price}}</text>元/只</text>
+                                        </view>
+                                        <view class="item-att-time"><text>发布者: {{item.nickname}}</text> <text>{{item.updatedAt}}</text></view>
                                     </view>
-                                    <view>
-                                        <image src="../images/{{themeimg}}phone.png"></image> 电话
+                                    <view class="item-att-btn">
+                                        <view class="item-att-type">
+                                            <image src="../images/{{themeimg}}{{item.type}}.png"></image>
+                                        </view>
+                                        <view>
+                                            <image src="../images/{{themeimg}}phone.png"></image> 电话
+                                        </view>
                                     </view>
                                 </view>
                             </view>
+                            <view class="item-att-r" @tap.stop="delItem({{item}},{{index}})"><text>取消</text><text>关注</text></view>
                         </view>
-                        <view class="item-att-r">删除</view>
                     </view>
-                </view>
 
-                <view class="attention-item" @touchstart="touchstart" @touchmove.stop="touchmove">
-                    <view class="item-att-select active"><text class="select-icon"></text></view>
-                    <view class="item-att-main">
-                        <view class="item-att-l">
-                            <view class="item-att-title"><text>图</text>距离可垃圾地方李经理卡机法律框架拉动房价看了监考老师放假了是就发即可拉伸减肥的爱是理解对方考虑</view>
-                            <view class="item-att-body">
-                                <view class="item-att-info">
-                                    <view>简单 方便 快捷</view>
-                                    <view class="item-att-price">￥<text>1234</text>元</view>
-                                    <view class="item-att-time"><text>发布者: 小程序</text> <text>2017-10-20</text></view>
-                                </view>
-                                <view class="item-att-btn">
-                                    <view class="item-att-type">
-                                        <image src="../images/{{themeimg}}sale.png"></image>
+
+                    <!-- <view class="attention-item {{status == 1?'active':''}} {{status==-1?'delete':''}}" @touchstart="touchstart" @touchmove.stop="touchmove" @tap="goDetail('{id:1,type:job}')">
+                        <view class="item-att-select active"><text class="select-icon"></text></view>
+                        <view class="item-att-main">
+                            <view class="item-att-l">
+                                <view class="item-att-title"><text>图</text>距离可垃圾地方李经理卡机法律框架拉动房价看了监考老师放假了是就发即可拉伸减肥的爱是理解对方考虑</view>
+                                <view class="item-att-body">
+                                    <view class="item-att-info">
+                                        <view>简单 方便 快捷</view>
+                                        <view class="item-att-price">￥<text>1234</text>元</view>
+                                        <view class="item-att-time"><text>发布者: 小程序</text> <text>2017-10-20</text></view>
                                     </view>
-                                    <view>
-                                        <image src="../images/{{themeimg}}phone.png"></image> 电话
+                                    <view class="item-att-btn">
+                                        <view class="item-att-type">
+                                            <image src="../images/{{themeimg}}sale.png"></image>
+                                        </view>
+                                        <view>
+                                            <image src="../images/{{themeimg}}phone.png"></image> 电话
+                                        </view>
                                     </view>
                                 </view>
                             </view>
+                            <view class="item-att-r">删除</view>
                         </view>
-                        <view class="item-att-r">删除</view>
-                    </view>
-                </view>
+                    </view> -->
 
-                <view class="attention-item">
-                    <view class="item-att-select active"><text class="select-icon"></text></view>
-                    <view class="item-att-main">
-                        <view class="item-att-l">
-                            <view class="item-att-title"><text>图</text>距离可垃圾地方李经理卡机法律框架拉动房价看了监考老师放假了是就发即可拉伸减肥的爱是理解对方考虑</view>
-                            <view class="item-att-body">
-                                <view class="item-att-info">
-                                    <view>简单 方便 快捷</view>
-                                    <view class="item-att-price">￥<text>1234</text>元</view>
-                                    <view class="item-att-time"><text>发布者: 小程序</text> <text>2017-10-20</text></view>
-                                </view>
-                                <view class="item-att-btn">
-                                    <view class="item-att-type">
-                                        <image src="../images/{{themeimg}}sale.png"></image>
-                                    </view>
-                                    <view>
-                                        <image src="../images/{{themeimg}}phone.png"></image> 电话
-                                    </view>
-                                </view>
-                            </view>
-                        </view>
-                        <view class="item-att-r">删除</view>
-                    </view>
-                </view>
-
-                <view class="attention-item">
-                    <view class="item-att-select active"><text class="select-icon"></text></view>
-                    <view class="item-att-main">
-                        <view class="item-att-l">
-                            <view class="item-att-title"><text>图</text>距离可垃圾地方李经理卡机法律框架拉动房价看了监考老师放假了是就发即可拉伸减肥的爱是理解对方考虑</view>
-                            <view class="item-att-body">
-                                <view class="item-att-info">
-                                    <view>简单 方便 快捷</view>
-                                    <view class="item-att-price">￥<text>1234</text>元</view>
-                                    <view class="item-att-time"><text>发布者: 小程序</text> <text>2017-10-20</text></view>
-                                </view>
-                                <view class="item-att-btn">
-                                    <view class="item-att-type">
-                                        <image src="../images/{{themeimg}}sale.png"></image>
-                                    </view>
-                                    <view>
-                                        <image src="../images/{{themeimg}}phone.png"></image> 电话
-                                    </view>
-                                </view>
-                            </view>
-                        </view>
-                        <view class="item-att-r">删除</view>
-                    </view>
                 </view>
             </view>
         </view>
+        <footer></footer>
+        <toast></toast>
         <view class="attention-btn" hidden="{{showBar ? false : true}}">
-            <view class="select-l"><text class="select-icon"></text>全选</view>
+            <view class="select-l">
+                <view @tap="doAllSelect({{selectAll}})">
+                    <text class="select-icon {{selectAll?'active':''}}"></text>全选
+                </view>
+            </view>
             <view class="select-m" @tap="cancel">取消</view>
-            <view class="select-r" @tap="deleteSelect">删除</view>
+            <view class="select-r {{selectStatus?'active':''}}" @tap="deleteSelect">删除</view>
         </view>
         <view class="attention-edit" @tap="edit"><image src="../images/delete.png"></image></view>
     </view>
@@ -116,20 +85,30 @@
 
 <script>
 import wepy from 'wepy';
-import ListNews from '../components/listnews';
 import NavBar from '../components/navbar';
+import Footer from '../components/footer'
+import Toast from '../components/toast';
+
+import AV from '../utils/av-weapp-min.js';
 
 export default class Attention extends wepy.page {
     config = {};
     components = {
-        'nav-bar' : NavBar
+        'nav-bar' : NavBar,
+        'footer' : Footer,
+        'toast': Toast,
     };
     data = {
+        uid : '',
+        curUserAttention: null, //用户的所有关注
+        navlists : [],
+        lists : [],
         themeimg : '',
-        status : 0, //确切到每个
         showBar: false, //是否显示底部删除操作
+        selectStatus : false, //是否有选中
+        selectAll : false, //全选
         startX : 0,
-        startY: 0
+        startY: 0,
     }
     methods = {
         touchstart(e){
@@ -137,50 +116,162 @@ export default class Attention extends wepy.page {
             this.startY = e.changedTouches[0].clientY;
             console.log('touchstart',e);
         },
-        touchmove(e){
-            if(this.status==1){
+        touchmove(item,index,e){
+            if(item.status==1){
                 return;
             }
-            var that = this,
-              index = e.currentTarget.dataset.index,//当前索引
-              startX = that.startX,//开始X坐标
-              startY = that.startY,//开始Y坐标
-              touchMoveX = e.changedTouches[0].clientX,//滑动变化坐标
-              touchMoveY = e.changedTouches[0].clientY,//滑动变化坐标
-              //获取滑动角度
-              angle = that.angle({ X: startX, Y: startY }, { X: touchMoveX, Y: touchMoveY });
-              //滑动超过30度角 return
-              if (Math.abs(angle) > 30) return;
-              if (touchMoveX > startX){//右滑
-                  console.log('touchmove right');
-                  this.status = 0;
-              }else {//左滑
-                  console.log('touchmove left');
-                  this.status = -1;
-              }
+            var vm = this,
+            // index = e.currentTarget.dataset.index,//当前索引
+            startX = vm.startX,//开始X坐标
+            startY = vm.startY,//开始Y坐标
+            touchMoveX = e.changedTouches[0].clientX,//滑动变化坐标
+            touchMoveY = e.changedTouches[0].clientY,//滑动变化坐标
+            //获取滑动角度
+            angle = vm.angle({ X: startX, Y: startY }, { X: touchMoveX, Y: touchMoveY });
+            //滑动超过30度角 return
+            if (Math.abs(angle) > 30) return;
+            if (touchMoveX > startX){//右滑
+              // vm.initStatus();
+              vm.lists[index].status = 0;
+            }else {//左滑
+              vm.initStatus(0);
+              vm.lists[index].status = -1;
+            }
         },
-        goDetail(params){
-            console.log(params);
-            wx.navigateTo({
-                url : 'detail'
-            });
+        goDetail(item){
+            console.log(item);
+            if(item.status==0){
+                wx.navigateTo({
+                    url : 'detail'
+                });
+            }
+
+        },
+        selectItem(index){
+            this.lists[index].selected = !this.lists[index].selected;
+            this.checkSelectAll();
+            this.checkHasSelected();
+        },
+        delItem(item,index){
+            console.log(item,index,'取消关注');
+        },
+        doAllSelect(flag){
+            this.selectAllStatus(flag);
         },
         edit(){
-            this.status = 1;
-
+            this.initStatus(1);
             this.showBar = true;
         },
         cancel(){
-            this.status = 0;
+            this.initStatus(0);
+            this.selectAllStatus(true);
+            this.selectAll = false;
             this.showBar = false;
         },
         deleteSelect(){
             //ajax
-            this.showBar = false;
+            if(this.selectStatus){
+                this.showBar = false;
+            }
+
         }
     }
     onLoad(){
         this.themeimg = this.$parent.globalData.themeimg;
+        this.curUserAttention = this.$parent.globalData.curUserAttention;
+        this.uid = this.$parent.globalData.userInfo.objectId;
+        this.fetch();
+    }
+    events = {
+        navChange(params){
+            console.log(params,'from child');
+            // this.filterList(params);
+        }
+    }
+    fetch(){
+        var vm = this,query = new AV.Query('NewsList');
+        query.equalTo('uid', this.uid);
+        query.find().then(function(data){
+            vm.makeParam(data);
+        });
+    }
+    initStatus(status){
+        for(var i=0; i<this.lists.length; i++){
+            this.lists[i].status = status;
+        }
+    }
+    selectAllStatus(flag){
+        for(var i=0; i<this.lists.length; i++){
+            this.lists[i].selected = !flag;
+        }
+        this.selectAll = !flag;
+        this.selectStatus = !flag;
+
+    }
+    checkHasSelected(){ //检查是否有选中
+        var flag = false;
+        for(var i=0; i<this.lists.length; i++){
+            if(this.lists[i].selected){
+                flag = true;
+                break;
+            }
+        }
+        if(flag){
+            this.selectStatus = true;
+        }else{
+            this.selectStatus = false;
+        }
+    }
+    checkSelectAll(){ //检查是否全选
+        var flag = true;
+        for(var i=0; i<this.lists.length; i++){
+            if(!this.lists[i].selected){
+                flag = false;
+                break;
+            }
+        }
+        if(flag){
+            this.selectAll = true;
+        }else{
+            this.selectAll = false;
+        }
+    }
+    makeParam(data){
+        var navArr = [];
+        for(let i=0; i<data.length; i++){
+            var navjson = {},listjson = data[i].attributes;
+            navjson.type = data[i].attributes.type;
+            navjson.name = data[i].attributes.typename;
+            listjson.status = 0; //状态
+            listjson.selected = false; //是否选中
+            listjson.updatedAt = this.$parent.timeFormate(data[i].updatedAt);
+            navArr.push(navjson);
+            this.lists.push(listjson);
+        }
+        this.uniqueNavlist(navArr);
+        // console.log(this.lists,this.navlists);
+        this.$apply();
+    }
+    uniqueNavlist(navArr){
+        // console.log(navArr,'navArr');
+        for(let i=0; i<navArr.length;i++){
+            var flag = false;
+            if(this.navlists.length){
+                for(let j=0; j<this.navlists.length;j++){
+                    if(navArr[i].type == this.navlists[j].type){
+                        flag = true;
+                        break;
+                    }
+                }
+                if(!flag){
+                    this.navlists.push(navArr[i]);
+                }
+            }else{
+                this.navlists.push(navArr[i]);
+            }
+
+
+        }
     }
     angle(start, end) {
        var _X = end.X - start.X,
@@ -246,6 +337,7 @@ export default class Attention extends wepy.page {
 .item-att-r{
     width: 120rpx;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     background: $red;
@@ -288,8 +380,9 @@ export default class Attention extends wepy.page {
         text{
             flex: 1;
             @include text-overflow(1);
-            &:first-child{
-                flex: 2
+            &:last-child{
+                padding-left: 5rpx;
+                text-align: right;
             }
         }
     }
@@ -347,16 +440,6 @@ export default class Attention extends wepy.page {
     font-size: 28rpx;
     color: $fontBlack;
     background: #fff;
-    &.active{
-        .select-icon{
-            background: #fff;
-            color: #fff;
-            border: 10rpx solid $themeColor;
-        }
-        .select-r{
-            background: $red;
-        }
-    }
 }
 .select-l{
     flex: 3;
@@ -383,6 +466,11 @@ export default class Attention extends wepy.page {
     background: #fff;
     box-sizing: border-box;
     border-radius: 15rpx;
+    &.active{
+        background: #fff;
+        color: #fff;
+        border: 10rpx solid $themeColor;
+    }
 }
 .select-r{
     flex: 1;
@@ -392,6 +480,9 @@ export default class Attention extends wepy.page {
     height: 100%;
     background: $gray;
     color: #fff;
+    &.active{
+        background: $red;
+    }
 }
 .attention-edit{
     position: fixed;
