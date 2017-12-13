@@ -293,11 +293,17 @@ export default class Detail extends wepy.page {
                          vm.$apply();
                      }).catch(function(err){
                          console.log(err);
+                         vm.$invoke('toast', 'show', {
+                             message: '服务异常，请稍后重试',
+                         });
                      });
                  }
                  vm.$parent.globalData.curUserAttention.push(vm.pageId);
             }).catch(function(err){
                 console.log(err);
+                vm.$invoke('toast', 'show', {
+                    message: '服务异常，请稍后重试',
+                });
                 vm.hideLoading();
             });
 
@@ -323,7 +329,7 @@ export default class Detail extends wepy.page {
     }
     showLoading(){
         wx.showLoading({
-            title : ''
+            title : '请稍等...'
         })
     }
     hideLoading(){

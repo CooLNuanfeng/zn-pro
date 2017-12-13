@@ -5,7 +5,7 @@
             <view class="attention-body">
                 <view class="attention-list">
 
-                    <view wx:for="{{lists}}" wx:key class="attention-item {{item.status == 1?'active':''}} {{item.status==-1?'delete':''}}" @touchstart="touchstart" @touchmove.stop="touchmove({{item}},{{index}})" @tap="goDetail({{item}})">
+                    <view wx:for="{{lists}}" wx:key class="attention-item {{item.status == 1?'active':''}} {{item.status==-1?'delete':''}}" @touchstart="touchstart" @touchmove="touchmove({{item}},{{index}})" @tap="goDetail({{item}})">
                         <view class="item-att-select {{item.selected?'active':''}}" @tap.stop="selectItem({{index}})"><text class="select-icon"></text></view>
                         <view class="item-att-main">
                             <view class="item-att-l">
@@ -90,6 +90,7 @@ import Footer from '../components/footer'
 import Toast from '../components/toast';
 
 import AV from '../utils/av-weapp-min.js';
+import UserInfo from '../models/userinfo';
 
 export default class Attention extends wepy.page {
     config = {};
@@ -109,12 +110,12 @@ export default class Attention extends wepy.page {
         selectAll : false, //全选
         startX : 0,
         startY: 0,
+        delArrIds : null, //要删除的 arr id
     }
     methods = {
         touchstart(e){
             this.startX = e.changedTouches[0].clientX;
             this.startY = e.changedTouches[0].clientY;
-            console.log('touchstart',e);
         },
         touchmove(item,index,e){
             if(item.status==1){
@@ -128,8 +129,8 @@ export default class Attention extends wepy.page {
             touchMoveY = e.changedTouches[0].clientY,//滑动变化坐标
             //获取滑动角度
             angle = vm.angle({ X: startX, Y: startY }, { X: touchMoveX, Y: touchMoveY });
-            //滑动超过30度角 return
-            if (Math.abs(angle) > 30) return;
+            //滑动超过10度角 return
+            if (Math.abs(angle) > 10) return;
             if (touchMoveX > startX){//右滑
               // vm.initStatus();
               vm.lists[index].status = 0;
@@ -153,10 +154,11 @@ export default class Attention extends wepy.page {
             this.checkHasSelected();
         },
         delItem(item,index){
-            console.log(item,index,'取消关注');
+            this.delArrIds = [item.id];
+            this.delFetch([item.id]);
         },
         doAllSelect(flag){
-            this.selectAllStatus(flag);
+            this.selectAllStatus(!flag);
         },
         edit(){
             this.initStatus(1);
@@ -164,22 +166,33 @@ export default class Attention extends wepy.page {
         },
         cancel(){
             this.initStatus(0);
-            this.selectAllStatus(true);
+            this.selectAllStatus(false);
             this.selectAll = false;
             this.showBar = false;
         },
         deleteSelect(){
             //ajax
             if(this.selectStatus){
-                this.showBar = false;
+                var arr = [];
+                this.delArrIds = [];
+                for(let i=0; i<this.lists.length; i++){
+                    if(this.lists[i].selected){
+                        arr.push(this.lists[i].id);
+                        this.delArrIds.push(this.lists[i].id);
+                    }
+                }
+                this.delFetch(arr);
             }
-
         }
     }
-    onLoad(){
+    onShow(){
         this.themeimg = this.$parent.globalData.themeimg;
         this.curUserAttention = this.$parent.globalData.curUserAttention;
         this.uid = this.$parent.globalData.userInfo.objectId;
+        this.lists = [];
+        this.showBar = false;
+        this.selectStatus = false;
+        this.selectAll = false;
         this.fetch();
     }
     events = {
@@ -191,8 +204,48 @@ export default class Attention extends wepy.page {
     fetch(){
         var vm = this,query = new AV.Query('NewsList');
         query.equalTo('uid', this.uid);
+        query.descending('updatedAt');
         query.find().then(function(data){
             vm.makeParam(data);
+        });
+    }
+    delFetch(arr){
+        console.log(arr,'del');
+        var curUser = new UserInfo(),vm = this,
+            query = new AV.Query('UserInfo'),
+            curUserAttentions = vm.$parent.globalData.curUserAttention;
+        vm.showLoading();
+        query.equalTo('uid',vm.uid);
+        query.first().then(function(data){
+            var resArr = data.attributes.attentions;
+            var reslult = vm.delFromArr(resArr,arr);
+            vm.$parent.globalData.curUserAttention = vm.delFromArr(curUserAttentions,arr);
+            console.log(reslult,vm.$parent.globalData.curUserAttention);
+            data.set('attentions', reslult);
+            return data.save(null,{
+                fetchWhenSave: true
+            });
+        }).then(function(){
+            //保存成功
+            for(let i=0; i<vm.delArrIds.length; i++){
+                for(let j=0; j<vm.lists.length;j++){
+                    if(vm.lists[j].id == vm.delArrIds[i]){
+                        vm.lists.splice(j,1);
+                    }
+                }
+            }
+
+            vm.initStatus(0);
+            vm.selectAllStatus(false);
+            vm.showBar = false;
+            vm.hideLoading();
+            vm.$apply();
+        }).catch(function(err){
+            console.log(err);
+            vm.hideLoading();
+            vm.$invoke('toast', 'show', {
+                message: '服务异常，请稍后重试',
+            });
         });
     }
     initStatus(status){
@@ -202,10 +255,10 @@ export default class Attention extends wepy.page {
     }
     selectAllStatus(flag){
         for(var i=0; i<this.lists.length; i++){
-            this.lists[i].selected = !flag;
+            this.lists[i].selected = flag;
         }
-        this.selectAll = !flag;
-        this.selectStatus = !flag;
+        this.selectAll = flag;
+        this.selectStatus = flag;
 
     }
     checkHasSelected(){ //检查是否有选中
@@ -237,19 +290,22 @@ export default class Attention extends wepy.page {
         }
     }
     makeParam(data){
-        var navArr = [];
+        var navArr = [],curUserAttentions = this.$parent.globalData.curUserAttention;
         for(let i=0; i<data.length; i++){
             var navjson = {},listjson = data[i].attributes;
             navjson.type = data[i].attributes.type;
             navjson.name = data[i].attributes.typename;
+            listjson.id = data[i].id;
             listjson.status = 0; //状态
             listjson.selected = false; //是否选中
             listjson.updatedAt = this.$parent.timeFormate(data[i].updatedAt);
             navArr.push(navjson);
-            this.lists.push(listjson);
+            if(curUserAttentions.indexOf(listjson.id)!=-1){
+                this.lists.push(listjson);
+            }
         }
         this.uniqueNavlist(navArr);
-        // console.log(this.lists,this.navlists);
+        console.log(this.lists);
         this.$apply();
     }
     uniqueNavlist(navArr){
@@ -278,6 +334,23 @@ export default class Attention extends wepy.page {
          _Y = end.Y - start.Y
        //返回角度 /Math.atan()返回数字的反正切值
        return 360 * Math.atan(_Y / _X) / (2 * Math.PI);
+    }
+    showLoading(){
+        wx.showLoading({
+            title : '请稍等...'
+        })
+    }
+    hideLoading(){
+        setTimeout(function(){
+          wx.hideLoading()
+        },200)
+    }
+    delFromArr(targetArr,delItems){
+        for(let i=0; i<delItems.length; i++){
+            var delIndex = targetArr.indexOf(delItems[i]);
+            targetArr.splice(delIndex,1);
+        }
+        return targetArr;
     }
 }
 </script>

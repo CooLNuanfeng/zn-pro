@@ -10,7 +10,7 @@
             <view class="attention-body">
                 <view class="attention-list">
 
-                    <view  wx:for="{{lists}}" wx:key="wx:key" class="attention-item {{item.status == 1?'active':''}} {{item.status==-1?'delete':''}}" bindtouchstart="touchstart" catchtouchmove="touchmove" bindtap="goDetail" data-wpytouchmove-a="{{item}}" data-wpytouchmove-b="{{index}}" data-wpygodetail-a="{{item}}">
+                    <view  wx:for="{{lists}}" wx:key="wx:key" class="attention-item {{item.status == 1?'active':''}} {{item.status==-1?'delete':''}}" bindtouchstart="touchstart" bindtouchmove="touchmove" bindtap="goDetail" data-wpytouchmove-a="{{item}}" data-wpytouchmove-b="{{index}}" data-wpygodetail-a="{{item}}">
                         <view class="item-att-select {{item.selected?'active':''}}" catchtap="selectItem" data-wpyselectitem-a="{{index}}"><text class="select-icon"/></view>
                         <view class="item-att-main">
                             <view class="item-att-l">
