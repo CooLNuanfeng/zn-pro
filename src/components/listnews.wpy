@@ -82,6 +82,12 @@ export default class ListNews extends wepy.component{
                 query.count().then(function(count){
                      if(!count){ //第一次新增
                          curUser.set('uid',uid);
+                         // 加关注 {id: ,content:}
+                         // .....
+                         // coding.....
+                         // .....
+
+                         
                          curUser.set('attentions',[id]);
                          curUser.save().then(function(res){
                              vm.lists[index].attentionStatus = 1;
@@ -92,6 +98,11 @@ export default class ListNews extends wepy.component{
                          query.equalTo('uid',uid);
                          query.first().then(function(data){
                              var arr = data.attributes.attentions;
+                             // 加关注 {id: ,content:}
+                             // .....
+                             // coding.....
+                             // .....
+
                              arr.push(id);
                              data.addUnique('attentions', arr);
                              return data.save(null,{

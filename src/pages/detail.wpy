@@ -272,6 +272,11 @@ export default class Detail extends wepy.page {
             query.equalTo('uid',vm.uid);
             query.count().then(function(count){
                  if(!count){ //第一次新增
+                     // 加关注 {id: ,content:}
+                     // .....
+                     // coding.....
+                     // .....
+
                      curUser.set('uid',vm.uid);
                      curUser.set('attentions',[vm.pageId]);
                      curUser.save().then(function(res){
@@ -283,6 +288,11 @@ export default class Detail extends wepy.page {
                      query.equalTo('uid',vm.uid);
                      query.first().then(function(data){
                          var arr = data.attributes.attentions;
+                         // 加关注 {id: ,content:}
+                         // .....
+                         // coding.....
+                         // .....
+
                          arr.push(vm.pageId);
                          data.addUnique('attentions', arr);
                          return data.save(null,{
