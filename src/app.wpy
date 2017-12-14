@@ -89,7 +89,8 @@ export default class extends wepy.app {
         {"type":"other","name":"其他消息"},
     ],
     curUserAttention : null, //当前用户的所有关注
-    refresh : false, //发布成功后 是否刷新
+    refresh : false, //发布 是否刷新
+    attrefresh : false, //关注 是否刷新
   }
 
   constructor () {

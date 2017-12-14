@@ -200,7 +200,9 @@
         </view>
         <view class="detail-btn">
             <view class="detail-name">联系人: {{publisher||nickname}} (先生/女生)</view>
-            <view class="detail-attention {{attentionStatus?'active':''}}" bindtap="doAttention">{{attentionStatus?'已关注':'加关注'}}</view>
+            <view class="detail-attention" bindtap="doAttention">
+                <view class="{{attentionStatus?'active':''}}">{{attentionStatus?'已关注':'加关注'}}</view>
+            </view>
             <view class="detail-phone" bindtap="doPhone">拨打电话</view>
         </view>
         

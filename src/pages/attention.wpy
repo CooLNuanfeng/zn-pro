@@ -68,6 +68,7 @@
                 </view>
             </view>
         </view>
+        <v-loading :loading.sync="loading" :loadend.sync="loadend"></v-loading>
         <footer></footer>
         <toast></toast>
         <view class="attention-btn" hidden="{{showBar ? false : true}}">
@@ -86,6 +87,7 @@
 <script>
 import wepy from 'wepy';
 import NavBar from '../components/navbar';
+import Loading from '../components/loading';
 import Footer from '../components/footer'
 import Toast from '../components/toast';
 
@@ -93,9 +95,12 @@ import AV from '../utils/av-weapp-min.js';
 import UserInfo from '../models/userinfo';
 
 export default class Attention extends wepy.page {
-    config = {};
+    config = {
+        onReachBottomDistance : 200
+    };
     components = {
         'nav-bar' : NavBar,
+        'v-loading' : Loading,
         'footer' : Footer,
         'toast': Toast,
     };
@@ -111,6 +116,10 @@ export default class Attention extends wepy.page {
         startX : 0,
         startY: 0,
         delArrIds : null, //要删除的 arr id
+        loading : false,
+        loadend : false,
+        page : 1, //当前页
+        pageSize : 30, //每页显示多少条
     }
     methods = {
         touchstart(e){
@@ -140,10 +149,10 @@ export default class Attention extends wepy.page {
             }
         },
         goDetail(item){
-            console.log(item);
+            // console.log(item);
             if(item.status==0){
                 wx.navigateTo({
-                    url : 'detail'
+                    url : 'detail?id='+item.id
                 });
             }
 
@@ -185,16 +194,32 @@ export default class Attention extends wepy.page {
             }
         }
     }
-    onShow(){
+    onLoad(){
         this.themeimg = this.$parent.globalData.themeimg;
         this.curUserAttention = this.$parent.globalData.curUserAttention;
         this.uid = this.$parent.globalData.userInfo.objectId;
-        this.lists = [];
-        this.showBar = false;
-        this.selectStatus = false;
-        this.selectAll = false;
         this.fetch();
     }
+    onShow(){
+        var vm = this;
+        setTimeout(function(){
+            var attrefresh = vm.$parent.globalData.attrefresh;
+            // console.log(attrefresh,'attrefresh');
+            if(attrefresh){
+                vm.lists = [];
+                vm.fetch();
+                vm.$parent.globalData.attrefresh = false;
+            }
+        },100);
+        vm.showBar = false;
+        vm.selectStatus = false;
+        vm.selectAll = false;
+    }
+    onReachBottom(){
+        if(!this.showBar){
+            console.log('aaa fetch',this.page);
+        }
+    };
     events = {
         navChange(params){
             console.log(params,'from child');
@@ -203,14 +228,29 @@ export default class Attention extends wepy.page {
     }
     fetch(){
         var vm = this,query = new AV.Query('NewsList');
+        vm.loading = true;
         query.equalTo('uid', this.uid);
         query.descending('updatedAt');
+        query.limit(vm.pageSize);
         query.find().then(function(data){
+            console.log(data,'data');
+            vm.loading = false;
+            if(data.length < vm.pageSize){
+                vm.loadend = true;
+            }else{
+                vm.page += 1;
+            }
             vm.makeParam(data);
+        }).catch(function(err){
+            console.log(err);
+            vm.loading = false;
+            vm.$invoke('toast', 'show', {
+                message: '服务异常，请稍后重试',
+            });
         });
     }
     delFetch(arr){
-        console.log(arr,'del');
+        // console.log(arr,'del');
         var curUser = new UserInfo(),vm = this,
             query = new AV.Query('UserInfo'),
             curUserAttentions = vm.$parent.globalData.curUserAttention;
@@ -220,7 +260,7 @@ export default class Attention extends wepy.page {
             var resArr = data.attributes.attentions;
             var reslult = vm.delFromArr(resArr,arr);
             vm.$parent.globalData.curUserAttention = vm.delFromArr(curUserAttentions,arr);
-            console.log(reslult,vm.$parent.globalData.curUserAttention);
+            // console.log(reslult,vm.$parent.globalData.curUserAttention);
             data.set('attentions', reslult);
             return data.save(null,{
                 fetchWhenSave: true
@@ -305,7 +345,7 @@ export default class Attention extends wepy.page {
             }
         }
         this.uniqueNavlist(navArr);
-        console.log(this.lists);
+        // console.log(this.lists);
         this.$apply();
     }
     uniqueNavlist(navArr){
@@ -361,7 +401,7 @@ export default class Attention extends wepy.page {
     overflow-x: hidden;
 }
 .attention-body{
-    padding-bottom: 80rpx;
+    // padding-bottom: 60rpx;
 }
 .attention-item{
     margin-left: -70rpx;

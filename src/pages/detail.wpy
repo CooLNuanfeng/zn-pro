@@ -190,7 +190,9 @@
         </view>
         <view class="detail-btn">
             <view class="detail-name">联系人: {{publisher||nickname}} (先生/女生)</view>
-            <view class="detail-attention {{attentionStatus?'active':''}}" @tap="doAttention">{{attentionStatus?'已关注':'加关注'}}</view>
+            <view class="detail-attention" @tap="doAttention">
+                <view class="{{attentionStatus?'active':''}}">{{attentionStatus?'已关注':'加关注'}}</view>
+            </view>
             <view class="detail-phone" @tap="doPhone">拨打电话</view>
         </view>
         <footer />
@@ -299,6 +301,7 @@ export default class Detail extends wepy.page {
                      });
                  }
                  vm.$parent.globalData.curUserAttention.push(vm.pageId);
+                 vm.$parent.globalData.attrefresh = true;
             }).catch(function(err){
                 console.log(err);
                 vm.$invoke('toast', 'show', {
@@ -407,14 +410,18 @@ export default class Detail extends wepy.page {
 .detail-attention{
     flex: 1;
     height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #fff;
-    font-size: 26rpx;
-    background: $themeColor;
-    &.active{
-        opacity: .5;
+    background: #fff;
+    view{
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        font-size: 26rpx;
+        background: $themeColor;
+        &.active{
+            opacity: .5;
+        }
     }
 }
 .detail-phone{

@@ -19,7 +19,7 @@ export default class Loading extends wepy.component{
 @import "../sass/_mixin.scss";
 .loading{
     color: $gray;
-    font-size: 20rpx;
+    font-size: 18rpx;
     text-align: center;
     view{
         padding: 40rpx;

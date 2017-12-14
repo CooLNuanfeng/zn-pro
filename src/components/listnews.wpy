@@ -73,7 +73,7 @@ export default class ListNews extends wepy.component{
           });
         },
         doAttention(item,index){
-            console.log('currid',item.id,item.uid,item.attentionStatus);
+            // console.log('currid',item.id,item.uid,item.attentionStatus);
             var vm = this,id = item.id,uid = item.uid,status = item.attentionStatus;
             var curUser = new UserInfo();
             var query = new AV.Query('UserInfo');
@@ -85,7 +85,7 @@ export default class ListNews extends wepy.component{
                          curUser.set('attentions',[id]);
                          curUser.save().then(function(res){
                              vm.lists[index].attentionStatus = 1;
-                             console.log('aaaaa',vm.lists);
+                             // console.log('aaaaa',vm.lists);
                              vm.$apply();
                          });
                      }else{
@@ -100,13 +100,14 @@ export default class ListNews extends wepy.component{
                          }).then(function(res){
                              //保存成功
                              vm.lists[index].attentionStatus = 1;
-                             console.log('bbbb',vm.lists);
+                             // console.log('bbbb',vm.lists);
                              vm.$apply();
                          }).catch(function(err){
                              console.log(err);
                          });
                      }
                      vm.$parent.$parent.globalData.curUserAttention.push(id);
+                     vm.$parent.$parent.globalData.attrefresh = true;
                 }).catch(function(err){
                     console.log(err);
                 });
