@@ -92,7 +92,7 @@ import Footer from '../components/footer'
 import Toast from '../components/toast';
 
 import AV from '../utils/av-weapp-min.js';
-import UserInfo from '../models/userinfo';
+// import UserAttentions from '../models/userattentions';
 
 export default class Attention extends wepy.page {
     config = {
@@ -106,7 +106,6 @@ export default class Attention extends wepy.page {
     };
     data = {
         uid : '',
-        curUserAttention: null, //用户的所有关注
         navlists : [],
         lists : [],
         themeimg : '',
@@ -115,7 +114,7 @@ export default class Attention extends wepy.page {
         selectAll : false, //全选
         startX : 0,
         startY: 0,
-        delArrIds : null, //要删除的 arr id
+        // delArrIds : null, //要删除的 arr id
         loading : false,
         loadend : false,
         page : 1, //当前页
@@ -163,8 +162,9 @@ export default class Attention extends wepy.page {
             this.checkHasSelected();
         },
         delItem(item,index){
-            this.delArrIds = [item.id];
-            this.delFetch([item.id]);
+            // this.delArrIds = [item.id];
+            console.log(item.pid,item.id);
+            this.delFetch([{pid:item.pid,id:item.id}]);
         },
         doAllSelect(flag){
             this.selectAllStatus(!flag);
@@ -183,11 +183,15 @@ export default class Attention extends wepy.page {
             //ajax
             if(this.selectStatus){
                 var arr = [];
-                this.delArrIds = [];
+                // this.delArrIds = [];
                 for(let i=0; i<this.lists.length; i++){
                     if(this.lists[i].selected){
-                        arr.push(this.lists[i].id);
-                        this.delArrIds.push(this.lists[i].id);
+                        var json = {
+                            pid : this.lists[i].pid,
+                            id : this.lists[i].id
+                        }
+                        arr.push(json);
+                        // this.delArrIds.push(this.lists[i].id);
                     }
                 }
                 this.delFetch(arr);
@@ -196,7 +200,6 @@ export default class Attention extends wepy.page {
     }
     onLoad(){
         this.themeimg = this.$parent.globalData.themeimg;
-        this.curUserAttention = this.$parent.globalData.curUserAttention;
         this.uid = this.$parent.globalData.userInfo.objectId;
         this.fetch();
     }
@@ -227,7 +230,7 @@ export default class Attention extends wepy.page {
         }
     }
     fetch(){
-        var vm = this,query = new AV.Query('NewsList');
+        var vm = this,query = new AV.Query('UserAttentions');
         vm.loading = true;
         query.equalTo('uid', this.uid);
         query.descending('updatedAt');
@@ -235,11 +238,6 @@ export default class Attention extends wepy.page {
         query.find().then(function(data){
             console.log(data,'data');
             vm.loading = false;
-            if(data.length < vm.pageSize){
-                vm.loadend = true;
-            }else{
-                vm.page += 1;
-            }
             vm.makeParam(data);
         }).catch(function(err){
             console.log(err);
@@ -248,45 +246,103 @@ export default class Attention extends wepy.page {
                 message: '服务异常，请稍后重试',
             });
         });
+
+
+
+
+        // var vm = this,query = new AV.Query('NewsList');
+        // vm.loading = true;
+        // query.equalTo('uid', this.uid);
+        // query.descending('updatedAt');
+        // query.limit(vm.pageSize);
+        // query.find().then(function(data){
+        //     console.log(data,'data');
+        //     vm.loading = false;
+        //     if(data.length < vm.pageSize){
+        //         vm.loadend = true;
+        //     }else{
+        //         vm.page += 1;
+        //     }
+        //     vm.makeParam(data);
+        // }).catch(function(err){
+        //     console.log(err);
+        //     vm.loading = false;
+        //     vm.$invoke('toast', 'show', {
+        //         message: '服务异常，请稍后重试',
+        //     });
+        // });
     }
     delFetch(arr){
-        // console.log(arr,'del');
-        var curUser = new UserInfo(),vm = this,
-            query = new AV.Query('UserInfo'),
+        console.log(arr,'del');
+        var objectsArr = [],vm = this,
+            delPidArr = [],
             curUserAttentions = vm.$parent.globalData.curUserAttention;
-        vm.showLoading();
-        query.equalTo('uid',vm.uid);
-        query.first().then(function(data){
-            var resArr = data.attributes.attentions;
-            var reslult = vm.delFromArr(resArr,arr);
-            vm.$parent.globalData.curUserAttention = vm.delFromArr(curUserAttentions,arr);
-            // console.log(reslult,vm.$parent.globalData.curUserAttention);
-            data.set('attentions', reslult);
-            return data.save(null,{
-                fetchWhenSave: true
-            });
-        }).then(function(){
-            //保存成功
-            for(let i=0; i<vm.delArrIds.length; i++){
+        for(let i=0; i<arr.length; i++){
+            var attentItem = AV.Object.createWithoutData('UserAttentions', arr[i].id);
+            delPidArr.push(arr[i].pid);
+            objectsArr.push(attentItem);
+        }
+
+        AV.Object.destroyAll(objectsArr).then(function () {
+            for(let i=0; i<delPidArr.length; i++){
                 for(let j=0; j<vm.lists.length;j++){
-                    if(vm.lists[j].id == vm.delArrIds[i]){
+                    if(vm.lists[j].pid == delPidArr[i]){
                         vm.lists.splice(j,1);
                     }
                 }
             }
-
+            vm.$parent.globalData.curUserAttention = vm.delFromArr(curUserAttentions,delPidArr);
             vm.initStatus(0);
             vm.selectAllStatus(false);
             vm.showBar = false;
             vm.hideLoading();
             vm.$apply();
-        }).catch(function(err){
+            vm.$invoke('toast', 'show', {
+                message: '操作成功',
+            });
+        }, function (err) {
             console.log(err);
-            vm.hideLoading();
             vm.$invoke('toast', 'show', {
                 message: '服务异常，请稍后重试',
             });
         });
+
+        // var curUser = new UserInfo(),vm = this,
+        //     query = new AV.Query('UserInfo'),
+        //     curUserAttentions = vm.$parent.globalData.curUserAttention;
+        // vm.showLoading();
+        // query.equalTo('uid',vm.uid);
+        // query.first().then(function(data){
+        //     var resArr = data.attributes.attentions;
+        //     var reslult = vm.delFromArr(resArr,arr);
+        //     vm.$parent.globalData.curUserAttention = vm.delFromArr(curUserAttentions,arr);
+        //     // console.log(reslult,vm.$parent.globalData.curUserAttention);
+        //     data.set('attentions', reslult);
+        //     return data.save(null,{
+        //         fetchWhenSave: true
+        //     });
+        // }).then(function(){
+        //     //保存成功
+        //     // for(let i=0; i<vm.delArrIds.length; i++){
+        //     //     for(let j=0; j<vm.lists.length;j++){
+        //     //         if(vm.lists[j].id == vm.delArrIds[i]){
+        //     //             vm.lists.splice(j,1);
+        //     //         }
+        //     //     }
+        //     // }
+        //
+        //     vm.initStatus(0);
+        //     vm.selectAllStatus(false);
+        //     vm.showBar = false;
+        //     vm.hideLoading();
+        //     vm.$apply();
+        // }).catch(function(err){
+        //     console.log(err);
+        //     vm.hideLoading();
+        //     vm.$invoke('toast', 'show', {
+        //         message: '服务异常，请稍后重试',
+        //     });
+        // });
     }
     initStatus(status){
         for(var i=0; i<this.lists.length; i++){
@@ -332,20 +388,22 @@ export default class Attention extends wepy.page {
     makeParam(data){
         var navArr = [],curUserAttentions = this.$parent.globalData.curUserAttention;
         for(let i=0; i<data.length; i++){
-            var navjson = {},listjson = data[i].attributes;
-            navjson.type = data[i].attributes.type;
-            navjson.name = data[i].attributes.typename;
+            var navjson = {},listjson = data[i].attributes.pagedata;
+            navjson.type = data[i].attributes.pagedata.type;
+            navjson.name = data[i].attributes.pagedata.typename;
+            listjson.pid = data[i].attributes.pageid;
             listjson.id = data[i].id;
             listjson.status = 0; //状态
             listjson.selected = false; //是否选中
             listjson.updatedAt = this.$parent.timeFormate(data[i].updatedAt);
             navArr.push(navjson);
-            if(curUserAttentions.indexOf(listjson.id)!=-1){
-                this.lists.push(listjson);
-            }
+            this.lists.push(listjson);
+            // if(curUserAttentions.indexOf(listjson.pid)!=-1){
+            //     this.lists.push(listjson);
+            // }
         }
         this.uniqueNavlist(navArr);
-        // console.log(this.lists);
+        console.log(this.lists,'list');
         this.$apply();
     }
     uniqueNavlist(navArr){

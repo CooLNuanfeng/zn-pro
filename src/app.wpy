@@ -88,7 +88,7 @@ export default class extends wepy.app {
         {"type":"edu","name":"教育培训"},
         {"type":"other","name":"其他消息"},
     ],
-    curUserAttention : null, //当前用户的所有关注
+    curUserAttention : [], //当前用户的所有关注
     refresh : false, //发布 是否刷新
     attrefresh : false, //关注 是否刷新
   }
@@ -111,19 +111,21 @@ export default class extends wepy.app {
         this.globalData.userInfo = user.toJSON();
         console.log(user.toJSON());
         uid = this.globalData.userInfo.objectId;
-        vm.findUserInfo(uid);
+        vm.findUserAttentions(uid);
     }).catch(console.error);
 
   }
 
-  findUserInfo(uid){
-      var userQuery = new AV.Query('UserInfo'),vm = this;
+  findUserAttentions(uid){
+      var userAttentQuery = new AV.Query('UserAttentions'),vm = this;
       console.log(uid,'uid');
       //查询用户关注数组,减少api请求
-      userQuery.equalTo('uid',uid);
-      userQuery.first().then(function(res){
-          console.log(res,'curUserAttention');
-          vm.globalData.curUserAttention = res.attributes.attentions;
+      userAttentQuery.equalTo('uid',uid);
+      userAttentQuery.find().then(function(res){
+          res.forEach(function(item,index){
+              vm.globalData.curUserAttention.push(item.attributes.pageid);
+          });
+          console.log(vm.globalData.curUserAttention,'curUserAttention');
       }).catch(function(err){
           console.log(err);
       });

@@ -1,6 +1,12 @@
 
-    <view  wx:if="{{onload}}" class="container detail-container">
-        <view class="warp">
+    <view class="container detail-container">
+        
+   <view class="loading">
+       <view hidden="{{!$vLoading$loading}}">加载中...</view>
+       <view hidden="{{$vLoading$loading || !$vLoading$loadend}}">我也是有底线的~</view>
+   </view>
+
+        <view  wx:if="{{!loading}}" class="warp">
             
     <view class="swiper-container"  wx:if="{{$swiper$imgUrls}}">
         <swiper class="swiper" indicator-dots="{{$swiper$dots}}" indicator-color="rgba(255,255,255,.5)" indicator-active-color="#ffffff" autoplay="{{$swiper$autoplay}}" interval="3000" duration="500">

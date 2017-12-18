@@ -49,7 +49,7 @@
 import wepy from 'wepy';
 
 import AV from '../utils/av-weapp-min.js';
-import UserInfo from '../models/userinfo';
+import UserAttentions from '../models/userattentions';
 
 export default class ListNews extends wepy.component{
     data = {
@@ -73,47 +73,80 @@ export default class ListNews extends wepy.component{
           });
         },
         doAttention(item,index){
-            // console.log('currid',item.id,item.uid,item.attentionStatus);
-            var vm = this,id = item.id,uid = item.uid,status = item.attentionStatus;
-            var curUser = new UserInfo();
-            var query = new AV.Query('UserInfo');
-            if(!status){
-                query.equalTo('uid',uid);
-                query.count().then(function(count){
-                     if(!count){ //第一次新增
-                         curUser.set('uid',uid);
-                         curUser.set('attentions',[id]);
-                         curUser.save().then(function(res){
-                             vm.lists[index].attentionStatus = 1;
-                             // console.log('aaaaa',vm.lists);
-                             vm.$apply();
-                         });
-                     }else{
-                         query.equalTo('uid',uid);
-                         query.first().then(function(data){
-                             var arr = data.attributes.attentions;
-                             arr.push(id);
-                             data.addUnique('attentions', arr);
-                             return data.save(null,{
-                                 'fetchWhenSave': true
-                             });
-                         }).then(function(res){
-                             //保存成功
-                             vm.lists[index].attentionStatus = 1;
-                             // console.log('bbbb',vm.lists);
-                             vm.$apply();
-                         }).catch(function(err){
-                             console.log(err);
-                         });
-                     }
-                     vm.$parent.$parent.globalData.curUserAttention.push(id);
-                     vm.$parent.$parent.globalData.attrefresh = true;
-                }).catch(function(err){
-                    console.log(err);
+            console.log('currid',item,index);
+
+            var vm = this;
+            var curUser = new UserAttentions();
+            curUser.set('uid',item.uid);
+            curUser.set('pageid',item.id);
+            curUser.set('pagedata',item);
+            curUser.save().then(function(res){
+                vm.hideLoading();
+                vm.lists[index].attentionStatus = 1;
+                vm.$parent.$parent.globalData.curUserAttention.push(item.id);
+                vm.$parent.$parent.globalData.attrefresh = true;
+                vm.$apply();
+            }).catch(function(err){
+                console.log(err);
+                vm.$invoke('toast', 'show', {
+                    message: '服务异常，请稍后重试',
                 });
-            }
+                vm.hideLoading();
+            });
+
+
+
+
+            // var vm = this,id = item.id,uid = item.uid,status = item.attentionStatus;
+            // var curUser = new UserInfo();
+            // var query = new AV.Query('UserInfo');
+            // if(!status){
+            //     query.equalTo('uid',uid);
+            //     query.count().then(function(count){
+            //          if(!count){ //第一次新增
+            //              curUser.set('uid',uid);
+            //              curUser.set('attentions',[id]);
+            //              curUser.save().then(function(res){
+            //                  vm.lists[index].attentionStatus = 1;
+            //                  // console.log('aaaaa',vm.lists);
+            //                  vm.$apply();
+            //              });
+            //          }else{
+            //              query.equalTo('uid',uid);
+            //              query.first().then(function(data){
+            //                  var arr = data.attributes.attentions;
+            //                  arr.push(id);
+            //                  data.addUnique('attentions', arr);
+            //                  return data.save(null,{
+            //                      'fetchWhenSave': true
+            //                  });
+            //              }).then(function(res){
+            //                  //保存成功
+            //                  vm.lists[index].attentionStatus = 1;
+            //                  // console.log('bbbb',vm.lists);
+            //                  vm.$apply();
+            //              }).catch(function(err){
+            //                  console.log(err);
+            //              });
+            //          }
+            //          vm.$parent.$parent.globalData.curUserAttention.push(id);
+            //          vm.$parent.$parent.globalData.attrefresh = true;
+            //     }).catch(function(err){
+            //         console.log(err);
+            //     });
+            // }
         }
     };
+    showLoading(){
+        wx.showLoading({
+            title : '请稍等...'
+        })
+    }
+    hideLoading(){
+        setTimeout(function(){
+          wx.hideLoading()
+        },200)
+    }
 }
 </script>
 

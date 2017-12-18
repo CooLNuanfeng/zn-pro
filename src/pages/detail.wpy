@@ -1,6 +1,7 @@
 <template>
-    <view wx:if="{{onload}}" class="container detail-container">
-        <view class="warp">
+    <view class="container detail-container">
+        <v-loading :loading.sync="loading" :loadend.sync="loadend"></v-loading>
+        <view wx:if="{{!loading}}" class="warp">
             <swiper :imgUrls.sync="imgUrls"></swiper>
             <view class="detail-nav">
                 <view class="detail-title">{{title}}</view>
@@ -207,7 +208,8 @@ import Footer from '../components/footer';
 import Toast from '../components/toast';
 
 import AV from '../utils/av-weapp-min.js';
-import UserInfo from '../models/userinfo';
+import Loading from '../components/loading';
+import UserAttentions from '../models/userattentions';
 
 export default class Detail extends wepy.page {
     data = {
@@ -223,20 +225,24 @@ export default class Detail extends wepy.page {
         imgUrls : [],
         content : null,
         attentionStatus : 0,
-        onload : false,
+        loading : false,
+        loadend : false,
+        pageDate : null, //当前页面数据
     }
     components = {
-        swiper : Swiper,
-        footer: Footer,
-        toast : Toast
+        'swiper' : Swiper,
+        'v-loading' : Loading,
+        'footer': Footer,
+        'toast' : Toast
     }
     onLoad(options){
         // console.log(options);
         var vm = this;
         var query = new AV.Query('NewsList');
         vm.pageId = options.id;
+        vm.loading = true;
         query.get(options.id).then(function(data){
-            // console.log(data);
+            console.log(data,'detial');
             vm.uid = data.attributes.uid;
             vm.title = data.attributes.title;
             vm.subtitle = data.attributes.subtitle;
@@ -248,7 +254,9 @@ export default class Detail extends wepy.page {
             vm.phone = data.attributes.phone;
             vm.imgUrls = data.attributes.formdata.images;
 
-            vm.onload = true;
+            vm.pageDate = data.attributes;
+            vm.pageDate.updatedAt = vm.$parent.timeFormate(data.updatedAt);
+            vm.loading = false;
             vm.$apply();
         }).catch(function(err){
             // console.log(err);
@@ -262,46 +270,16 @@ export default class Detail extends wepy.page {
     methods = {
         doAttention(){
             var vm = this;
-            var curUser = new UserInfo();
-            var query = new AV.Query('UserInfo');
-            if(vm.attentionStatus){
-                return;
-            }
-            // console.log(this.pageId,this.uid);
-            vm.showLoading();
-            query.equalTo('uid',vm.uid);
-            query.count().then(function(count){
-                 if(!count){ //第一次新增
-                     curUser.set('uid',vm.uid);
-                     curUser.set('attentions',[vm.pageId]);
-                     curUser.save().then(function(res){
-                         vm.hideLoading();
-                         vm.attentionStatus = 1;
-                         vm.$apply();
-                     });
-                 }else{
-                     query.equalTo('uid',vm.uid);
-                     query.first().then(function(data){
-                         var arr = data.attributes.attentions;
-                         arr.push(vm.pageId);
-                         data.addUnique('attentions', arr);
-                         return data.save(null,{
-                             fetchWhenSave: true
-                         });
-                     }).then(function(res){
-                         //保存成功
-                         vm.hideLoading();
-                         vm.attentionStatus = 1;
-                         vm.$apply();
-                     }).catch(function(err){
-                         console.log(err);
-                         vm.$invoke('toast', 'show', {
-                             message: '服务异常，请稍后重试',
-                         });
-                     });
-                 }
-                 vm.$parent.globalData.curUserAttention.push(vm.pageId);
-                 vm.$parent.globalData.attrefresh = true;
+            var curUser = new UserAttentions();
+            curUser.set('uid',vm.uid);
+            curUser.set('pageid',vm.pageId);
+            curUser.set('pagedata',vm.pageDate);
+            curUser.save().then(function(res){
+                vm.hideLoading();
+                vm.attentionStatus = 1;
+                vm.$apply();
+                vm.$parent.globalData.curUserAttention.push(vm.pageId);
+                vm.$parent.globalData.attrefresh = true;
             }).catch(function(err){
                 console.log(err);
                 vm.$invoke('toast', 'show', {
@@ -309,6 +287,53 @@ export default class Detail extends wepy.page {
                 });
                 vm.hideLoading();
             });
+            // var query = new AV.Query('UserAttentions');
+            // if(vm.attentionStatus){
+            //     return;
+            // }
+            // // console.log(this.pageId,this.uid);
+            // vm.showLoading();
+            // query.equalTo('uid',vm.uid);
+            // query.count().then(function(count){
+            //      if(!count){ //第一次新增
+            //          curUser.set('uid',vm.uid);
+            //          curUser.set('pageid',vm.pageId);
+            //          curUser.set('pagedata',vm.pageDate);
+            //          curUser.save().then(function(res){
+            //              vm.hideLoading();
+            //              vm.attentionStatus = 1;
+            //              vm.$apply();
+            //          });
+            //      }else{
+            //          query.equalTo('uid',vm.uid);
+            //          query.first().then(function(data){
+            //              var arr = data.attributes.attentions;
+            //              arr.push(vm.pageId);
+            //              data.addUnique('attentions', arr);
+            //              return data.save(null,{
+            //                  fetchWhenSave: true
+            //              });
+            //          }).then(function(res){
+            //              //保存成功
+            //              vm.hideLoading();
+            //              vm.attentionStatus = 1;
+            //              vm.$apply();
+            //          }).catch(function(err){
+            //              console.log(err);
+            //              vm.$invoke('toast', 'show', {
+            //                  message: '服务异常，请稍后重试',
+            //              });
+            //          });
+            //      }
+            //      vm.$parent.globalData.curUserAttention.push(vm.pageId);
+            //      vm.$parent.globalData.attrefresh = true;
+            // }).catch(function(err){
+            //     console.log(err);
+            //     vm.$invoke('toast', 'show', {
+            //         message: '服务异常，请稍后重试',
+            //     });
+            //     vm.hideLoading();
+            // });
 
         },
         doPhone(){
