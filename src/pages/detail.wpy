@@ -287,53 +287,7 @@ export default class Detail extends wepy.page {
                 });
                 vm.hideLoading();
             });
-            // var query = new AV.Query('UserAttentions');
-            // if(vm.attentionStatus){
-            //     return;
-            // }
-            // // console.log(this.pageId,this.uid);
-            // vm.showLoading();
-            // query.equalTo('uid',vm.uid);
-            // query.count().then(function(count){
-            //      if(!count){ //第一次新增
-            //          curUser.set('uid',vm.uid);
-            //          curUser.set('pageid',vm.pageId);
-            //          curUser.set('pagedata',vm.pageDate);
-            //          curUser.save().then(function(res){
-            //              vm.hideLoading();
-            //              vm.attentionStatus = 1;
-            //              vm.$apply();
-            //          });
-            //      }else{
-            //          query.equalTo('uid',vm.uid);
-            //          query.first().then(function(data){
-            //              var arr = data.attributes.attentions;
-            //              arr.push(vm.pageId);
-            //              data.addUnique('attentions', arr);
-            //              return data.save(null,{
-            //                  fetchWhenSave: true
-            //              });
-            //          }).then(function(res){
-            //              //保存成功
-            //              vm.hideLoading();
-            //              vm.attentionStatus = 1;
-            //              vm.$apply();
-            //          }).catch(function(err){
-            //              console.log(err);
-            //              vm.$invoke('toast', 'show', {
-            //                  message: '服务异常，请稍后重试',
-            //              });
-            //          });
-            //      }
-            //      vm.$parent.globalData.curUserAttention.push(vm.pageId);
-            //      vm.$parent.globalData.attrefresh = true;
-            // }).catch(function(err){
-            //     console.log(err);
-            //     vm.$invoke('toast', 'show', {
-            //         message: '服务异常，请稍后重试',
-            //     });
-            //     vm.hideLoading();
-            // });
+            
 
         },
         doPhone(){

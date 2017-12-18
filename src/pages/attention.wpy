@@ -108,6 +108,7 @@ export default class Attention extends wepy.page {
         uid : '',
         navlists : [],
         lists : [],
+        initLists : null, //初始 list数据
         themeimg : '',
         showBar: false, //是否显示底部删除操作
         selectStatus : false, //是否有选中
@@ -226,7 +227,7 @@ export default class Attention extends wepy.page {
     events = {
         navChange(params){
             console.log(params,'from child');
-            // this.filterList(params);
+            this.filterList(params);
         }
     }
     fetch(){
@@ -248,29 +249,6 @@ export default class Attention extends wepy.page {
         });
 
 
-
-
-        // var vm = this,query = new AV.Query('NewsList');
-        // vm.loading = true;
-        // query.equalTo('uid', this.uid);
-        // query.descending('updatedAt');
-        // query.limit(vm.pageSize);
-        // query.find().then(function(data){
-        //     console.log(data,'data');
-        //     vm.loading = false;
-        //     if(data.length < vm.pageSize){
-        //         vm.loadend = true;
-        //     }else{
-        //         vm.page += 1;
-        //     }
-        //     vm.makeParam(data);
-        // }).catch(function(err){
-        //     console.log(err);
-        //     vm.loading = false;
-        //     vm.$invoke('toast', 'show', {
-        //         message: '服务异常，请稍后重试',
-        //     });
-        // });
     }
     delFetch(arr){
         console.log(arr,'del');
@@ -291,15 +269,18 @@ export default class Attention extends wepy.page {
                     }
                 }
             }
+            if(!vm.lists.length){
+                // initLists lists 的切换 遍历 initlists 剔除 delPid
+                // 266 行 试试 循环 initLists
+            }
             vm.$parent.globalData.curUserAttention = vm.delFromArr(curUserAttentions,delPidArr);
+            // vm.initNavList(vm.lists);
+            vm.initNavList(vm.initLists);
             vm.initStatus(0);
             vm.selectAllStatus(false);
             vm.showBar = false;
             vm.hideLoading();
             vm.$apply();
-            vm.$invoke('toast', 'show', {
-                message: '操作成功',
-            });
         }, function (err) {
             console.log(err);
             vm.$invoke('toast', 'show', {
@@ -307,42 +288,6 @@ export default class Attention extends wepy.page {
             });
         });
 
-        // var curUser = new UserInfo(),vm = this,
-        //     query = new AV.Query('UserInfo'),
-        //     curUserAttentions = vm.$parent.globalData.curUserAttention;
-        // vm.showLoading();
-        // query.equalTo('uid',vm.uid);
-        // query.first().then(function(data){
-        //     var resArr = data.attributes.attentions;
-        //     var reslult = vm.delFromArr(resArr,arr);
-        //     vm.$parent.globalData.curUserAttention = vm.delFromArr(curUserAttentions,arr);
-        //     // console.log(reslult,vm.$parent.globalData.curUserAttention);
-        //     data.set('attentions', reslult);
-        //     return data.save(null,{
-        //         fetchWhenSave: true
-        //     });
-        // }).then(function(){
-        //     //保存成功
-        //     // for(let i=0; i<vm.delArrIds.length; i++){
-        //     //     for(let j=0; j<vm.lists.length;j++){
-        //     //         if(vm.lists[j].id == vm.delArrIds[i]){
-        //     //             vm.lists.splice(j,1);
-        //     //         }
-        //     //     }
-        //     // }
-        //
-        //     vm.initStatus(0);
-        //     vm.selectAllStatus(false);
-        //     vm.showBar = false;
-        //     vm.hideLoading();
-        //     vm.$apply();
-        // }).catch(function(err){
-        //     console.log(err);
-        //     vm.hideLoading();
-        //     vm.$invoke('toast', 'show', {
-        //         message: '服务异常，请稍后重试',
-        //     });
-        // });
     }
     initStatus(status){
         for(var i=0; i<this.lists.length; i++){
@@ -385,29 +330,53 @@ export default class Attention extends wepy.page {
             this.selectAll = false;
         }
     }
+    filterList(params){
+        var filterArr = [];
+        this.lists = this.initLists;
+        if(params == 'all'){
+            return ;
+        }else{
+            for(var i=0; i<this.lists.length; i++){
+                if(this.lists[i].type == params.type){
+                    filterArr.push(this.lists[i]);
+                }
+            }
+            this.lists = filterArr;
+        }
+    }
     makeParam(data){
-        var navArr = [],curUserAttentions = this.$parent.globalData.curUserAttention;
+        // var curUserAttentions = this.$parent.globalData.curUserAttention;
         for(let i=0; i<data.length; i++){
-            var navjson = {},listjson = data[i].attributes.pagedata;
-            navjson.type = data[i].attributes.pagedata.type;
-            navjson.name = data[i].attributes.pagedata.typename;
+            var listjson = data[i].attributes.pagedata;
             listjson.pid = data[i].attributes.pageid;
             listjson.id = data[i].id;
             listjson.status = 0; //状态
             listjson.selected = false; //是否选中
             listjson.updatedAt = this.$parent.timeFormate(data[i].updatedAt);
-            navArr.push(navjson);
             this.lists.push(listjson);
             // if(curUserAttentions.indexOf(listjson.pid)!=-1){
             //     this.lists.push(listjson);
             // }
         }
-        this.uniqueNavlist(navArr);
+        this.initLists = this.lists;
+        this.initNavList(this.lists);
         console.log(this.lists,'list');
         this.$apply();
     }
+    initNavList(lists){
+        console.log(lists,'initNavList');
+        var navArr = [];
+        for(var i=0; i<lists.length; i++){
+            var navjson = {};
+            navjson.type = lists[i].type;
+            navjson.name = lists[i].typename;
+            navArr.push(navjson);
+        }
+        this.uniqueNavlist(navArr);
+    }
     uniqueNavlist(navArr){
         // console.log(navArr,'navArr');
+        this.navlists.length = 0;
         for(let i=0; i<navArr.length;i++){
             var flag = false;
             if(this.navlists.length){
@@ -423,8 +392,6 @@ export default class Attention extends wepy.page {
             }else{
                 this.navlists.push(navArr[i]);
             }
-
-
         }
     }
     angle(start, end) {

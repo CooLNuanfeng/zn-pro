@@ -18,6 +18,15 @@ export default class NavBar extends wepy.component{
     onLoad(){
         // console.log(this.navlist,'nav');
     }
+    watch = {
+        navlist(newVal,oldVal){
+            if(newVal && oldVal && newVal.length !== oldVal.length){
+                this.current = 'all';
+                this.$apply();
+                // console.log('change nav current',this.current);
+            }
+        }
+    }
     methods = {
         change(item){
             if(item == 'all'){

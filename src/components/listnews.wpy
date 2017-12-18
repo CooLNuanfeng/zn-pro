@@ -95,46 +95,6 @@ export default class ListNews extends wepy.component{
             });
 
 
-
-
-            // var vm = this,id = item.id,uid = item.uid,status = item.attentionStatus;
-            // var curUser = new UserInfo();
-            // var query = new AV.Query('UserInfo');
-            // if(!status){
-            //     query.equalTo('uid',uid);
-            //     query.count().then(function(count){
-            //          if(!count){ //第一次新增
-            //              curUser.set('uid',uid);
-            //              curUser.set('attentions',[id]);
-            //              curUser.save().then(function(res){
-            //                  vm.lists[index].attentionStatus = 1;
-            //                  // console.log('aaaaa',vm.lists);
-            //                  vm.$apply();
-            //              });
-            //          }else{
-            //              query.equalTo('uid',uid);
-            //              query.first().then(function(data){
-            //                  var arr = data.attributes.attentions;
-            //                  arr.push(id);
-            //                  data.addUnique('attentions', arr);
-            //                  return data.save(null,{
-            //                      'fetchWhenSave': true
-            //                  });
-            //              }).then(function(res){
-            //                  //保存成功
-            //                  vm.lists[index].attentionStatus = 1;
-            //                  // console.log('bbbb',vm.lists);
-            //                  vm.$apply();
-            //              }).catch(function(err){
-            //                  console.log(err);
-            //              });
-            //          }
-            //          vm.$parent.$parent.globalData.curUserAttention.push(id);
-            //          vm.$parent.$parent.globalData.attrefresh = true;
-            //     }).catch(function(err){
-            //         console.log(err);
-            //     });
-            // }
         }
     };
     showLoading(){
