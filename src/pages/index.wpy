@@ -288,7 +288,7 @@
     image{
         width: 80rpx;;
         height: 80rpx;
-        margin-top: 20rpx;
+        margin-top: 10rpx;
         opacity: .6;
     }
 }
