@@ -107,6 +107,7 @@ export default class Attention extends wepy.page {
     data = {
         uid : '',
         navlists : [],
+        curNavType : 'all',
         lists : [],
         initLists : null, //初始 list数据
         themeimg : '',
@@ -227,7 +228,12 @@ export default class Attention extends wepy.page {
     events = {
         navChange(params){
             console.log(params,'from child');
-            this.filterList(params);
+            if(params.type){
+                this.curNavType = params.type;
+            }else{
+                this.curNavType = 'all';
+            }
+            this.filterList();
         }
     }
     fetch(){
@@ -263,19 +269,22 @@ export default class Attention extends wepy.page {
 
         AV.Object.destroyAll(objectsArr).then(function () {
             for(let i=0; i<delPidArr.length; i++){
-                for(let j=0; j<vm.lists.length;j++){
-                    if(vm.lists[j].pid == delPidArr[i]){
-                        vm.lists.splice(j,1);
+                for(let j=0; j<vm.initLists.length;j++){
+                    if(vm.initLists[j].pid == delPidArr[i]){
+                        vm.initLists.splice(j,1);
                     }
                 }
             }
-            if(!vm.lists.length){
-                // initLists lists 的切换 遍历 initlists 剔除 delPid
-                // 266 行 试试 循环 initLists
-            }
+            // if(!vm.lists.length){
+            //     // initLists lists 的切换 遍历 initlists 剔除 delPid
+            //     // 266 行 试试 循环 initLists
+            // }
             vm.$parent.globalData.curUserAttention = vm.delFromArr(curUserAttentions,delPidArr);
             // vm.initNavList(vm.lists);
-            vm.initNavList(vm.initLists);
+            // vm.initNavList(vm.initLists);
+            vm.filterList();
+            vm.initNavList();
+
             vm.initStatus(0);
             vm.selectAllStatus(false);
             vm.showBar = false;
@@ -330,14 +339,14 @@ export default class Attention extends wepy.page {
             this.selectAll = false;
         }
     }
-    filterList(params){
-        var filterArr = [];
+    filterList(){
+        var filterArr = [],type = this.curNavType;
         this.lists = this.initLists;
-        if(params == 'all'){
+        if(type == 'all'){
             return ;
         }else{
             for(var i=0; i<this.lists.length; i++){
-                if(this.lists[i].type == params.type){
+                if(this.lists[i].type == type){
                     filterArr.push(this.lists[i]);
                 }
             }
@@ -359,17 +368,17 @@ export default class Attention extends wepy.page {
             // }
         }
         this.initLists = this.lists;
-        this.initNavList(this.lists);
+        this.initNavList();
         console.log(this.lists,'list');
         this.$apply();
     }
-    initNavList(lists){
-        console.log(lists,'initNavList');
+    initNavList(){
+        // console.log(lists,'initNavList');
         var navArr = [];
-        for(var i=0; i<lists.length; i++){
+        for(var i=0; i<this.initLists.length; i++){
             var navjson = {};
-            navjson.type = lists[i].type;
-            navjson.name = lists[i].typename;
+            navjson.type = this.initLists[i].type;
+            navjson.name = this.initLists[i].typename;
             navArr.push(navjson);
         }
         this.uniqueNavlist(navArr);

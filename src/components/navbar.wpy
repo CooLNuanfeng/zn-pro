@@ -23,6 +23,7 @@ export default class NavBar extends wepy.component{
             if(newVal && oldVal && newVal.length !== oldVal.length){
                 this.current = 'all';
                 this.$apply();
+                this.$emit('navChange','all');
                 // console.log('change nav current',this.current);
             }
         }
