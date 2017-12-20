@@ -39,33 +39,6 @@
                                 <view class="item-att-r" @tap.stop="delItem({{item}},{{index}})"><text>取消</text><text>关注</text></view>
                             </view>
                         </view>
-
-
-                        <!-- <view class="attention-item {{status == 1?'active':''}} {{status==-1?'delete':''}}" @touchstart="touchstart" @touchmove.stop="touchmove" @tap="goDetail('{id:1,type:job}')">
-                            <view class="item-att-select active"><text class="select-icon"></text></view>
-                            <view class="item-att-main">
-                                <view class="item-att-l">
-                                    <view class="item-att-title"><text>图</text>距离可垃圾地方李经理卡机法律框架拉动房价看了监考老师放假了是就发即可拉伸减肥的爱是理解对方考虑</view>
-                                    <view class="item-att-body">
-                                        <view class="item-att-info">
-                                            <view>简单 方便 快捷</view>
-                                            <view class="item-att-price">￥<text>1234</text>元</view>
-                                            <view class="item-att-time"><text>发布者: 小程序</text> <text>2017-10-20</text></view>
-                                        </view>
-                                        <view class="item-att-btn">
-                                            <view class="item-att-type">
-                                                <image src="../images/{{themeimg}}sale.png"></image>
-                                            </view>
-                                            <view>
-                                                <image src="../images/{{themeimg}}phone.png"></image> 电话
-                                            </view>
-                                        </view>
-                                    </view>
-                                </view>
-                                <view class="item-att-r">删除</view>
-                            </view>
-                        </view> -->
-
                     </view>
                 </view>
                 <v-loading :loading.sync="loading" :loadend.sync="loadend"></v-loading>
@@ -99,7 +72,7 @@ import Toast from '../components/toast';
 import AV from '../utils/av-weapp-min.js';
 // import UserAttentions from '../models/userattentions';
 
-export default class Attention extends wepy.page {
+export default class MyPublish extends wepy.page {
     components = {
         'nav-bar' : NavBar,
         'v-loading' : Loading,
@@ -118,7 +91,6 @@ export default class Attention extends wepy.page {
         selectAll : false, //全选
         startX : 0,
         startY: 0,
-        // delArrIds : null, //要删除的 arr id
         loading : false,
         loadend : false,
         page : 1, //当前页
@@ -224,16 +196,16 @@ export default class Attention extends wepy.page {
     onShow(){
         var vm = this;
         setTimeout(function(){
-            var attrefresh = vm.$parent.globalData.attrefresh;
-            // console.log(attrefresh,'attrefresh');
-            if(attrefresh){
+            var refresh = vm.$parent.globalData.refresh;
+            // console.log(refresh,'refresh');
+            if(refresh){
                 vm.loadend = false;
                 vm.page = 1;
                 vm.scrollTop = 0;
                 vm.lists = [];
                 vm.initLists = [];
                 vm.fetch();
-                vm.$parent.globalData.attrefresh = false;
+                vm.$parent.globalData.refresh = false;
             }
         },100);
         vm.showBar = false;
@@ -251,7 +223,7 @@ export default class Attention extends wepy.page {
         }
     }
     fetch(){
-        var vm = this,query = new AV.Query('UserAttentions');
+        var vm = this,query = new AV.Query('NewsList');
         vm.loading = true;
         query.equalTo('uid', this.uid);
         query.descending('updatedAt');
@@ -273,7 +245,7 @@ export default class Attention extends wepy.page {
         });
     }
     scrollFetch(){
-        var vm = this,query = new AV.Query('UserAttentions');
+        var vm = this,query = new AV.Query('NewsList');
         if(vm.loadend || vm.loading){
             return;
         }
@@ -318,7 +290,7 @@ export default class Attention extends wepy.page {
                     }
                 }
             }
-            
+
             vm.$parent.globalData.curUserAttention = vm.delFromArr(curUserAttentions,delPidArr);
             // vm.initNavList(vm.lists);
             // vm.initNavList(vm.initLists);
@@ -396,8 +368,7 @@ export default class Attention extends wepy.page {
     makeParam(data){
         // var curUserAttentions = this.$parent.globalData.curUserAttention;
         for(let i=0; i<data.length; i++){
-            var listjson = data[i].attributes.pagedata;
-            listjson.pid = data[i].attributes.pageid;
+            var listjson = data[i].attributes;
             listjson.id = data[i].id;
             listjson.status = 0; //状态
             listjson.selected = false; //是否选中

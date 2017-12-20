@@ -16,23 +16,23 @@
                 </view>
                 <view class="user-body">
                     <view class="user-list">
-                        <view>
+                        <view bindtap="myAttentions">
                             <text>我的关注</text>
                             <image src="../images/arrow.png"/>
                         </view>
                     </view>
                     <view class="user-list">
-                        <view>
+                        <view bindtap="myPublish">
                             <text>我的发布</text>
                             <image src="../images/arrow.png"/>
                         </view>
                     </view>
-                    <view class="user-list">
+                    <!-- <view class="user-list">
                         <view>
                             <text>我的草稿</text>
-                            <image src="../images/arrow.png"/>
+                            <image src="../images/arrow.png"></image>
                         </view>
-                    </view>
+                    </view> -->
                 </view>
                 <view class="about-body">
                     <view class="user-list">

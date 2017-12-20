@@ -16,23 +16,23 @@
                 </view>
                 <view class="user-body">
                     <view class="user-list">
-                        <view>
+                        <view @tap="myAttentions">
                             <text>我的关注</text>
                             <image src="../images/arrow.png"></image>
                         </view>
                     </view>
                     <view class="user-list">
-                        <view>
+                        <view @tap="myPublish">
                             <text>我的发布</text>
                             <image src="../images/arrow.png"></image>
                         </view>
                     </view>
-                    <view class="user-list">
+                    <!-- <view class="user-list">
                         <view>
                             <text>我的草稿</text>
                             <image src="../images/arrow.png"></image>
                         </view>
-                    </view>
+                    </view> -->
                 </view>
                 <view class="about-body">
                     <view class="user-list">
@@ -70,6 +70,16 @@ export default class User extends wepy.page {
         aboutPage(){
             wx.navigateTo({
               url: 'about'
+            });
+        },
+        myAttentions(){
+            wx.switchTab({
+              url: 'attention'
+            });
+        },
+        myPublish(){
+            wx.navigateTo({
+              url: 'mypublish'
             });
         }
     };

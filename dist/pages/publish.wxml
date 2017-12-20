@@ -671,9 +671,9 @@
 
         </view>
         <view class="publish-btn">
-            <view class="btn-save" bindtap="priview">预览</view>
-            <view class="btn-save" bindtap="saveMe">保存</view>
-            <view class="btn-submit" bindtap="submit">提交</view>
+            <view class="btn-save" bindtap="priview">预 览</view>
+            <!-- <view class="btn-save" bindtap="saveMe">保存</view> -->
+            <view class="btn-submit" bindtap="submit">发 布</view>
         </view>
         
     <view hidden="{{$toast$hidden}}" class="{{!$toast$load ? 'toast':'toast load'}}">{{$toast$infoObj.message}}</view>
