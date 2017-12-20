@@ -1,0 +1,406 @@
+<template>
+    <view class="container detail-container">
+        <view class="warp">
+            <swiper :imgUrls.sync="imgUrls"></swiper>
+            <view class="detail-nav">
+                <view class="detail-title">{{title}}</view>
+                <view class="detail-des">{{subtitle}}</view>
+                <view class="detail-info">
+                    <view class="detail-nickname">发布者: {{nickname}}</view>
+                    <view class="detail-timer">发布时间: {{pubTimer}}</view>
+                </view>
+            </view>
+            <!-- 招聘信息  -->
+            <view wx:if="{{categoryType == 'job' ? true: false}}" class="job-box mt20">
+                <view class="item-rule">
+                    <view><text>职位: </text> {{content.jobname}}</view>
+                    <view><text>薪资: </text><text class="text-red"> {{content.jobprice}}元起/月</text></view>
+                    <view><text>要求: </text> {{content.eduType.name}}</view>
+                    <view><text>人数: </text> {{content.number}}人 </view>
+                    <view><text>地址: </text> {{content.address}}</view>
+                </view>
+                <view class="job-desc pd20">
+                    <view class="item-title">职位介绍</view>
+                    <view class="item-text">
+                        <view class="item-sub-title">岗位职责：</view>
+                        <view wx:for="{{content.dutyArr}}" wx:key><text>•</text>{{item}}</view>
+                        <!-- <view>2、离开家阿卡丽地方实际付的灯光都是改款了</view> -->
+                        <view class="item-sub-title">职位要求：</view>
+                        <view wx:for="{{content.claimArr}}" wx:key><text>•</text>{{item}}</view>
+                        <!-- <view>2、离开家阿卡丽地方实际付的灯光都是改款了</view> -->
+                    </view>
+                </view>
+                <view class="job-desc pd20">
+                    <view class="item-title">公司介绍</view>
+                    <view class="job-company">
+                        <view><text>公司名称: </text> {{content.companyName}}</view>
+                        <view><text>公司人数:</text> {{content.companyNumber}}</view>
+                        <view><text>公司地址: </text> {{content.address}}</view>
+                        <view wx:if="{{content.companyInfo}}"><text>公司简介:</text> {{content.companyInfo}}</view>
+                    </view>
+                </view>
+            </view>
+
+            <!-- 打折促销 -->
+            <view wx:if="{{categoryType == 'sale' ? true: false}}" class="sale-box mt20">
+                <view class="item-rule">
+                    <view><text>开始日期: </text> {{content.startdate}}</view>
+                    <view><text>结束日期: </text> {{content.enddate}}</view>
+                    <view><text>开始时间: </text> {{content.starttime}}</view>
+                    <view><text>结束时间: </text> {{content.endtime}}</view>
+                    <view><text>活动类型: </text> {{content.saleType.name}}</view>
+                    <view><text>活动地址: </text> {{content.address}}</view>
+                </view>
+                <view class="item-flex pd20">
+                    <view class="item-title">活动内容</view>
+                    <view class="item-text">
+                        <view wx:for="{{content.activityArr}}" wx:key><text>•</text>{{item}}</view>
+                    </view>
+                </view>
+            </view>
+
+            <!-- 房屋租售 -->
+            <view wx:if="{{categoryType == 'home' ? true: false}}" class="house-box mt20">
+                <view class="item-rule">
+                    <view><text>户型: </text>{{content.homeType.name}}</view>
+                    <view wx:if="{{content.typeJson.type == 0}}"><text>价格: </text><text class="text-red">￥{{content.price}}元/月</text></view>
+                    <view wx:else><text>价格: </text><text class="text-red">￥{{content.price}}万元</text></view>
+                    <view><text>地址: </text>{{content.address}}</view>
+                </view>
+                <view class="item-flex pd20">
+                    <view class="item-title">房屋信息</view>
+                    <view class="item-text">
+                        <view wx:for="{{content.homeInfoArr}}" wx:key><text>•</text>{{item}}</view>
+                    </view>
+                </view>
+            </view>
+
+            <!-- 车辆交易 -->
+            <view wx:if="{{categoryType == 'car' ? true: false}}" class="car-box mt20">
+                <view class="item-rule">
+                    <view><text>车辆型号: </text> {{content.carname}}</view>
+                    <view><text>出售价格: </text><text class="text-red"> ￥{{content.price}}万元</text></view>
+                    <view><text>上牌时间: </text> {{content.endDate}}</view>
+                    <view><text>行驶里程: </text> {{content.mileage}}万公里</view>
+                    <view><text>年检到期: </text> {{content.startDate}}</view>
+                </view>
+                <view class="item-flex pd20">
+                    <view class="item-title">车辆信息</view>
+                    <view class="item-text">
+                        <view wx:for="{{content.carInfoArr}}" wx:key><text>•</text>{{item}}</view>
+                    </view>
+                </view>
+            </view>
+
+            <!-- 美食推荐 -->
+            <view wx:if="{{categoryType == 'food' ? true: false}}" class="food-box mt20">
+                <view class="item-rule">
+                    <view><text>人均: </text><text class="text-red">￥{{content.price}}元/人</text></view>
+                    <view><text>特色: </text>{{content.features}}</view>
+                    <view><text>地址: </text>{{content.address}}</view>
+                </view>
+                <view class="item-flex pd20">
+                    <view class="item-title">美食推荐描述</view>
+                    <view class="item-text">
+                        <view wx:for="{{content.foodInfoArr}}" wx:key><text>•</text>{{item}}</view>
+                    </view>
+                </view>
+            </view>
+
+            <!-- 相亲交友 -->
+            <view wx:if="{{categoryType == 'friend' ? true: false}}" class="friend-box mt20">
+                <view class="item-rule">
+                    <view><text>微信: </text>{{content.wechartnumber}}</view>
+                    <view><text>QQ: </text>{{content.qqnumber}}</view>
+                    <view><text>地址: </text>{{content.address}}</view>
+                </view>
+                <view class="item-flex pd20">
+                    <view class="item-title">交友描述</view>
+                    <view class="item-text">
+                        <view class="item-sub-title">关于我：</view>
+                        <view wx:for="{{content.aboutMeArr}}" wx:key>
+                            <text>•</text>{{item}}
+                        </view>
+                        <view class="item-sub-title">希望ta：</view>
+                        <view wx:for="{{content.hopeTaArr}}" wx:key>
+                            <text>•</text>{{item}}
+                        </view>
+                    </view>
+                </view>
+            </view>
+
+            <!-- 宠物 -->
+            <view wx:if="{{categoryType == 'pet' ? true: false}}" class="pet-box mt20">
+                <view class="item-rule">
+                    <view><text>价格: </text><text class="text-red">￥{{content.price}}元/只</text></view>
+                    <view><text>类别: </text>{{content.category}}</view>
+                    <view><text>年龄: </text>{{content.age}}</view>
+                </view>
+                <view class="item-flex pd20">
+                    <view class="item-title">宠物描述信息</view>
+                    <view class="item-text">
+                        <view wx:for="{{content.petInfoArr}}" wx:key>
+                            <text>•</text>{{item}}
+                        </view>
+                    </view>
+                </view>
+            </view>
+
+            <!-- 寻人寻物 -->
+            <view wx:if="{{categoryType == 'find' ? true: false}}" class="find-box mt20">
+                <view class="item-rule">
+                    <view><text>丢失时间: </text>{{content.date}}</view>
+                    <view><text>丢失地点: </text>{{content.address}}</view>
+                </view>
+                <view class="item-flex pd20">
+                    <view class="item-title">附加信息</view>
+                    <view class="item-text">
+                        <view wx:for="{{content.findInfoArr}}" wx:key><text>•</text>{{item}}</view>
+                    </view>
+                </view>
+            </view>
+
+
+            <!-- 教育培训 -->
+            <view wx:if="{{categoryType == 'edu' ? true: false}}" class="edu-box mt20">
+                <view class="item-rule">
+                    <view><text>开始时间: </text>{{content.startDate}}</view>
+                    <view><text>结束时间: </text>{{content.endDate}}</view>
+                    <view><text>培训费用: </text><text class="text-red">￥{{content.price}}元/人</text></view>
+                    <view><text>培训地点: </text>{{content.address}}</view>
+                </view>
+                <view class="item-flex pd20">
+                    <view class="item-title">培训内容描述</view>
+                    <view class="item-text">
+                        <view wx:for="{{content.eduInfoArr}}" wx:key><text>•</text>{{item}}</view>
+                    </view>
+                </view>
+            </view>
+
+
+            <!-- 其他消息 -->
+            <view wx:if="{{categoryType == 'other' ? true: false}}" class="other-box mt20">
+                <view class="item-flex pd20">
+                    <view class="item-title">相关描述</view>
+                    <view class="item-text">
+                        <view wx:for="{{content.otherInfoArr}}" wx:key><text>•</text>{{item}}</view>
+                    </view>
+                </view>
+            </view>
+        </view>
+        <view class="detail-btn">
+            <view class="detail-name">联系人: {{publisher||nickname}} (先生/女生)</view>
+            <view class="detail-phone" @tap="doAction">发布</view>
+        </view>
+        <footer />
+        <toast></toast>
+    </view>
+</template>
+
+<script>
+import wepy from 'wepy';
+import Swiper from '../components/swiper';
+import Footer from '../components/footer';
+import Toast from '../components/toast';
+
+
+export default class Detail extends wepy.page {
+    data = {
+        title : '',
+        subtitle: '',
+        nickname : '',
+        publisher : '',
+        pubTimer : '',
+        phone : '',
+        categoryType: '',
+        imgUrls : [],
+        content : null,
+    }
+    components = {
+        'swiper' : Swiper,
+        'footer': Footer,
+        'toast' : Toast
+    }
+    onLoad(){
+        var vm = this,
+        data = vm.$parent.globalData.previewData;
+        console.log(data,'preview');
+        vm.title = data.title;
+        vm.subtitle = data.subtitle;
+        vm.nickname = data.nickname;
+        vm.publisher = data.publishername;
+        vm.pubTimer = vm.$parent.timeFormate(new Date());
+        vm.categoryType = data.type;
+        vm.content = data.formdata;
+        vm.phone = data.phone;
+        vm.imgUrls = data.formdata.images;
+    }
+    methods = {
+        doAction(){
+            this.$parent.globalData.previewBack = true;
+            wx.navigateBack();
+        }
+    }
+    
+}
+</script>
+
+<style lang="scss">
+@import "../sass/_mixin.scss";
+.pd20{
+    padding: 0 20rpx;
+}
+.mt20{
+    margin-top: 20rpx;
+}
+.text-red{
+    color: $red;
+}
+.detail-container{
+    padding-bottom: 60rpx;
+}
+.detail-nav{
+    padding: 10rpx 20rpx;
+    background: #fff;
+}
+.detail-title{
+    font-size: 36rpx;
+    color: $fontBlack;
+    @include text-overflow(2);
+}
+.detail-des{
+    font-size: 28rpx;
+    color: $gray;
+    @include text-overflow(1);
+}
+.detail-info{
+    display: flex;
+    justify-content: space-between;
+}
+.detail-nickname{
+    flex: 1;
+    font-size: 24rpx;
+    color: $gray;
+    @include text-overflow(1);
+}
+.detail-timer{
+    flex: 1;
+    font-size: 24rpx;
+    color: $gray;
+    text-align: right;
+}
+.detail-btn{
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 90rpx;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.detail-name{
+    flex: 2;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: $fontBlack;
+    font-size: 26rpx;
+    background: #fff;
+}
+.detail-attention{
+    flex: 1;
+    height: 100%;
+    background: #fff;
+    view{
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        font-size: 26rpx;
+        background: $themeColor;
+        &.active{
+            opacity: .5;
+        }
+    }
+}
+.detail-phone{
+    flex: 1;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 26rpx;
+    background: $red;
+}
+
+.item-rule{
+    padding: 20rpx;
+    background: #fff;
+    margin-bottom: 20rpx;
+    font-size: 28rpx;
+    color: $fontBlack;
+    view{
+        padding: 4rpx 0;
+        line-height: 40rpx;
+        padding-left: 80rpx;
+        word-wrap: break-word;
+        word-break: break-all;
+        text:first-child{
+            padding-right: 20rpx;
+            color: $gray;
+            float: left;
+            margin-left: -80rpx;
+        }
+    }
+}
+.item-title{
+    height: 80rpx;
+    line-height: 80rpx;
+    font-size: 28rpx;
+    border-bottom: 1rpx solid #ebebeb;
+}
+.item-text{
+    padding: 20rpx 0;
+    font-size: 28rpx;
+    color: $fontBlack;
+    text{
+        padding-right: 15rpx;
+        font-size: 28rpx;
+        color: $gray;
+    }
+    view{
+        line-height: 50rpx;
+    }
+}
+.item-sub-title{
+    color: $gray;
+    margin-top: 10rpx;
+}
+
+.item-flex{
+    background: #fff;
+}
+
+.job-desc{
+    background: #fff;
+    margin-top: 20rpx;
+}
+.job-company{
+    padding-top: 20rpx;
+    padding-bottom: 40rpx;
+    font-size: 28rpx;
+    line-height: 50rpx;
+    view{
+        padding-left: 130rpx;
+    }
+    text{
+        margin-left: -130rpx;
+        padding-right: 10rpx;
+    }
+}
+
+</style>

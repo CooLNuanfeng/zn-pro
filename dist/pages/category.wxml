@@ -26,9 +26,10 @@
     </scroll-view>
 
             </view>
-            <view class="category-body {{navlist?'category-body-pt':''}}">
-                
-    <view class="list-contaier" hidden="{{loading}}">
+            <scroll-view class="category-body {{navlist?'category-body-pt':''}}" scroll-y="true" scroll-top="{{scrollTop}}" lower-threshold="150" bindscrolltolower="scrollFetch" bindscroll="scroll">
+                <view class="category-lists">
+                    
+    <view class="list-contaier">
         <view  wx:for="{{$newsList$lists}}" wx:key="wx:key" class="list-flex" bindtap="$newsList$goDetail" data-wpygodetail-a="{{item.id}}">
             <view class="list-title">
                 <text class="list-tag" wx:if="{{item.formdata.images}}">图</text>
@@ -73,17 +74,21 @@
         </view>-->
     </view>
 
-            </view>
-            
+                    
    <view class="loading">
        <view hidden="{{!$vLoading$loading}}">加载中...</view>
        <view hidden="{{$vLoading$loading || !$vLoading$loadend}}">我也是有底线的~</view>
    </view>
 
-        </view>
-        
+                </view>
+                
     <view class="footer">欢迎来到 {{$footer$cityname}}</view>
 
+            </scroll-view>
+        </view>
+        <view class="category-btn">
+            <image hidden="{{!goTopStauts}}" src="../images/top.png" bindtap="goTop"/>
+        </view>
         
     <view hidden="{{$toast$hidden}}" class="{{!$toast$load ? 'toast':'toast load'}}">{{$toast$infoObj.message}}</view>
 

@@ -672,7 +672,7 @@
         </view>
         <view class="publish-btn">
             <view class="btn-save" bindtap="priview">预览</view>
-            <view class="btn-save" bindtap="save">保存</view>
+            <view class="btn-save" bindtap="saveMe">保存</view>
             <view class="btn-submit" bindtap="submit">提交</view>
         </view>
         

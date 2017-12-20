@@ -1,90 +1,92 @@
 <template>
-<scroll-view class="container scrollPage" scroll-y="true" scroll-top="{{scrollTop}}" lower-threshold="150" @scrolltolower="scrollFetch" @scroll="scroll">
-    <view class="warp attention">
+    <view class="container">
         <nav-bar :navlist.sync="navlists"></nav-bar>
-        <view class="attention-body">
-            <view class="attention-list">
+        <scroll-view class="scrollPage" scroll-y="true" scroll-top="{{scrollTop}}" lower-threshold="150" @scrolltolower="scrollFetch" @scroll="scroll">
+            <view class="warp attention">
+                <view class="attention-body">
+                    <view class="attention-list">
 
-                <view wx:for="{{lists}}" wx:key class="attention-item {{item.status == 1?'active':''}} {{item.status==-1?'delete':''}}" @touchstart="touchstart" @touchmove="touchmove({{item}},{{index}})" @tap="goDetail({{item}})">
-                    <view class="item-att-select {{item.selected?'active':''}}" @tap.stop="selectItem({{index}})"><text class="select-icon"></text></view>
-                    <view class="item-att-main">
-                        <view class="item-att-l">
-                            <view class="item-att-title">
-                                <text wx:if="{{item.formdata.images}}">图</text>
-                                {{item.title}}
-                            </view>
-                            <view class="item-att-body">
-                                <view class="item-att-info">
-                                    <view>{{item.subtitle}}</view>
-                                    <view class="item-att-price">
-                                        <text wx:if="{{item.type == 'job'}}" class="price">￥<text class="price-number">{{item.formdata.jobprice}}</text>元起/月</text>
-                                        <text wx:elif="{{item.type == 'home'}}" class="price">￥<text class="price-number">{{item.formdata.price}}</text>{{item.formdata.typeJson.type==0? '元/月':'万元'}}</text>
-                                        <text wx:elif="{{item.type == 'car'}}" class="price">￥<text class="price-number">{{item.formdata.price}}</text>万元</text>
-                                        <text wx:elif="{{item.type == 'food'||item.type == 'edu'}}" class="price">￥<text class="price-number">{{item.formdata.price}}</text>元/人</text>
-                                        <text wx:elif="{{item.type == 'pet'}}" class="price">￥<text class="price-number">{{item.formdata.price}}</text>元/只</text>
+                        <view wx:for="{{lists}}" wx:key class="attention-item {{item.status == 1?'active':''}} {{item.status==-1?'delete':''}}" @touchstart="touchstart" @touchmove="touchmove({{item}},{{index}})" @tap="goDetail({{item}})">
+                            <view class="item-att-select {{item.selected?'active':''}}" @tap.stop="selectItem({{index}})"><text class="select-icon"></text></view>
+                            <view class="item-att-main">
+                                <view class="item-att-l">
+                                    <view class="item-att-title">
+                                        <text wx:if="{{item.formdata.images}}">图</text>
+                                        {{item.title}}
                                     </view>
-                                    <view class="item-att-time"><text>发布者: {{item.nickname}}</text> <text>{{item.updatedAt}}</text></view>
+                                    <view class="item-att-body">
+                                        <view class="item-att-info">
+                                            <view>{{item.subtitle}}</view>
+                                            <view class="item-att-price">
+                                                <text wx:if="{{item.type == 'job'}}" class="price">￥<text class="price-number">{{item.formdata.jobprice}}</text>元起/月</text>
+                                                <text wx:elif="{{item.type == 'home'}}" class="price">￥<text class="price-number">{{item.formdata.price}}</text>{{item.formdata.typeJson.type==0? '元/月':'万元'}}</text>
+                                                <text wx:elif="{{item.type == 'car'}}" class="price">￥<text class="price-number">{{item.formdata.price}}</text>万元</text>
+                                                <text wx:elif="{{item.type == 'food'||item.type == 'edu'}}" class="price">￥<text class="price-number">{{item.formdata.price}}</text>元/人</text>
+                                                <text wx:elif="{{item.type == 'pet'}}" class="price">￥<text class="price-number">{{item.formdata.price}}</text>元/只</text>
+                                            </view>
+                                            <view class="item-att-time"><text>发布者: {{item.nickname}}</text> <text>{{item.updatedAt}}</text></view>
+                                        </view>
+                                        <view class="item-att-btn">
+                                            <view class="item-att-type">
+                                                <image src="../images/{{themeimg}}{{item.type}}.png"></image>
+                                            </view>
+                                            <view>
+                                                <image src="../images/{{themeimg}}phone.png"></image> 电话
+                                            </view>
+                                        </view>
+                                    </view>
                                 </view>
-                                <view class="item-att-btn">
-                                    <view class="item-att-type">
-                                        <image src="../images/{{themeimg}}{{item.type}}.png"></image>
-                                    </view>
-                                    <view>
-                                        <image src="../images/{{themeimg}}phone.png"></image> 电话
-                                    </view>
-                                </view>
+                                <view class="item-att-r" @tap.stop="delItem({{item}},{{index}})"><text>取消</text><text>关注</text></view>
                             </view>
                         </view>
-                        <view class="item-att-r" @tap.stop="delItem({{item}},{{index}})"><text>取消</text><text>关注</text></view>
+
+
+                        <!-- <view class="attention-item {{status == 1?'active':''}} {{status==-1?'delete':''}}" @touchstart="touchstart" @touchmove.stop="touchmove" @tap="goDetail('{id:1,type:job}')">
+                            <view class="item-att-select active"><text class="select-icon"></text></view>
+                            <view class="item-att-main">
+                                <view class="item-att-l">
+                                    <view class="item-att-title"><text>图</text>距离可垃圾地方李经理卡机法律框架拉动房价看了监考老师放假了是就发即可拉伸减肥的爱是理解对方考虑</view>
+                                    <view class="item-att-body">
+                                        <view class="item-att-info">
+                                            <view>简单 方便 快捷</view>
+                                            <view class="item-att-price">￥<text>1234</text>元</view>
+                                            <view class="item-att-time"><text>发布者: 小程序</text> <text>2017-10-20</text></view>
+                                        </view>
+                                        <view class="item-att-btn">
+                                            <view class="item-att-type">
+                                                <image src="../images/{{themeimg}}sale.png"></image>
+                                            </view>
+                                            <view>
+                                                <image src="../images/{{themeimg}}phone.png"></image> 电话
+                                            </view>
+                                        </view>
+                                    </view>
+                                </view>
+                                <view class="item-att-r">删除</view>
+                            </view>
+                        </view> -->
+
                     </view>
                 </view>
-
-
-                <!-- <view class="attention-item {{status == 1?'active':''}} {{status==-1?'delete':''}}" @touchstart="touchstart" @touchmove.stop="touchmove" @tap="goDetail('{id:1,type:job}')">
-                    <view class="item-att-select active"><text class="select-icon"></text></view>
-                    <view class="item-att-main">
-                        <view class="item-att-l">
-                            <view class="item-att-title"><text>图</text>距离可垃圾地方李经理卡机法律框架拉动房价看了监考老师放假了是就发即可拉伸减肥的爱是理解对方考虑</view>
-                            <view class="item-att-body">
-                                <view class="item-att-info">
-                                    <view>简单 方便 快捷</view>
-                                    <view class="item-att-price">￥<text>1234</text>元</view>
-                                    <view class="item-att-time"><text>发布者: 小程序</text> <text>2017-10-20</text></view>
-                                </view>
-                                <view class="item-att-btn">
-                                    <view class="item-att-type">
-                                        <image src="../images/{{themeimg}}sale.png"></image>
-                                    </view>
-                                    <view>
-                                        <image src="../images/{{themeimg}}phone.png"></image> 电话
-                                    </view>
-                                </view>
-                            </view>
-                        </view>
-                        <view class="item-att-r">删除</view>
+                <v-loading :loading.sync="loading" :loadend.sync="loadend"></v-loading>
+            </view>
+            <footer></footer>
+            <toast></toast>
+            <view class="attention-btn" hidden="{{showBar ? false : true}}">
+                <view class="select-l">
+                    <view @tap="doAllSelect({{selectAll}})">
+                        <text class="select-icon {{selectAll?'active':''}}"></text>全选
                     </view>
-                </view> -->
-
+                </view>
+                <view class="select-m" @tap="cancel">取消</view>
+                <view class="select-r {{selectStatus?'active':''}}" @tap="deleteSelect">删除</view>
             </view>
-        </view>
-    </view>
-    <v-loading :loading.sync="loading" :loadend.sync="loadend"></v-loading>
-    <footer></footer>
-    <toast></toast>
-    <view class="attention-btn" hidden="{{showBar ? false : true}}">
-        <view class="select-l">
-            <view @tap="doAllSelect({{selectAll}})">
-                <text class="select-icon {{selectAll?'active':''}}"></text>全选
+            <view class="attention-btns">
+                <image src="../images/delete.png" @tap="edit"></image>
+                <image hidden="{{!goTopStauts}}" src="../images/top.png" @tap="goTop"></image>
             </view>
-        </view>
-        <view class="select-m" @tap="cancel">取消</view>
-        <view class="select-r {{selectStatus?'active':''}}" @tap="deleteSelect">删除</view>
+        </scroll-view>
     </view>
-    <view class="attention-btns">
-        <image src="../images/delete.png" @tap="edit"></image>
-        <image hidden="{{!goTopStauts}}" src="../images/top.png" @tap="goTop"></image>
-    </view>
-</scroll-view>
 </template>
 
 <script>
@@ -120,7 +122,7 @@ export default class Attention extends wepy.page {
         loading : false,
         loadend : false,
         page : 1, //当前页
-        pageSize : 5, //每页显示多少条
+        pageSize : 20, //每页显示多少条
         scrollTop : 0, //回到顶部
         goTopStauts : 0, //回到顶部按钮
     }
@@ -155,7 +157,7 @@ export default class Attention extends wepy.page {
             // console.log(item);
             if(item.status==0){
                 wx.navigateTo({
-                    url : 'detail?id='+item.id
+                    url : 'detail?id='+item.pid
                 });
             }
 
@@ -275,7 +277,7 @@ export default class Attention extends wepy.page {
         if(vm.loadend || vm.loading){
             return;
         }
-        console.log('scrollFetch');
+        // console.log('scrollFetch');
         vm.loading = true;
         query.equalTo('uid', this.uid);
         query.descending('updatedAt');
@@ -483,7 +485,7 @@ export default class Attention extends wepy.page {
     overflow-x: hidden;
 }
 .attention-body{
-    // padding-bottom: 60rpx;
+    padding-top: 81rpx;
 }
 .attention-item{
     margin-left: -70rpx;

@@ -91,6 +91,7 @@
           themeimg : '',
           listData : null,
           loading : false,
+          listNumber : 100,
       };
       methods = {
           goDetail(id){
@@ -150,7 +151,7 @@
           var now = new Date();
           query.lessThanOrEqualTo('updatedAt', now);
           query.descending('updatedAt');
-          query.limit(50);
+          query.limit(vm.listNumber);
           vm.loading = true;
           query.find().then(function(data){
               vm.loading = false;

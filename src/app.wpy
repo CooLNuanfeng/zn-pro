@@ -35,6 +35,7 @@ export default class extends wepy.app {
       'pages/publish',
       'pages/about',
       'pages/success',
+      'pages/preview',
     ],
     window: {
       backgroundTextStyle: 'light',
@@ -70,13 +71,14 @@ export default class extends wepy.app {
   }
 
   globalData = {
-    userInfo: null,
-    userNick : null,
-    cityname : myConfig.cityname,
-    cityid : myConfig.cityid,
-    themeimg : myConfig.themeimg,
-    domain : 'https://oyo2k3vrc.bkt.clouddn.com',
-    gridsArr : [
+    userInfo: null,  //用户信息
+    userNick : null, //用户昵称
+    cityname : myConfig.cityname,  //城市名称
+    cityid : myConfig.cityid, //城市 id
+    themeimg : myConfig.themeimg, //主题路径
+    previewData : null, //预览数据
+    domain : 'https://oyo2k3vrc.bkt.clouddn.com', //七牛云上传图片的访问域名
+    gridsArr : [  //所有分类
         {"type":"job","name":"招聘信息"},
         {"type":"sale","name":"打折促销"},
         {"type":"home","name":"房屋租售"},
@@ -91,6 +93,7 @@ export default class extends wepy.app {
     curUserAttention : [], //当前用户的所有关注
     refresh : false, //发布 是否刷新
     attrefresh : false, //关注 是否刷新
+    previewBack : false, //是否 预览返回发布
   }
 
   constructor () {

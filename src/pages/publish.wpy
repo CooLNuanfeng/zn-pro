@@ -70,7 +70,7 @@
         </view>
         <view class="publish-btn">
             <view class="btn-save" @tap="priview">预览</view>
-            <view class="btn-save" @tap="save">保存</view>
+            <view class="btn-save" @tap="saveMe">保存</view>
             <view class="btn-submit" @tap="submit">提交</view>
         </view>
         <toast />
@@ -135,6 +135,11 @@ export default class Publish extends wepy.page {
         vm.themeimg = vm.$parent.globalData.themeimg;
         vm.gridsArr = vm.$parent.globalData.gridsArr;
     }
+    onShow(){
+        if(this.$parent.globalData.previewBack){
+            this.ajaxSend();
+        }
+    }
     methods = {
         tap(item){
             this.type = item.type;
@@ -167,8 +172,80 @@ export default class Publish extends wepy.page {
                     message: result.info,
                 });
             }
-
         },
+        priview(){
+            var fetchType = this.type+'Fetch';
+            this.$broadcast(fetchType);
+            var result = this.checkFormInfo();
+
+            if(result.flag){
+                this.previewSend();
+            }else{
+                this.$invoke('toast', 'show', {
+                    message: result.info,
+                });
+            }
+        },
+        saveMe(){
+            var vm = this,fetchType = vm.type+'Fetch';
+            vm.$broadcast(fetchType);
+            var result = vm.checkFormInfo();
+            if(result.flag){
+                wx.showModal({
+                  title: '提示',
+                  content: '将当前信息保存到本地，最多保存10条信息，请勿将本地缓存清除，如清除保存的信息将会一并清除，建议检查无误就赶紧发布吧(*^__^*)',
+                  success: function(res) {
+                    if(res.confirm) {
+                        vm.saveMeSend();
+                    }else if (res.cancel) {
+
+                    }
+                  }
+                });
+            }else{
+                vm.$invoke('toast', 'show', {
+                    message: result.info,
+                });
+            }
+        }
+    }
+    saveMeSend(){
+        let vm = this;
+        let userNick = vm.$parent.globalData.userNick;
+        let userInfo = vm.$parent.globalData.userInfo;
+        var data = {
+            nickname : userNick.nickName,
+            uid : userInfo.objectId,
+            title : vm.title, //require
+            subtitle : vm.subtitle,
+            publishername : vm.publishername,
+            phone : vm.phone, //require
+            type : vm.type, //require
+            typename : vm.typename, //分类名称
+            formdata : vm.formdata, //表单的信息
+        }
+        console.log('save',JSON.stringify(data));
+
+    }
+    previewSend(){
+        let vm = this;
+        let userNick = vm.$parent.globalData.userNick;
+        let userInfo = vm.$parent.globalData.userInfo;
+        var data = {
+            nickname : userNick.nickName,
+            uid : userInfo.objectId,
+            title : vm.title, //require
+            subtitle : vm.subtitle,
+            publishername : vm.publishername,
+            phone : vm.phone, //require
+            type : vm.type, //require
+            typename : vm.typename, //分类名称
+            formdata : vm.formdata, //表单的信息
+        }
+        vm.$parent.globalData.previewData = data;
+        wx.navigateTo({
+            url : 'preview'
+        });
     }
     uploadImgs(data){
         let filePaths = data.formdata.images;
@@ -208,6 +285,7 @@ export default class Publish extends wepy.page {
         onelist.set('formdata',data.formdata);
         onelist.save().then(function(list){
             vm.hideLoading();
+            vm.$parent.globalData.previewBack = false;
             wx.redirectTo({
                 url : 'success'
             });

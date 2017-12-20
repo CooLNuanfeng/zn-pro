@@ -21,12 +21,17 @@
             <view class="category-nav" wx:if="{{navlist}}">
                 <nav-bar :navlist.sync="navlist"></nav-bar>
             </view>
-            <view class="category-body {{navlist?'category-body-pt':''}}">
-                <news-list hidden="{{loading}}" :lists.sync="listData"></news-list>
-            </view>
-            <v-loading :loading.sync="loading" :loadend.sync="loadend"></v-loading>
+            <scroll-view class="category-body {{navlist?'category-body-pt':''}}" scroll-y="true" scroll-top="{{scrollTop}}" lower-threshold="150" @scrolltolower="scrollFetch" @scroll="scroll">
+                <view class="category-lists">
+                    <news-list :lists.sync="listData"></news-list>
+                    <v-loading :loading.sync="loading" :loadend.sync="loadend"></v-loading>
+                </view>
+                <footer/>
+            </scroll-view>
         </view>
-        <footer/>
+        <view class="category-btn">
+            <image hidden="{{!goTopStauts}}" src="../images/top.png" @tap="goTop"></image>
+        </view>
         <toast></toast>
     </view>
 </template>
@@ -62,8 +67,12 @@ export default class Category extends wepy.page {
         loading : false,
         loadend : false,
         navlist : null,
-        listData: null,
-        allLists : null, //当前所有list
+        listData: [],
+        initLists : [],
+        scrollTop : 0,
+        goTopStauts : 0,
+        page : 1,
+        pageSize : 50,
     }
     onLoad(options) {
         this.curTab = options.id;
@@ -83,11 +92,51 @@ export default class Category extends wepy.page {
             this.curname = name;
             this.slideUp = !this.slideUp;
             this.fetch();
+        },
+        scroll(ev){
+            if(ev.detail.scrollTop > 500){
+                this.goTopStauts = 1;
+            }else{
+                this.goTopStauts = 0;
+            }
+            this.scrollTop = ev.detail.scrollTop;
+        },
+        scrollFetch(){
+            var vm = this;
+            var query = new AV.Query('NewsList');
+            if(vm.loadend || vm.loading){
+                return;
+            }
+            vm.loading = true;
+            query.equalTo('type',vm.curTab);
+            query.descending('updatedAt');
+            query.limit(vm.pageSize);
+            query.skip((vm.page-1)*vm.pageSize);
+            query.find().then(function(data){
+                console.log(data,'scrollFetch');
+                vm.loading = false;
+                vm.makeParam(data);
+                vm.page++;
+                if(data.length < vm.pageSize){
+                    vm.loadend = true;
+                }
+            }).catch(function(err){
+                console.log(err);
+                vm.loading = false;
+                vm.$invoke('toast', 'show', {
+                    message: '服务异常，请稍后重试',
+                });
+                // vm.$apply();
+            });
+        },
+        goTop(){
+            this.scrollTop = 0;
         }
     };
     events = {
         navChange(params){
             console.log(params,'from child');
+            this.scrollTop = 0;
             this.filterList(params);
         }
     }
@@ -95,12 +144,19 @@ export default class Category extends wepy.page {
         var vm = this;
         var query = new AV.Query('NewsList');
         vm.loading = true;
+        vm.initLists.length = 0;
+        vm.listData.length = 0;
         query.equalTo('type',vm.curTab);
         query.descending('updatedAt');
-        query.limit(50);
+        query.limit(vm.pageSize);
         query.find().then(function(data){
+            console.log(data,'fetch');
             vm.loading = false;
             vm.makeParam(data);
+            vm.page++;
+            if(data.length < vm.pageSize){
+                vm.loadend = true;
+            }
         }).catch(function(err){
             console.log(err);
             vm.loading = false;
@@ -110,6 +166,7 @@ export default class Category extends wepy.page {
             vm.$apply();
         });
     }
+
     checkUserAttentions(arr){
         var curUserAttentions = this.$parent.globalData.curUserAttention;
         for(let i=0; i<arr.length; i++){
@@ -120,9 +177,9 @@ export default class Category extends wepy.page {
     }
     filterList(params){
         // console.log(params,'filter params',this.curTab);
-        var arr=[],lists = this.allLists, tab = this.curTab;
+        var arr=[],lists = this.initLists, tab = this.curTab;
         if(params == 'all'){
-            this.listData = this.allLists;
+            this.listData = lists;
             return;
         }
         if(this.curTab == 'job' || this.curTab == 'sale' || this.curTab == 'home'){
@@ -136,31 +193,32 @@ export default class Category extends wepy.page {
     }
     makeParam(data){
         var len = data.length;
-        var arr = [];
+        // var arr = [];
         for(let i=0; i<len; i++){
             let json = data[i].attributes;
             json.id = data[i].id;
             json.attentionStatus = 0;
             json.updatedAt = this.$parent.timeFormate(data[i].updatedAt);
-            arr.push(json);
+            this.listData.push(json);
         }
         if(this.curTab == 'job' || this.curTab == 'sale' || this.curTab == 'home'){
             this.curType = 'all';
-            this.makeNavlist(data);
+            this.makeNavlist(this.listData);
         }else{
             this.navlist = null;
         }
-        this.checkUserAttentions(arr);
-        this.listData = arr;
-        this.allLists = arr;
+        this.checkUserAttentions(this.listData);
+        this.initLists = this.listData;
+        // this.allLists = arr;
         this.$apply();
     }
     makeNavlist(data){
+        console.log('navlist',data);
         var tab = this.curTab;
         var obj = {},len = data.length,arr=[];
         for(let i=0; i<len; i++){
             var hasown = false;
-            let json = data[i].attributes.formdata[tab+'Type'];
+            let json = data[i].formdata[tab+'Type'];
             if(!arr.length){
                 arr.push(json);
             }else{
@@ -184,6 +242,9 @@ export default class Category extends wepy.page {
 @import "../sass/_mixin.scss";
 .category{
     padding-top: 60rpx;
+    .nav-container{
+        top : 61rpx;
+    }
 }
 .category-title{
     position: fixed;
@@ -205,6 +266,7 @@ export default class Category extends wepy.page {
     left: 0;
     right: 0;
     z-index: 5;
+    height: 80rpx;
 }
 .title-l{
     color: $fontBlack;
@@ -262,9 +324,32 @@ export default class Category extends wepy.page {
     }
 }
 .category-body{
-
+    position: absolute;
+    top: 61rpx;
+    right: 0;
+    left: 0;
+    bottom: 0;
 }
 .category-body-pt{
-    padding-top: 80rpx;
+    // padding-top: 81rpx;
+    top: 141rpx;
+}
+.category-lists{
+    min-height: 750rpx;
+}
+.category-btn{
+    position: fixed;
+    right: 20rpx;
+    bottom: 20rpx;
+    width: 100rpx;
+    padding: 10rpx;
+    z-index: 10;
+    box-sizing: border-box;
+    image{
+        width: 80rpx;;
+        height: 80rpx;
+        margin-top: 10rpx;
+        opacity: .6;
+    }
 }
 </style>
