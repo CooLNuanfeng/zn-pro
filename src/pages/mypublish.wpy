@@ -276,6 +276,8 @@ export default class MyPublish extends wepy.page {
         var objectsArr = [], //newslist
             objectsUserArr = [], //user attention list
             vm = this,
+            userAttentPromise,
+            publishPromise,
             delidArr = [],
             publishnum = vm.$parent.globalData.curUserPublishNum,
             curUserAttentions = vm.$parent.globalData.curUserAttention;
@@ -292,7 +294,7 @@ export default class MyPublish extends wepy.page {
             }
         }
 
-        var publishPromise = AV.Object.destroyAll(objectsArr).then(function() {
+        publishPromise = AV.Object.destroyAll(objectsArr).then(function() {
             for(let i=0; i<delidArr.length; i++){
                 for(let j=0; j<vm.initLists.length;j++){
                     if(vm.initLists[j].id == delidArr[i]){
@@ -305,11 +307,17 @@ export default class MyPublish extends wepy.page {
             return AV.Object.save();
         }).catch(function(err){
         });
-        var userAttentPromise = AV.Object.destroyAll(objectsUserArr).then(function() {
-            vm.$parent.globalData.curUserAttention = vm.delFromArr(curUserAttentions,delidArr);
-            return AV.Object.save();
-        }).catch(function(err){
-        });
+        if(objectsUserArr.length){
+            userAttentPromise = AV.Object.destroyAll(objectsUserArr).then(function() {
+                vm.$parent.globalData.curUserAttention = vm.delFromArr(curUserAttentions,delidArr);
+                vm.$parent.globalData.attrefresh = true;
+                return AV.Object.save();
+            }).catch(function(err){
+            });
+        }else{
+            publishPromise = Promise.resolve();
+        }
+
 
         Promise.all([publishPromise,userAttentPromise]).then(function(){
            vm.filterList();
