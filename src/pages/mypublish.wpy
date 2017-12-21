@@ -273,17 +273,26 @@ export default class MyPublish extends wepy.page {
     }
     delFetch(arr){
         console.log(arr,'del');
-        var objectsArr = [],vm = this,
+        var objectsArr = [], //newslist
+            objectsUserArr = [], //user attention list
+            vm = this,
             delidArr = [],
             publishnum = vm.$parent.globalData.curUserPublishNum,
             curUserAttentions = vm.$parent.globalData.curUserAttention;
         for(let i=0; i<arr.length; i++){
-            var item = AV.Object.createWithoutData('NewsList', arr[i]);
+            var oid = vm.getUserAttentOid(arr[i]),delItem,attentItem;
+
+            delItem = AV.Object.createWithoutData('NewsList', arr[i]);
             delidArr.push(arr[i]);
-            objectsArr.push(item);
+            objectsArr.push(delItem);
+
+            if(oid){
+                attentItem = AV.Object.createWithoutData('UserAttentions', oid);
+                objectsUserArr.push(attentItem);
+            }
         }
 
-        AV.Object.destroyAll(objectsArr).then(function () {
+        var publishPromise = AV.Object.destroyAll(objectsArr).then(function() {
             for(let i=0; i<delidArr.length; i++){
                 for(let j=0; j<vm.initLists.length;j++){
                     if(vm.initLists[j].id == delidArr[i]){
@@ -293,25 +302,63 @@ export default class MyPublish extends wepy.page {
             }
             vm.$parent.globalData.curUserPublishNum = publishnum - delidArr.length;
             vm.$parent.globalData.refresh = true;
+            return AV.Object.save();
+        }).catch(function(err){
+        });
+        var userAttentPromise = AV.Object.destroyAll(objectsUserArr).then(function() {
             vm.$parent.globalData.curUserAttention = vm.delFromArr(curUserAttentions,delidArr);
-            console.log(vm.$parent.globalData.curUserAttention,'del curUserAttention');
-            // vm.initNavList(vm.lists);
-            // vm.initNavList(vm.initLists);
-            vm.filterList();
-            vm.initNavList();
+            return AV.Object.save();
+        }).catch(function(err){
+        });
 
-            vm.initStatus(0);
-            vm.selectAllStatus(false);
-            vm.showBar = false;
-            vm.hideLoading();
-            vm.$apply();
+        Promise.all([publishPromise,userAttentPromise]).then(function(){
+           vm.filterList();
+           vm.initNavList();
 
-        }, function (err) {
+           vm.initStatus(0);
+           vm.selectAllStatus(false);
+           vm.showBar = false;
+           vm.hideLoading();
+           vm.$apply();
+        }).catch(function(err){
             console.log(err);
             vm.$invoke('toast', 'show', {
                 message: '服务异常，请稍后重试',
             });
-        });
+        })
+
+
+
+
+        // AV.Object.destroyAll(objectsArr).then(function () {
+        //     for(let i=0; i<delidArr.length; i++){
+        //         for(let j=0; j<vm.initLists.length;j++){
+        //             if(vm.initLists[j].id == delidArr[i]){
+        //                 vm.initLists.splice(j,1);
+        //             }
+        //         }
+        //     }
+        //     vm.$parent.globalData.curUserPublishNum = publishnum - delidArr.length;
+        //     vm.$parent.globalData.refresh = true;
+        //     vm.$parent.globalData.curUserAttention = vm.delFromArr(curUserAttentions,delidArr);
+        //     console.log(vm.$parent.globalData.curUserAttention,'del curUserAttention');
+        //     // vm.initNavList(vm.lists);
+        //     // vm.initNavList(vm.initLists);
+        //     vm.filterList();
+        //     vm.initNavList();
+        //
+        //     vm.initStatus(0);
+        //     vm.selectAllStatus(false);
+        //     vm.showBar = false;
+        //     vm.hideLoading();
+        //     vm.$apply();
+        //
+        // }, function (err) {
+        //     console.log(err);
+        //     vm.$invoke('toast', 'show', {
+        //         message: '服务异常，请稍后重试',
+        //     });
+        // });
 
     }
     initStatus(status){
@@ -417,6 +464,16 @@ export default class MyPublish extends wepy.page {
                 this.navlists.push(navArr[i]);
             }
         }
+    }
+    getUserAttentOid(pid){
+        var oid,arr = this.$parent.globalData.curUserAttentJsonArr;
+        for(var i=0; i<arr.length; i++){
+            if(arr[i].pid == pid){
+                oid =  arr[i].oid;
+                break;
+            }
+        }
+        return oid;
     }
     angle(start, end) {
        var _X = end.X - start.X,

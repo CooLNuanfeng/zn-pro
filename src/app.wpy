@@ -92,6 +92,7 @@ export default class extends wepy.app {
         {"type":"other","name":"其他消息"},
     ],
     curUserAttention : [], //当前用户的所有关注
+    curUserAttentJsonArr : [], //当前用户的所有关注 json
     curUserPublishNum : 0, //当前用户所有发布
     refresh : false, //增删 是否刷新
     attrefresh : false, //关注 是否刷新
@@ -143,9 +144,14 @@ export default class extends wepy.app {
       userAttentQuery.equalTo('uid',uid);
       userAttentQuery.find().then(function(res){
           res.forEach(function(item,index){
+              var json = {};
+              json.oid = item.id;
+              json.pid = item.attributes.pageid;
+              vm.globalData.curUserAttentJsonArr.push(json);
               vm.globalData.curUserAttention.push(item.attributes.pageid);
           });
           console.log(vm.globalData.curUserAttention,'curUserAttention');
+          console.log(vm.globalData.curUserAttentJsonArr,'curUserAttentJsonArr');
       }).catch(function(err){
           console.log(err);
       });
