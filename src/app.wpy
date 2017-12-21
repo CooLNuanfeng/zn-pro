@@ -92,7 +92,8 @@ export default class extends wepy.app {
         {"type":"other","name":"其他消息"},
     ],
     curUserAttention : [], //当前用户的所有关注
-    refresh : false, //发布 是否刷新
+    curUserPublishNum : 0, //当前用户所有发布
+    refresh : false, //增删 是否刷新
     attrefresh : false, //关注 是否刷新
     previewBack : false, //是否 预览返回发布
   }
@@ -116,10 +117,25 @@ export default class extends wepy.app {
         console.log(user.toJSON());
         uid = this.globalData.userInfo.objectId;
         vm.findUserAttentions(uid);
+        vm.findUserPublishNumber(uid);
     }).catch(console.error);
 
   }
+  //用户发布
+  findUserPublishNumber(uid){
+      var listsQuery = new AV.Query('NewsList'),vm = this;
+      console.log(uid,'uid');
+      //查询用户关发布数,减少api请求
+      listsQuery.equalTo('uid',uid);
+      listsQuery.count().then(function(count){
+          vm.globalData.curUserPublishNum = count;
+          console.log(vm.globalData.curUserPublishNum,'curUserPublishNum');
+      }).catch(function(err){
+          console.log(err);
+      });
+  }
 
+  //用户关注
   findUserAttentions(uid){
       var userAttentQuery = new AV.Query('UserAttentions'),vm = this;
       console.log(uid,'uid');

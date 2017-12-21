@@ -9,8 +9,8 @@
                     <view class="user-info">
                         <view class="user-name">{{userInfo.nickName}}</view>
                         <view class="user-data">
-                            <text>关注： <text>10</text></text>
-                            <text>发布： <text>10</text></text>
+                            <text>关注： <text>{{attentionsnum}}</text></text>
+                            <text>发布： <text>{{publishnum}}</text></text>
                         </view>
                     </view>
                 </view>
@@ -62,6 +62,8 @@ export default class User extends wepy.page {
     data = {
         userInfo : null,
         cityname : '',
+        attentionsnum : 0,
+        publishnum : 0
     };
     components = {
         footer : Footer
@@ -87,6 +89,11 @@ export default class User extends wepy.page {
         this.userInfo = this.$parent.globalData.userNick;
         this.cityname = this.$parent.globalData.cityname;
     };
+    onShow(){
+        console.log('change 计算 关注数 发布数');
+        this.publishnum = this.$parent.globalData.curUserPublishNum;
+        this.attentionsnum = this.$parent.globalData.curUserAttention.length;
+    }
 }
 </script>
 

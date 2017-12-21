@@ -41,7 +41,7 @@
                                         </view>
                                     </view>
                                 </view>
-                                <view class="item-att-r" catchtap="delItem" data-wpydelitem-a="{{item}}" data-wpydelitem-b="{{index}}"><text>取消</text><text>关注</text></view>
+                                <view class="item-att-r" catchtap="delItem" data-wpydelitem-a="{{item}}" data-wpydelitem-b="{{index}}"><text>删除</text></view>
                             </view>
                         </view>
                     </view>

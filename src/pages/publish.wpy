@@ -286,6 +286,7 @@ export default class Publish extends wepy.page {
         onelist.save().then(function(list){
             vm.hideLoading();
             vm.$parent.globalData.previewBack = false;
+            vm.$parent.globalData.refresh = true;
             wx.redirectTo({
                 url : 'success'
             });

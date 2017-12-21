@@ -318,7 +318,7 @@ export default class Attention extends wepy.page {
                     }
                 }
             }
-            
+
             vm.$parent.globalData.curUserAttention = vm.delFromArr(curUserAttentions,delPidArr);
             // vm.initNavList(vm.lists);
             // vm.initNavList(vm.initLists);
@@ -462,7 +462,9 @@ export default class Attention extends wepy.page {
     delFromArr(targetArr,delItems){
         for(let i=0; i<delItems.length; i++){
             var delIndex = targetArr.indexOf(delItems[i]);
-            targetArr.splice(delIndex,1);
+            if(delIndex!==-1){
+                targetArr.splice(delIndex,1);
+            }
         }
         return targetArr;
     }

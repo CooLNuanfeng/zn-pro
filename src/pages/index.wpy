@@ -133,14 +133,12 @@
       };
       onShow(){
           var vm = this;
-          setTimeout(function(){
-              var refresh = vm.$parent.globalData.refresh;
-              // console.log(refresh,'refresh');
-              if(refresh){
-                  vm.fetch();
-                  vm.$parent.globalData.refresh = false;
-              }
-          },100);
+          var refresh = vm.$parent.globalData.refresh;
+          console.log(refresh,'refresh');
+          if(refresh){
+              vm.fetch();
+              vm.$parent.globalData.refresh = false;
+          }
       };
       onPullDownRefresh(){
           this.fetch();

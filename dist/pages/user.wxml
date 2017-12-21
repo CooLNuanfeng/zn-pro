@@ -9,8 +9,8 @@
                     <view class="user-info">
                         <view class="user-name">{{userInfo.nickName}}</view>
                         <view class="user-data">
-                            <text>关注： <text>10</text></text>
-                            <text>发布： <text>10</text></text>
+                            <text>关注： <text>{{attentionsnum}}</text></text>
+                            <text>发布： <text>{{publishnum}}</text></text>
                         </view>
                     </view>
                 </view>

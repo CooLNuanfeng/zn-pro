@@ -39,10 +39,7 @@ export default class Success extends wepy.page {
         goIndex(){
             var vm = this;
             wx.switchTab({
-                url : 'index',
-                success : function(){
-                    vm.$parent.globalData.refresh = true;
-                }
+                url : 'index'
             });
         }
     }
