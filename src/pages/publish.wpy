@@ -287,6 +287,7 @@ export default class Publish extends wepy.page {
             vm.hideLoading();
             vm.$parent.globalData.previewBack = false;
             vm.$parent.globalData.refresh = true;
+            vm.$parent.globalData.curUserPublishNum += 1;
             wx.redirectTo({
                 url : 'success'
             });

@@ -81,9 +81,11 @@ export default class ListNews extends wepy.component{
             curUser.set('pageid',item.id);
             curUser.set('pagedata',item);
             curUser.save().then(function(res){
+                console.log(res,'doAttention res');
                 vm.hideLoading();
                 vm.lists[index].attentionStatus = 1;
                 vm.$parent.$parent.globalData.curUserAttention.push(item.id);
+                vm.$parent.$parent.globalData.curUserAttentJsonArr.push({pid:item.id,oid:res.id});
                 vm.$parent.$parent.globalData.attrefresh = true;
                 vm.$apply();
             }).catch(function(err){

@@ -286,11 +286,11 @@ export default class Attention extends wepy.page {
         query.find().then(function(data){
             console.log(data,'data');
             vm.loading = false;
-            vm.makeParam(data);
-            vm.page++;
             if(data.length < vm.pageSize){
                 vm.loadend = true;
             }
+            vm.makeParam(data);
+            vm.page++;
         }).catch(function(err){
             console.log(err);
             vm.loading = false;
@@ -479,6 +479,7 @@ export default class Attention extends wepy.page {
     left: 0;
     right: 0;
     bottom: 0;
+    transform: translate3d(0);
 }
 .attention{
     overflow-x: hidden;

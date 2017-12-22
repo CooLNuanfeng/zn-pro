@@ -129,7 +129,7 @@ export default class MyPublish extends wepy.page {
             // console.log(item);
             if(item.status==0){
                 wx.navigateTo({
-                    url : 'detail?id='+item.pid
+                    url : 'detail?id='+item.id
                 });
             }
 
@@ -272,7 +272,7 @@ export default class MyPublish extends wepy.page {
         });
     }
     delFetch(arr){
-        console.log(arr,'del');
+        // console.log(arr,'del');
         var objectsArr = [], //newslist
             objectsUserArr = [], //user attention list
             vm = this,
@@ -311,11 +311,13 @@ export default class MyPublish extends wepy.page {
             userAttentPromise = AV.Object.destroyAll(objectsUserArr).then(function() {
                 vm.$parent.globalData.curUserAttention = vm.delFromArr(curUserAttentions,delidArr);
                 vm.$parent.globalData.attrefresh = true;
+                console.log('aa',vm.$parent.globalData.curUserAttention);
                 return AV.Object.save();
             }).catch(function(err){
             });
         }else{
-            publishPromise = Promise.resolve();
+            console.log('bb');
+            userAttentPromise = Promise.resolve();
         }
 
 
@@ -519,6 +521,7 @@ export default class MyPublish extends wepy.page {
     left: 0;
     right: 0;
     bottom: 0;
+    transform: translate3d(0);
 }
 .attention{
     overflow-x: hidden;
