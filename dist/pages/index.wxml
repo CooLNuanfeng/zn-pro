@@ -61,40 +61,73 @@
           <view class="index-container">
               <view class="index-title">最新发布</view>
               <view class="index-list" hidden="{{loading}}">
-                  <view class="index-flex" bindtap="goDetail"  wx:for="{{listData}}" wx:key="wx:key" data-wpygodetail-a="{{item.id}}">
-                      <view class="item-img">
-                          <image src="../images/{{themeimg}}{{item.type}}.png"/>
-                          <text wx:if="{{item.type=='home'}}">{{item.formdata.typeJson.type==0? '房屋出租':'房屋出售'}}</text>
-                          <text wx:else>{{item.typename}}</text>
-                          <!-- <text wx:elif="{{item.type=='job'}}">职位招聘</text>
-                          <text wx:elif="{{item.type=='sale'}}">打折促销</text>
-                          <text wx:elif="{{item.type=='car'}}">车辆交易</text>
-                          <text wx:elif="{{item.type=='find'}}">寻人寻物</text>
-                          <text wx:elif="{{item.type=='food'}}">美食推荐</text>
-                          <text wx:elif="{{item.type=='friend'}}">相亲交友</text>
-                          <text wx:elif="{{item.type=='pet'}}">宠物领养</text>
-                          <text wx:elif="{{item.type=='edu'}}">教育培训</text>
-                          <text wx:elif="{{item.type=='other'}}">其他消息</text> -->
+                  <view  wx:if="{{listData && listData.length}}">
+                      <view class="index-flex" bindtap="goDetail" wx:for="{{listData}}" wx:key="wx:key" data-wpygodetail-a="{{item.id}}">
+                          <view class="item-img">
+                              <image src="../images/{{themeimg}}{{item.type}}.png"/>
+                              <text wx:if="{{item.type=='home'}}">{{item.formdata.typeJson.type==0? '房屋出租':'房屋出售'}}</text>
+                              <text wx:else>{{item.typename}}</text>
+                              <!-- <text wx:elif="{{item.type=='job'}}">职位招聘</text>
+                              <text wx:elif="{{item.type=='sale'}}">打折促销</text>
+                              <text wx:elif="{{item.type=='car'}}">车辆交易</text>
+                              <text wx:elif="{{item.type=='find'}}">寻人寻物</text>
+                              <text wx:elif="{{item.type=='food'}}">美食推荐</text>
+                              <text wx:elif="{{item.type=='friend'}}">相亲交友</text>
+                              <text wx:elif="{{item.type=='pet'}}">宠物领养</text>
+                              <text wx:elif="{{item.type=='edu'}}">教育培训</text>
+                              <text wx:elif="{{item.type=='other'}}">其他消息</text> -->
+                          </view>
+                          <view class="item-info">
+                              <view class="item-title">
+                                  <text wx:if="{{item.formdata.images}}">图</text>
+                                  {{item.title}}
+                              </view>
+                              <view class="item-desc">
+                                  <text>{{item.subtitle}}</text>
+                                  <text>发布者: {{item.nickname}}</text>
+                              </view>
+                              <view class="item-price">
+                                  <text wx:if="{{item.type == 'job'}}" class="price">￥<text class="price-number">{{item.formdata.jobprice}}</text>元起/月</text>
+                                  <text wx:elif="{{item.type == 'home'}}" class="price">￥<text class="price-number">{{item.formdata.price}}</text>{{item.formdata.typeJson.type==0? '元/月':'万元'}}</text>
+                                  <text wx:elif="{{item.type == 'car'}}" class="price">￥<text class="price-number">{{item.formdata.price}}</text>万元</text>
+                                  <text wx:elif="{{item.type == 'food'||item.type == 'edu'}}" class="price">￥<text class="price-number">{{item.formdata.price}}</text>元/人</text>
+                                  <text wx:elif="{{item.type == 'pet'}}" class="price">￥<text class="price-number">{{item.formdata.price}}</text>元/只</text>
+                                  <text wx:else/>
+                                  <text class="pub-time">{{item.updatedAt}}</text>
+                              </view>
+                          </view>
                       </view>
-                      <view class="item-info">
-                          <view class="item-title">
-                              <text wx:if="{{item.formdata.images}}">图</text>
-                              {{item.title}}
-                          </view>
-                          <view class="item-desc">
-                              <text>{{item.subtitle}}</text>
-                              <text>发布者: {{item.nickname}}</text>
-                          </view>
-                          <view class="item-price">
-                              <text wx:if="{{item.type == 'job'}}" class="price">￥<text class="price-number">{{item.formdata.jobprice}}</text>元起/月</text>
-                              <text wx:elif="{{item.type == 'home'}}" class="price">￥<text class="price-number">{{item.formdata.price}}</text>{{item.formdata.typeJson.type==0? '元/月':'万元'}}</text>
-                              <text wx:elif="{{item.type == 'car'}}" class="price">￥<text class="price-number">{{item.formdata.price}}</text>万元</text>
-                              <text wx:elif="{{item.type == 'food'||item.type == 'edu'}}" class="price">￥<text class="price-number">{{item.formdata.price}}</text>元/人</text>
-                              <text wx:elif="{{item.type == 'pet'}}" class="price">￥<text class="price-number">{{item.formdata.price}}</text>元/只</text>
-                              <text wx:else/>
-                              <text class="pub-time">{{item.updatedAt}}</text>
-                          </view>
-                      </view>
+                  </view>
+                  <view  wx:elif="wx:elif">
+                      
+    <view class="empty-container">
+        <view  wx:if="{{$empty$status==0}}" class="empty-news">
+            <view class="empty-img">
+                <image src="../images/no-news.png"/>
+            </view>
+            <view class="empty-info">
+                <view>{{$empty$title}}</view>
+                <view class="empty-text">{{$empty$notice}} O(∩_∩)O ~</view>
+            </view>
+        </view>
+        <view  wx:if="{{$empty$status==1}}">
+            <view class="empty-img">
+                <image src="../images/no-result.png"/>
+            </view>
+            <view class="empty-info">
+                <view>{{$empty$notice}}</view>
+            </view>
+        </view>
+        <view wx:if="{{$empty$status==2}}" class="empty-success">
+            <view class="empty-img">
+                <image src="../images/success.png"/>
+            </view>
+            <view class="empty-info">
+                <view>{{$empty$notice}} ~</view>
+            </view>
+        </view>
+    </view>
+
                   </view>
                   <!-- <view class="index-flex" bindtap="goDetail('{id:1,type:job}')">
                       <view class="item-img"><image src="../images/{{themeimg}}car.png"></image></view>

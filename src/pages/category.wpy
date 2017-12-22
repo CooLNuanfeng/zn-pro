@@ -18,16 +18,22 @@
                 <view class="{{curTab=='edu'?'active':''}}" @tap="tabChange('edu')">教育培训</view>
                 <view class="{{curTab=='other'?'active':''}}" @tap="tabChange('other')">其他消息</view> -->
             </view>
-            <view class="category-nav" wx:if="{{navlist}}">
-                <nav-bar :navlist.sync="navlist"></nav-bar>
-            </view>
-            <scroll-view class="category-body {{navlist?'category-body-pt':''}}" scroll-y="true" scroll-top="{{scrollTop}}" lower-threshold="150" @scrolltolower="scrollFetch" @scroll="scroll">
-                <view class="category-lists">
-                    <news-list :lists.sync="listData"></news-list>
-                    <v-loading :loading.sync="loading" :loadend.sync="loadend"></v-loading>
+            <view wx:if="{{listData && listData.length}}">
+                <view class="category-nav" wx:if="{{navlist}}">
+                    <nav-bar :navlist.sync="navlist"></nav-bar>
                 </view>
+                <scroll-view class="category-body {{navlist?'category-body-pt':''}}" scroll-y="true" scroll-top="{{scrollTop}}" lower-threshold="150" @scrolltolower="scrollFetch" @scroll="scroll">
+                    <view class="category-lists">
+                        <news-list :lists.sync="listData"></news-list>
+                        <v-loading :loading.sync="loading" :loadend.sync="loadend"></v-loading>
+                    </view>
+                    <footer/>
+                </scroll-view>
+            </view>
+            <view wx:elif>
+                <empty type="publish"></empty>
                 <footer/>
-            </scroll-view>
+            </view>
         </view>
         <view class="category-btn">
             <image hidden="{{!goTopStauts}}" src="../images/top.png" @tap="goTop"></image>
@@ -40,6 +46,7 @@
 import wepy from 'wepy';
 import NavBar from '../components/navbar';
 import ListNews from '../components/listnews';
+import Empty from '../components/empty'
 import Footer from '../components/footer'
 import Loading from '../components/loading';
 import Toast from '../components/toast';
@@ -54,6 +61,7 @@ export default class Category extends wepy.page {
     components = {
         'nav-bar' : NavBar,
         'news-list': ListNews,
+        'empty' : Empty,
         'footer' : Footer,
         'v-loading': Loading,
         'toast' : Toast

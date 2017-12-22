@@ -1,0 +1,114 @@
+<template>
+    <view class="empty-container">
+        <view wx:if="{{status==0}}" class="empty-news">
+            <view class="empty-img">
+                <image src="../images/no-news.png"></image>
+            </view>
+            <view class="empty-info">
+                <view>{{title}}</view>
+                <view class="empty-text">{{notice}} O(∩_∩)O ~</view>
+            </view>
+        </view>
+        <view wx:if="{{status==1}}">
+            <view class="empty-img">
+                <image src="../images/no-result.png"></image>
+            </view>
+            <view class="empty-info">
+                <view>{{notice}}</view>
+            </view>
+        </view>
+        <view wx:if="{{status==2}}" class="empty-success">
+            <view class="empty-img">
+                <image src="../images/success.png"></image>
+            </view>
+            <view class="empty-info">
+                <view>{{notice}} ~</view>
+            </view>
+        </view>
+    </view>
+</template>
+
+<script>
+import wepy from 'wepy';
+export default class Empty  extends wepy.component{
+    data = {
+        title : '目前还没有信息',
+        notice : '赶快去发布消息吧~',
+        status : 0,
+    }
+    props = {
+        'type' : String
+    }
+    onLoad(){
+        var type = this.type;
+        if(type == 'publish'){
+            this.title = '目前还没有信息';
+            this.notice = '赶快去发布消息吧';
+            this.status = 0;
+        }
+        if(type == 'attention'){
+            this.title = '您还没有关注任何信息';
+            this.notice = '去看看有没有感兴趣的消息吧';
+            this.status = 0;
+        }
+        if(type == 'result'){
+            this.notice = '非常抱歉，没有查到相关信息';
+            this.status = 1;
+        }
+        if(type == 'index'){
+            this.notice = '沙发与板凳只差一个发布，赶快行动吧';
+            this.status = 2;
+        }
+    }
+}
+</script>
+
+<style lang="scss">
+@import "../sass/_mixin.scss";
+.empty-container{
+
+}
+.empty-img{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 80rpx 160rpx 0;
+    image{
+        width: 150rpx;
+        height: 150rpx;
+    }
+}
+.empty-info{
+    text-align: center;
+    view{
+        padding-top: 30rpx;
+        color: $fontBlack;
+    }
+}
+.empty-text{
+    padding-top: 30rpx;
+    font-size: 26rpx;
+    color: $fontBlack;
+}
+.empty-success{
+    padding: 20rpx 0 100rpx;
+    background: #fff;
+    .empty-img{
+        image{
+            width: 120rpx;
+            height: 100rpx;
+        }
+    }
+    .empty-info{
+        view{
+            font-size: 22rpx;
+            color: $gray;
+        }
+    }
+}
+.empty-news{
+    padding-bottom: 80rpx;
+    background: #fff;
+    margin-bottom: 372rpx;
+}
+</style>

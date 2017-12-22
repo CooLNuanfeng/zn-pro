@@ -113,7 +113,7 @@ export default class extends wepy.app {
      appKey: 'k8F2aQ6iRTCL0ULe6c8a4sRg',
     });
     AV.User.loginWithWeapp().then(user => {
-        var uid
+        var uid;
         this.globalData.userInfo = user.toJSON();
         console.log(user.toJSON());
         uid = this.globalData.userInfo.objectId;

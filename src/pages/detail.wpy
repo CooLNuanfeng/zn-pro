@@ -269,9 +269,9 @@ export default class Detail extends wepy.page {
     };
     methods = {
         doAttention(){
-            var vm = this;
+            var vm = this,uid = vm.$parent.globalData.userInfo.objectId;
             var curUser = new UserAttentions();
-            curUser.set('uid',vm.uid);
+            curUser.set('uid',uid);
             curUser.set('pageid',vm.pageId);
             curUser.set('pagedata',vm.pageDate);
             curUser.save().then(function(res){
@@ -279,7 +279,7 @@ export default class Detail extends wepy.page {
                 vm.attentionStatus = 1;
                 vm.$apply();
                 vm.$parent.globalData.curUserAttention.push(vm.pageId);
-                vm.$parent.$parent.globalData.curUserAttentJsonArr.push({pid:vm.pageId,oid:res.id});
+                vm.$parent.globalData.curUserAttentJsonArr.push({pid:vm.pageId,oid:res.id});
                 vm.$parent.globalData.attrefresh = true;
             }).catch(function(err){
                 console.log(err);

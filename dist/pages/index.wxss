@@ -1,5 +1,6 @@
 @import "./../components/loading.wxss";
 @import "./../components/toast.wxss";
+@import "./../components/empty.wxss";
 @import "./../components/footer.wxss";
 @import "./../components/grid.wxss";
 @import "./../components/location.wxss";
