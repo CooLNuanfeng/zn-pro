@@ -1,0 +1,75 @@
+<template>
+    <view class="container about-page">
+        <view class="warp">
+            <view class="about-container">
+                <view class="about-tags"><text>开发者</text></view>
+                <view class="about-txt">
+                    卡了快捷按时交付垃圾发来看撒娇傅雷家书离开就是了开发了就  放到酸辣粉离开即可拉伸发 路上大家发
+                </view>
+                <view class="about-tags"><text>声明</text></view>
+                <view class="about-txt">
+                    卡了快捷按时交付垃圾发来看撒娇傅雷家书离开就是了开发了就  放到酸辣粉离开即可拉伸发 路上大家发
+                </view>
+            </view>
+        </view>
+        <footer></footer>
+    </view>
+</template>
+
+<script>
+import wepy from 'wepy'
+import Footer from '../components/footer'
+
+export default class Contact extends wepy.page {
+    data = {
+        // cityname : ''
+    };
+    components = {
+        footer : Footer
+    };
+    onLoad(){
+
+    }
+}
+</script>
+
+<style lang="scss">
+@import "../sass/_mixin.scss";
+.about-page{
+    background: #fff;
+}
+.about-container{
+    padding: 40rpx;
+    padding-top: 20rpx;
+    background: #fff;
+}
+.about-title{
+    margin-bottom: .6rem;
+    text-align: center;
+    font-size: 34rpx;
+    font-weight: bold;
+    color: $fontBlack;
+}
+.about-tags{
+    text{
+        padding: 5rpx 0;
+        font-size: 30rpx;
+        font-weight: bold;
+        color: $fontBlack;
+        &::before{
+            content: '';
+            width: 4rpx;
+            height: 35rpx;
+            margin-right: 10rpx;
+            display: inline-block;
+            vertical-align: middle;
+            background: $themeColor;
+        }
+    }
+}
+.about-txt{
+    padding: 20rpx 0;
+    font-size: 28rpx;
+    color: $fontBlack
+}
+</style>

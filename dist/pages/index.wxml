@@ -1,6 +1,6 @@
 
   <view class="container">
-      <view class="warp">
+      <scroll-view class="warp scrollPage" scroll-y="true" bindscroll="scroll">
           
   <view class="location-warp">
       <Text class="city-name">{{$location$cityname}}</Text>
@@ -10,7 +10,9 @@
       </view>
   </view>
 
-          
+          <view class="grids-warp">
+              <view class="{{gridsFixed ? 'grid-fixed':''}}">
+                  
     <view class="grids">
         <view class="grids-flex">
             <view  wx:for="{{$gird$gridsArr}}" wx:if="{{index<5}}" wx:key="wx:key" class="grids-item" bindtap="$gird$tap" data-wpytap-a="{{item.type}}" data-wpytap-b="{{item.name}}">
@@ -55,6 +57,28 @@
                 <image src="../images/{{themeimg}}other.png"></image>
                 <text>其他消息</text>
             </view> -->
+        </view>
+    </view>
+
+              </view>
+          </view>
+          
+    <view class="ad-container" hidden="{{!adshow}}">
+        <view class="ad-warp">
+            <swiper class="ad-swiper" autoplay="true" interval="3000" duration="500">
+              <block  wx:for="{{$ad$adItems}}" wx:key="wx:key">
+                <swiper-item>
+                  <view class="ad-swiper-item">
+                      <view>
+                          <image mode="aspectFit" src="{{item[0].url}}" class="slider" bindtap="$ad$tap" data-wpytap-a="{{item[0].id}}"/>
+                      </view>
+                      <view>
+                          <image mode="aspectFit" src="{{item[1].url}}" class="slider" bindtap="$ad$tap" data-wpytap-a="{{item[1].id}}"/>
+                      </view>
+                  </view>
+                </swiper-item>
+              </block>
+            </swiper>
         </view>
     </view>
 
@@ -148,12 +172,12 @@
    </view>
 
           </view>
-      </view>
-      
+          
     <view class="footer">欢迎来到 {{$footer$cityname}}</view>
 
+      </scroll-view>
       <view class="publish-btn">
-          <image src="../images/help.png" bindtap="about"/>
+          <image src="../images/help.png" bindtap="contact"/>
           <image src="../images/publish.png" bindtap="publish"/>
       </view>
       

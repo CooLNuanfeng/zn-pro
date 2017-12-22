@@ -1,8 +1,13 @@
 <template>
   <view class="container">
-      <view class="warp">
+      <scroll-view class="warp scrollPage" scroll-y="true" @scroll="scroll">
           <location/>
-          <gird></gird>
+          <view class="grids-warp">
+              <view class="{{gridsFixed ? 'grid-fixed':''}}">
+                  <gird></gird>
+              </view>
+          </view>
+          <ad hidden="{{!adshow}}"></ad>
           <view class="index-container">
               <view class="index-title">最新发布</view>
               <view class="index-list" hidden="{{loading}}">
@@ -60,10 +65,10 @@
               </view>
               <v-loading :loading.sync="loading" :loadend.sync="loadend"></v-loading>
           </view>
-      </view>
-      <footer/>
+          <footer/>
+      </scroll-view>
       <view class="publish-btn">
-          <image src="../images/help.png" @tap="about"></image>
+          <image src="../images/help.png" @tap="contact"></image>
           <image src="../images/publish.png" @tap="publish"></image>
       </view>
       <toast></toast>
@@ -74,6 +79,7 @@
   import wepy from 'wepy'
   import Location from '../components/location'
   import Grid from '../components/grid'
+  import Ad from '../components/ad'
   import Empty from '../components/empty'
   import Footer from '../components/footer'
   import Toast from '../components/toast';
@@ -88,17 +94,20 @@
       components = {
           'location' : Location,
           'gird' : Grid,
+          'ad' : Ad,
           'footer' : Footer,
           'empty' : Empty,
           'toast': Toast,
           'v-loading' : Loading,
       };
       data = {
+          adshow : false,
           gridsArr : null,
           themeimg : '',
           listData : null,
           loading : false,
           listNumber : 100,
+          gridsFixed : false,
       };
       methods = {
           goDetail(id){
@@ -111,11 +120,18 @@
                   url : 'publish'
               });
           },
-          about(){
+          contact(){
               wx.navigateTo({
-                  // url : 'about'
-                  url : 'success'
+                  url : 'contact'
               });
+          },
+          scroll(ev){
+              if(ev.detail.scrollTop > 140){
+                  this.gridsFixed = true;
+              }else{
+                  this.gridsFixed = false;
+              }
+              console.log('scroll',ev.detail.scrollTop);
           }
       };
       computed = {
@@ -135,6 +151,7 @@
           }
       }
       onLoad(){
+          this.adshow = this.$parent.globalData.ads;
           this.themeimg = this.$parent.globalData.themeimg;
           this.gridsArr = this.$parent.globalData.gridsArr;
           this.fetch();
@@ -192,8 +209,28 @@
 
 <style lang="scss">
 @import "../sass/_mixin.scss";
+.scrollPage{
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+}
+.grids-warp{
+    height: 315rpx;
+}
+.grid-fixed{
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 10;
+    box-shadow: 0 0 15rpx rgba(0,0,0,.3);
+}
+.index-container{
+    padding-top: 10rpx;
+}
 .index-title{
-    margin-top: 10rpx;
     height: 70rpx;
     line-height: 70rpx;
     padding-left: 20rpx;

@@ -487,7 +487,7 @@ export default class Attention extends wepy.page {
     left: 0;
     right: 0;
     bottom: 0;
-    transform: translate3d(0);
+    // transform: translate3d(0);
 }
 .attention{
     overflow-x: hidden;

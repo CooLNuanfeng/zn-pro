@@ -1,12 +1,65 @@
 <template>
-
+    <view class="ad-container">
+        <view class="ad-warp">
+            <swiper class="ad-swiper" autoplay="true" interval="3000" duration="500">
+              <block wx:for="{{adItems}}" wx:key>
+                <swiper-item>
+                  <view class="ad-swiper-item">
+                      <view>
+                          <image mode="aspectFit" src="{{item[0].url}}" class="slider" @tap="tap({{item[0].id}})"/>
+                      </view>
+                      <view>
+                          <image mode="aspectFit" src="{{item[1].url}}" class="slider" @tap="tap({{item[1].id}})"/>
+                      </view>
+                  </view>
+                </swiper-item>
+              </block>
+            </swiper>
+        </view>
+    </view>
 </template>
 
 <script>
 import wepy from 'wepy'
 export default class Ad  extends wepy.component{
+    data = {
+        adItems : [
+            [
+                {'id' : '1', url: 'http://oyo2k3vrc.bkt.clouddn.com/ad.jpg'},
+                {'id' : '2', url: 'http://oyo2k3vrc.bkt.clouddn.com/ad.jpg'}
+            ]
+        ]
+    }
+    methods = {
+        tap(id){
+            // console.log(id);
+        }
+    }
 }
 </script>
 
 <style lang="scss">
+.ad-container{
+    padding: 10rpx 10rpx 0;
+}
+.ad-warp{
+    height: 150rpx;
+    overflow: hidden;
+}
+.ad-swiper-item{
+    display: flex;
+    justify-content: space-between;
+    view{
+        width: 360rpx;
+        height: 150rpx;
+        border-radius: 20rpx;
+        box-sizing: border-box;
+        overflow: hidden;
+        background: #fff;
+    }
+}
+.slider{
+    width: 100%;
+    height: 100%;
+}
 </style>

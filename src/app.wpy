@@ -21,7 +21,8 @@ var myConfig = {
     themeColor : '#51e886',
     themeimg : 'green/',
     cityname : 'My City',
-    cityid : '370682'
+    cityid : '370682',
+    ads : true,
 }
 
 export default class extends wepy.app {
@@ -37,6 +38,7 @@ export default class extends wepy.app {
       'pages/success',
       'pages/preview',
       'pages/mypublish',
+      'pages/contact',
     ],
     window: {
       backgroundTextStyle: 'light',
@@ -72,6 +74,7 @@ export default class extends wepy.app {
   }
 
   globalData = {
+    ads : myConfig.ads, //是否有广告位
     userInfo: null,  //用户信息
     userNick : null, //用户昵称
     cityname : myConfig.cityname,  //城市名称
