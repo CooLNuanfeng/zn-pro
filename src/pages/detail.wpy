@@ -1,6 +1,6 @@
 <template>
     <view class="container detail-container">
-        <v-loading wx:if="{{!loading}}" :loading.sync="loading" :loadend.sync="loadend"></v-loading>
+        <v-loading :loading.sync="loading" :loadend.sync="loadend"></v-loading>
         <view wx:if="{{pageDate}}">
             <view class="warp">
                 <swiper :imgUrls.sync="imgUrls"></swiper>
@@ -198,7 +198,7 @@
                 <view class="detail-phone" @tap="doPhone">拨打电话</view>
             </view>
         </view>
-        <view wx:elif>
+        <view wx:if="{{!pageDate && !loading}}">
             <empty type="nopage"></empty>
         </view>
         <footer />
@@ -234,6 +234,7 @@ export default class Detail extends wepy.page {
         loading : false,
         loadend : false,
         pageDate : null, //当前页面数据
+        ajaxPedding : false, //ajax 防连击
     }
     components = {
         'swiper' : Swiper,
@@ -271,6 +272,7 @@ export default class Detail extends wepy.page {
             // vm.$invoke('toast', 'show', {
             //     message: '改信息不存在或用户已删除',
             // });
+            vm.$apply();
         });
         //检测用户关注
         vm.checkUserAttentions();
@@ -279,16 +281,17 @@ export default class Detail extends wepy.page {
         doAttention(){
             var vm = this,uid = vm.$parent.globalData.userInfo.objectId;
             var curUser = new UserAttentions();
-
-            if(vm.attentionStatus){
+            if(vm.attentionStatus || vm.ajaxPedding){
                 return;
             }
-
+            vm.ajaxPedding = true;
+            vm.showLoading();
             curUser.set('uid',uid);
             curUser.set('pageid',vm.pageId);
             curUser.set('pagedata',vm.pageDate);
             curUser.save().then(function(res){
                 vm.hideLoading();
+                vm.ajaxPedding = false;
                 vm.attentionStatus = 1;
                 vm.$apply();
                 vm.$parent.globalData.curUserAttention.push(vm.pageId);
@@ -296,10 +299,11 @@ export default class Detail extends wepy.page {
                 vm.$parent.globalData.attrefresh = true;
             }).catch(function(err){
                 console.log(err);
+                vm.hideLoading();
+                vm.ajaxPedding = false;
                 vm.$invoke('toast', 'show', {
                     message: '服务异常，请稍后重试',
                 });
-                vm.hideLoading();
             });
 
 

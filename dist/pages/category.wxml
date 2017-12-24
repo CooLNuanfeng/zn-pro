@@ -18,8 +18,8 @@
                 <view class="{{curTab=='edu'?'active':''}}" bindtap="tabChange('edu')">教育培训</view>
                 <view class="{{curTab=='other'?'active':''}}" bindtap="tabChange('other')">其他消息</view> -->
             </view>
-            <view  wx:if="{{listData && listData.length}}">
-                <view class="category-nav" wx:if="{{navlist}}">
+            <view>
+                <view class="category-nav"  wx:if="{{navlist}}">
                     
     <scroll-view scroll-x class="nav-container">
         <view class="{{$navBar$current == 'all'? 'active':''}}" bindtap="$navBar$change" data-wpychange-a="all">全 部</view>
@@ -87,7 +87,7 @@
 
                 </scroll-view>
             </view>
-            <view  wx:elif="wx:elif">
+            <view  wx:if="{{!listData.length && !loading}}">
                 
     <view class="empty-container">
         <view  wx:if="{{$empty$status==0}}" class="empty-news">
@@ -120,7 +120,6 @@
                 <image src="../images/no-result.png"/>
             </view>
             <view class="empty-info">
-                <view>{{$empty$title}}</view>
                 <view>{{$empty$notice}}</view>
             </view>
         </view>

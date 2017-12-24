@@ -1,8 +1,8 @@
 
     <view class="container">
-        <view  wx:if="{{lists && lists.length}}">
+        <view>
             
-    <scroll-view scroll-x class="nav-container">
+    <scroll-view scroll-x class="nav-container" wx:if="{{navlists.length}}">
         <view class="{{$navBar$current == 'all'? 'active':''}}" bindtap="$navBar$change" data-wpychange-a="all">全 部</view>
         <view  wx:for="{{$navBar$navlist}}" wx:key="wx:key" class="{{$navBar$current == item.name ? 'active':''}}" bindtap="$navBar$change" data-wpychange-a="{{item}}">{{item.name}}</view>
     </scroll-view>
@@ -12,7 +12,7 @@
                     <view class="attention-body">
                         <view class="attention-list">
 
-                            <view wx:for="{{lists}}" wx:key="wx:key" class="attention-item {{item.status == 1?'active':''}} {{item.status==-1?'delete':''}}" bindtouchstart="touchstart" bindtouchmove="touchmove" bindtap="goDetail" data-wpytouchmove-a="{{item}}" data-wpytouchmove-b="{{index}}" data-wpygodetail-a="{{item}}">
+                            <view  wx:for="{{lists}}" wx:key="wx:key" class="attention-item {{item.status == 1?'active':''}} {{item.status==-1?'delete':''}}" bindtouchstart="touchstart" bindtouchmove="touchmove" bindtap="goDetail" data-wpytouchmove-a="{{item}}" data-wpytouchmove-b="{{index}}" data-wpygodetail-a="{{item}}">
                                 <view class="item-att-select {{item.selected?'active':''}}" catchtap="selectItem" data-wpyselectitem-a="{{index}}"><text class="select-icon"/></view>
                                 <view class="item-att-main">
                                     <view class="item-att-l">
@@ -55,10 +55,7 @@
 
                 </view>
                 
-    <view class="footer">欢迎来到 {{$footer$cityname}}</view>
-
-                
-    <view hidden="{{$toast$hidden}}" class="{{!$toast$load ? 'toast':'toast load'}}">{{$toast$infoObj.message}}</view>
+    <view class="footer" wx:if="{{lists.length}}">欢迎来到 {{$footer$cityname}}</view>
 
                 <view class="attention-btn" hidden="{{showBar ? false : true}}">
                     <view class="select-l">
@@ -75,7 +72,7 @@
                 </view>
             </scroll-view>
         </view>
-        <view  wx:elif="wx:elif">
+        <view wx:if="{{!lists.length && !loading}}">
             
     <view class="empty-container">
         <view  wx:if="{{$empty$status==0}}" class="empty-news">
@@ -108,7 +105,6 @@
                 <image src="../images/no-result.png"/>
             </view>
             <view class="empty-info">
-                <view>{{$empty$title}}</view>
                 <view>{{$empty$notice}}</view>
             </view>
         </view>
@@ -118,4 +114,7 @@
     <view class="footer">欢迎来到 {{$footer$cityname}}</view>
 
         </view>
+        
+    <view hidden="{{$toast$hidden}}" class="{{!$toast$load ? 'toast':'toast load'}}">{{$toast$infoObj.message}}</view>
+
     </view>

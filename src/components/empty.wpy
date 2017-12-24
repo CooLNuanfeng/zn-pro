@@ -30,7 +30,6 @@
                 <image src="../images/no-result.png"></image>
             </view>
             <view class="empty-info">
-                <view>{{title}}</view>
                 <view>{{notice}}</view>
             </view>
         </view>
@@ -69,8 +68,7 @@ export default class Empty  extends wepy.component{
             this.status = 2;
         }
         if(type == 'nopage'){
-            this.title = "非常抱歉，没有查到相关信息"
-            this.notice = '该信息已被发布用户删除';
+            this.notice = '来晚了，该信息已被发布者删除';
             this.status = 3;
         }
     }

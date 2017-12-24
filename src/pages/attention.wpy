@@ -1,7 +1,7 @@
 <template>
     <view class="container">
-        <view wx:if="{{lists.length}}">
-            <nav-bar :navlist.sync="navlists"></nav-bar>
+        <view>
+            <nav-bar wx:if="{{navlists.length}}" :navlist.sync="navlists"></nav-bar>
             <scroll-view class="scrollPage" scroll-y="true" scroll-top="{{scrollTop}}" lower-threshold="150" @scrolltolower="scrollFetch" @scroll="scroll">
                 <view class="warp attention">
                     <view class="attention-body">
@@ -71,8 +71,7 @@
                     </view>
                     <v-loading :loading.sync="loading" :loadend.sync="loadend"></v-loading>
                 </view>
-                <footer></footer>
-                <toast></toast>
+                <footer wx:if="{{lists.length}}"></footer>
                 <view class="attention-btn" hidden="{{showBar ? false : true}}">
                     <view class="select-l">
                         <view @tap="doAllSelect({{selectAll}})">
@@ -88,10 +87,11 @@
                 </view>
             </scroll-view>
         </view>
-        <view wx:elif>
+        <view wx:if="{{!lists.length && !loading}}">
             <empty type="attention"></empty>
             <footer></footer>
         </view>
+        <toast></toast>
     </view>
 </template>
 
@@ -126,7 +126,7 @@ export default class Attention extends wepy.page {
         selectAll : false, //全选
         startX : 0,
         startY: 0,
-        // delArrIds : null, //要删除的 arr id
+        delPedding : false, //删除防连击
         loading : false,
         loadend : false,
         page : 1, //当前页
@@ -266,23 +266,32 @@ export default class Attention extends wepy.page {
     fetch(){
         var vm = this,query = new AV.Query('UserAttentions');
         vm.loading = true;
+        vm.showLoading();
         query.equalTo('uid', this.uid);
         query.descending('updatedAt');
         query.limit(vm.pageSize);
         query.find().then(function(data){
             console.log(data,'data');
             vm.loading = false;
-            vm.makeParam(data);
-            vm.page++;
+            vm.hideLoading();
+            if(data.length == 0){
+                vm.loadend = false;
+                vm.$apply();
+                return;
+            }
             if(data.length < vm.pageSize){
                 vm.loadend = true;
             }
+            vm.page++;
+            vm.makeParam(data);
         }).catch(function(err){
             console.log(err);
             vm.loading = false;
+            vm.hideLoading();
             vm.$invoke('toast', 'show', {
                 message: '服务异常，请稍后重试',
             });
+            vm.$apply();
         });
     }
     scrollFetch(){
@@ -299,11 +308,16 @@ export default class Attention extends wepy.page {
         query.find().then(function(data){
             console.log(data,'data');
             vm.loading = false;
+            if(data.length == 0){
+                vm.loadend = false;
+                vm.$apply();
+                return;
+            }
             if(data.length < vm.pageSize){
                 vm.loadend = true;
             }
-            vm.makeParam(data);
             vm.page++;
+            vm.makeParam(data);
         }).catch(function(err){
             console.log(err);
             vm.loading = false;
@@ -317,13 +331,19 @@ export default class Attention extends wepy.page {
         var objectsArr = [],vm = this,
             delPidArr = [],
             curUserAttentions = vm.$parent.globalData.curUserAttention;
+        if(vm.delPedding){
+            return;
+        }
+        vm.delPedding = true;
         for(let i=0; i<arr.length; i++){
             var attentItem = AV.Object.createWithoutData('UserAttentions', arr[i].id);
             delPidArr.push(arr[i].pid);
             objectsArr.push(attentItem);
         }
-
+        vm.showLoading();
         AV.Object.destroyAll(objectsArr).then(function () {
+            vm.hideLoading();
+            vm.delPedding = false;
             for(let i=0; i<delPidArr.length; i++){
                 for(let j=0; j<vm.initLists.length;j++){
                     if(vm.initLists[j].pid == delPidArr[i]){
@@ -344,6 +364,8 @@ export default class Attention extends wepy.page {
             vm.hideLoading();
             vm.$apply();
         }, function (err) {
+            vm.delPedding = false;
+            vm.hideLoading();
             console.log(err);
             vm.$invoke('toast', 'show', {
                 message: '服务异常，请稍后重试',
@@ -395,6 +417,9 @@ export default class Attention extends wepy.page {
     filterList(){
         var filterArr = [],type = this.curNavType;
         this.lists = this.initLists;
+        if(!this.lists.length){
+            this.loadend = false;
+        }
         if(type == 'all'){
             return ;
         }else{
@@ -405,6 +430,7 @@ export default class Attention extends wepy.page {
             }
             this.lists = filterArr;
         }
+
     }
     makeParam(data){
         // var curUserAttentions = this.$parent.globalData.curUserAttention;

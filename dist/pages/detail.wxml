@@ -1,7 +1,7 @@
 
     <view class="container detail-container">
         
-   <view class="loading" wx:if="{{!loading}}">
+   <view class="loading">
        <view hidden="{{!$vLoading$loading}}">加载中...</view>
        <view hidden="{{$vLoading$loading || !$vLoading$loadend}}">我也是有底线的~</view>
    </view>
@@ -28,7 +28,7 @@
                     </view>
                 </view>
                 <!-- 招聘信息  -->
-                <view  wx:if="{{categoryType == 'job' ? true: false}}" class="job-box mt20">
+                <view wx:if="{{categoryType == 'job' ? true: false}}" class="job-box mt20">
                     <view class="item-rule">
                         <view><text>职位: </text> {{content.jobname}}</view>
                         <view><text>薪资: </text><text class="text-red"> {{content.jobprice}}元起/月</text></view>
@@ -213,7 +213,7 @@
                 <view class="detail-phone" bindtap="doPhone">拨打电话</view>
             </view>
         </view>
-        <view wx:elif="wx:elif">
+        <view  wx:if="{{!pageDate && !loading}}">
             
     <view class="empty-container">
         <view  wx:if="{{$empty$status==0}}" class="empty-news">
@@ -246,7 +246,6 @@
                 <image src="../images/no-result.png"/>
             </view>
             <view class="empty-info">
-                <view>{{$empty$title}}</view>
                 <view>{{$empty$notice}}</view>
             </view>
         </view>

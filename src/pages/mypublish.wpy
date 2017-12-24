@@ -1,7 +1,7 @@
 <template>
     <view class="container">
-        <view wx:if="{{lists && lists.length}}">
-            <nav-bar :navlist.sync="navlists"></nav-bar>
+        <view>
+            <nav-bar wx:if="{{navlists.length}}" :navlist.sync="navlists"></nav-bar>
             <scroll-view class="scrollPage" scroll-y="true" scroll-top="{{scrollTop}}" lower-threshold="150" @scrolltolower="scrollFetch" @scroll="scroll">
                 <view class="warp attention">
                     <view class="attention-body">
@@ -44,8 +44,7 @@
                     </view>
                     <v-loading :loading.sync="loading" :loadend.sync="loadend"></v-loading>
                 </view>
-                <footer></footer>
-                <toast></toast>
+                <footer wx:if="{{lists.length}}"></footer>
                 <view class="attention-btn" hidden="{{showBar ? false : true}}">
                     <view class="select-l">
                         <view @tap="doAllSelect({{selectAll}})">
@@ -61,10 +60,11 @@
                 </view>
             </scroll-view>
         </view>
-        <view wx:elif>
+        <view wx:if="{{!lists.length && !loading}}">
             <empty type="publish"></empty>
             <footer/>
         </view>
+        <toast></toast>
     </view>
 </template>
 
@@ -105,6 +105,7 @@ export default class MyPublish extends wepy.page {
         pageSize : 20, //每页显示多少条
         scrollTop : 0, //回到顶部
         goTopStauts : 0, //回到顶部按钮
+        ajaxPedding : false, //ajax 防连击
     }
     methods = {
         touchstart(e){
@@ -201,25 +202,7 @@ export default class MyPublish extends wepy.page {
         this.uid = this.$parent.globalData.userInfo.objectId;
         this.fetch();
     }
-    // onShow(){
-    //     var vm = this;
-    //     setTimeout(function(){
-    //         var refresh = vm.$parent.globalData.refresh;
-    //         // console.log(refresh,'refresh');
-    //         if(refresh){
-    //             vm.loadend = false;
-    //             vm.page = 1;
-    //             vm.scrollTop = 0;
-    //             vm.lists = [];
-    //             vm.initLists = [];
-    //             vm.fetch();
-    //             vm.$parent.globalData.refresh = false;
-    //         }
-    //     },100);
-    //     vm.showBar = false;
-    //     vm.selectStatus = false;
-    //     vm.selectAll = false;
-    // }
+
     events = {
         navChange(params){
             if(params.type){
@@ -233,17 +216,24 @@ export default class MyPublish extends wepy.page {
     fetch(){
         var vm = this,query = new AV.Query('NewsList');
         vm.loading = true;
+        vm.showLoading();
         query.equalTo('uid', this.uid);
         query.descending('updatedAt');
         query.limit(vm.pageSize);
         query.find().then(function(data){
             console.log(data,'data');
             vm.loading = false;
-            vm.makeParam(data);
-            vm.page++;
+            vm.hideLoading();
+            if(data.length == 0){
+                vm.loadend = false;
+                vm.$apply();
+                return;
+            }
             if(data.length < vm.pageSize){
                 vm.loadend = true;
             }
+            vm.page++;
+            vm.makeParam(data);
         }).catch(function(err){
             console.log(err);
             vm.loading = false;
@@ -266,11 +256,16 @@ export default class MyPublish extends wepy.page {
         query.find().then(function(data){
             console.log(data,'data');
             vm.loading = false;
-            vm.makeParam(data);
-            vm.page++;
+            if(data.length == 0){
+                vm.loadend = false;
+                vm.$apply();
+                return;
+            }
             if(data.length < vm.pageSize){
                 vm.loadend = true;
             }
+            vm.page++;
+            vm.makeParam(data);
         }).catch(function(err){
             console.log(err);
             vm.loading = false;
@@ -289,6 +284,11 @@ export default class MyPublish extends wepy.page {
             delidArr = [],
             publishnum = vm.$parent.globalData.curUserPublishNum,
             curUserAttentions = vm.$parent.globalData.curUserAttention;
+        if(vm.ajaxPedding){
+            return;
+        }
+        vm.ajaxPedding = true;
+        vm.showLoading();
         for(let i=0; i<arr.length; i++){
             var oid = vm.getUserAttentOid(arr[i]),delItem,attentItem;
 
@@ -336,47 +336,17 @@ export default class MyPublish extends wepy.page {
            vm.initStatus(0);
            vm.selectAllStatus(false);
            vm.showBar = false;
+           vm.ajaxPedding = false;
            vm.hideLoading();
            vm.$apply();
         }).catch(function(err){
             console.log(err);
+            vm.ajaxPedding = false;
+            vm.hideLoading();
             vm.$invoke('toast', 'show', {
                 message: '服务异常，请稍后重试',
             });
         })
-
-
-
-
-        // AV.Object.destroyAll(objectsArr).then(function () {
-        //     for(let i=0; i<delidArr.length; i++){
-        //         for(let j=0; j<vm.initLists.length;j++){
-        //             if(vm.initLists[j].id == delidArr[i]){
-        //                 vm.initLists.splice(j,1);
-        //             }
-        //         }
-        //     }
-        //     vm.$parent.globalData.curUserPublishNum = publishnum - delidArr.length;
-        //     vm.$parent.globalData.refresh = true;
-        //     vm.$parent.globalData.curUserAttention = vm.delFromArr(curUserAttentions,delidArr);
-        //     console.log(vm.$parent.globalData.curUserAttention,'del curUserAttention');
-        //     // vm.initNavList(vm.lists);
-        //     // vm.initNavList(vm.initLists);
-        //     vm.filterList();
-        //     vm.initNavList();
-        //
-        //     vm.initStatus(0);
-        //     vm.selectAllStatus(false);
-        //     vm.showBar = false;
-        //     vm.hideLoading();
-        //     vm.$apply();
-        //
-        // }, function (err) {
-        //     console.log(err);
-        //     vm.$invoke('toast', 'show', {
-        //         message: '服务异常，请稍后重试',
-        //     });
-        // });
 
     }
     initStatus(status){
@@ -423,6 +393,9 @@ export default class MyPublish extends wepy.page {
     filterList(){
         var filterArr = [],type = this.curNavType;
         this.lists = this.initLists;
+        if(!this.lists.length){
+            this.loadend = false;
+        }
         if(type == 'all'){
             return ;
         }else{

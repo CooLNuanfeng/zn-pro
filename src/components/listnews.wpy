@@ -54,6 +54,7 @@ import UserAttentions from '../models/userattentions';
 export default class ListNews extends wepy.component{
     data = {
         themeimg : '',
+        ajaxPedding : false, //防连击
     }
     props = {
         lists : Array
@@ -74,17 +75,20 @@ export default class ListNews extends wepy.component{
         },
         doAttention(item,index){
             console.log('currid',item,index);
-            if(item.attentionStatus){
+            if(item.attentionStatus || this.ajaxPedding){
                 return;
             }
             var vm = this,uid = vm.$parent.$parent.globalData.userInfo.objectId;
             var curUser = new UserAttentions();
+            vm.ajaxPedding = true;
+            vm.showLoading();
             curUser.set('uid',uid);
             curUser.set('pageid',item.id);
             curUser.set('pagedata',item);
             curUser.save().then(function(res){
                 // console.log(res,'doAttention res');
                 vm.hideLoading();
+                vm.ajaxPedding = false;
                 vm.lists[index].attentionStatus = 1;
                 vm.$parent.$parent.globalData.curUserAttention.push(item.id);
                 vm.$parent.$parent.globalData.curUserAttentJsonArr.push({pid:item.id,oid:res.id});
@@ -92,10 +96,11 @@ export default class ListNews extends wepy.component{
                 vm.$apply();
             }).catch(function(err){
                 console.log(err);
+                vm.hideLoading();
+                vm.ajaxPedding = false;
                 vm.$invoke('toast', 'show', {
                     message: '服务异常，请稍后重试',
                 });
-                vm.hideLoading();
             });
 
 

@@ -18,7 +18,7 @@
                 <view class="{{curTab=='edu'?'active':''}}" @tap="tabChange('edu')">教育培训</view>
                 <view class="{{curTab=='other'?'active':''}}" @tap="tabChange('other')">其他消息</view> -->
             </view>
-            <view wx:if="{{listData && listData.length}}">
+            <view>
                 <view class="category-nav" wx:if="{{navlist}}">
                     <nav-bar :navlist.sync="navlist"></nav-bar>
                 </view>
@@ -30,7 +30,7 @@
                     <footer/>
                 </scroll-view>
             </view>
-            <view wx:elif>
+            <view wx:if="{{!listData.length && !loading}}">
                 <empty type="publish"></empty>
                 <footer/>
             </view>
@@ -100,6 +100,7 @@ export default class Category extends wepy.page {
             this.curTab = type;
             this.curname = name;
             this.slideUp = !this.slideUp;
+            this.navlist = null;
             this.fetch();
         },
         scroll(ev){
@@ -124,18 +125,23 @@ export default class Category extends wepy.page {
             query.find().then(function(data){
                 console.log(data,'scrollFetch');
                 vm.loading = false;
-                vm.makeParam(data);
-                vm.page++;
+                if(data.length == 0){
+                    vm.loadend = false;
+                    vm.$apply();
+                    return;
+                }
                 if(data.length < vm.pageSize){
                     vm.loadend = true;
                 }
+                vm.page++;
+                vm.makeParam(data);
             }).catch(function(err){
                 console.log(err);
                 vm.loading = false;
                 vm.$invoke('toast', 'show', {
                     message: '服务异常，请稍后重试',
                 });
-                // vm.$apply();
+                vm.$apply();
             });
         },
         goTop(){
@@ -167,11 +173,16 @@ export default class Category extends wepy.page {
         query.find().then(function(data){
             console.log(data,'fetch');
             vm.loading = false;
-            vm.makeParam(data);
-            vm.page++;
+            if(data.length == 0){
+                vm.loadend = false;
+                vm.$apply();
+                return;
+            }
             if(data.length < vm.pageSize){
                 vm.loadend = true;
             }
+            vm.page++;
+            vm.makeParam(data);
         }).catch(function(err){
             console.log(err);
             vm.loading = false;
