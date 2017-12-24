@@ -1,64 +1,70 @@
 <template>
     <view class="container">
-        <nav-bar :navlist.sync="navlists"></nav-bar>
-        <scroll-view class="scrollPage" scroll-y="true" scroll-top="{{scrollTop}}" lower-threshold="150" @scrolltolower="scrollFetch" @scroll="scroll">
-            <view class="warp attention">
-                <view class="attention-body">
-                    <view class="attention-list">
+        <view wx:if="{{lists && lists.length}}">
+            <nav-bar :navlist.sync="navlists"></nav-bar>
+            <scroll-view class="scrollPage" scroll-y="true" scroll-top="{{scrollTop}}" lower-threshold="150" @scrolltolower="scrollFetch" @scroll="scroll">
+                <view class="warp attention">
+                    <view class="attention-body">
+                        <view class="attention-list">
 
-                        <view wx:for="{{lists}}" wx:key class="attention-item {{item.status == 1?'active':''}} {{item.status==-1?'delete':''}}" @touchstart="touchstart" @touchmove="touchmove({{item}},{{index}})" @tap="goDetail({{item}})">
-                            <view class="item-att-select {{item.selected?'active':''}}" @tap.stop="selectItem({{index}})"><text class="select-icon"></text></view>
-                            <view class="item-att-main">
-                                <view class="item-att-l">
-                                    <view class="item-att-title">
-                                        <text wx:if="{{item.formdata.images}}">图</text>
-                                        {{item.title}}
-                                    </view>
-                                    <view class="item-att-body">
-                                        <view class="item-att-info">
-                                            <view>{{item.subtitle}}</view>
-                                            <view class="item-att-price">
-                                                <text wx:if="{{item.type == 'job'}}" class="price">￥<text class="price-number">{{item.formdata.jobprice}}</text>元起/月</text>
-                                                <text wx:elif="{{item.type == 'home'}}" class="price">￥<text class="price-number">{{item.formdata.price}}</text>{{item.formdata.typeJson.type==0? '元/月':'万元'}}</text>
-                                                <text wx:elif="{{item.type == 'car'}}" class="price">￥<text class="price-number">{{item.formdata.price}}</text>万元</text>
-                                                <text wx:elif="{{item.type == 'food'||item.type == 'edu'}}" class="price">￥<text class="price-number">{{item.formdata.price}}</text>元/人</text>
-                                                <text wx:elif="{{item.type == 'pet'}}" class="price">￥<text class="price-number">{{item.formdata.price}}</text>元/只</text>
-                                            </view>
-                                            <view class="item-att-time"><text>发布者: {{item.nickname}}</text> <text>{{item.updatedAt}}</text></view>
+                            <view wx:for="{{lists}}" wx:key class="attention-item {{item.status == 1?'active':''}} {{item.status==-1?'delete':''}}" @touchstart="touchstart" @touchmove="touchmove({{item}},{{index}})" @tap="goDetail({{item}})">
+                                <view class="item-att-select {{item.selected?'active':''}}" @tap.stop="selectItem({{index}})"><text class="select-icon"></text></view>
+                                <view class="item-att-main">
+                                    <view class="item-att-l">
+                                        <view class="item-att-title">
+                                            <text wx:if="{{item.formdata.images}}">图</text>
+                                            {{item.title}}
                                         </view>
-                                        <view class="item-att-btn">
-                                            <view class="item-att-type">
-                                                <image src="../images/{{themeimg}}{{item.type}}.png"></image>
+                                        <view class="item-att-body">
+                                            <view class="item-att-info">
+                                                <view>{{item.subtitle}}</view>
+                                                <view class="item-att-price">
+                                                    <text wx:if="{{item.type == 'job'}}" class="price">￥<text class="price-number">{{item.formdata.jobprice}}</text>元起/月</text>
+                                                    <text wx:elif="{{item.type == 'home'}}" class="price">￥<text class="price-number">{{item.formdata.price}}</text>{{item.formdata.typeJson.type==0? '元/月':'万元'}}</text>
+                                                    <text wx:elif="{{item.type == 'car'}}" class="price">￥<text class="price-number">{{item.formdata.price}}</text>万元</text>
+                                                    <text wx:elif="{{item.type == 'food'||item.type == 'edu'}}" class="price">￥<text class="price-number">{{item.formdata.price}}</text>元/人</text>
+                                                    <text wx:elif="{{item.type == 'pet'}}" class="price">￥<text class="price-number">{{item.formdata.price}}</text>元/只</text>
+                                                </view>
+                                                <view class="item-att-time"><text>发布者: {{item.nickname}}</text> <text>{{item.updatedAt}}</text></view>
                                             </view>
-                                            <view>
-                                                <image src="../images/{{themeimg}}phone.png"></image> 电话
+                                            <view class="item-att-btn">
+                                                <view class="item-att-type">
+                                                    <image src="../images/{{themeimg}}{{item.type}}.png"></image>
+                                                </view>
+                                                <view>
+                                                    <image src="../images/{{themeimg}}phone.png"></image> 电话
+                                                </view>
                                             </view>
                                         </view>
                                     </view>
+                                    <view class="item-att-r" @tap.stop="delItem({{item}},{{index}})"><text>删除</text></view>
                                 </view>
-                                <view class="item-att-r" @tap.stop="delItem({{item}},{{index}})"><text>删除</text></view>
                             </view>
                         </view>
                     </view>
+                    <v-loading :loading.sync="loading" :loadend.sync="loadend"></v-loading>
                 </view>
-                <v-loading :loading.sync="loading" :loadend.sync="loadend"></v-loading>
-            </view>
-            <footer></footer>
-            <toast></toast>
-            <view class="attention-btn" hidden="{{showBar ? false : true}}">
-                <view class="select-l">
-                    <view @tap="doAllSelect({{selectAll}})">
-                        <text class="select-icon {{selectAll?'active':''}}"></text>全选
+                <footer></footer>
+                <toast></toast>
+                <view class="attention-btn" hidden="{{showBar ? false : true}}">
+                    <view class="select-l">
+                        <view @tap="doAllSelect({{selectAll}})">
+                            <text class="select-icon {{selectAll?'active':''}}"></text>全选
+                        </view>
                     </view>
+                    <view class="select-m" @tap="cancel">取消</view>
+                    <view class="select-r {{selectStatus?'active':''}}" @tap="deleteSelect">删除</view>
                 </view>
-                <view class="select-m" @tap="cancel">取消</view>
-                <view class="select-r {{selectStatus?'active':''}}" @tap="deleteSelect">删除</view>
-            </view>
-            <view class="attention-btns">
-                <image src="../images/delete.png" @tap="edit"></image>
-                <image hidden="{{!goTopStauts}}" src="../images/top.png" @tap="goTop"></image>
-            </view>
-        </scroll-view>
+                <view class="attention-btns">
+                    <image src="../images/delete.png" @tap="edit"></image>
+                    <image hidden="{{!goTopStauts}}" src="../images/top.png" @tap="goTop"></image>
+                </view>
+            </scroll-view>
+        </view>
+        <view wx:elif>
+            <empty type="publish"></empty>
+            <footer/>
+        </view>
     </view>
 </template>
 
@@ -66,7 +72,8 @@
 import wepy from 'wepy';
 import NavBar from '../components/navbar';
 import Loading from '../components/loading';
-import Footer from '../components/footer'
+import Empty from '../components/empty'
+import Footer from '../components/footer';
 import Toast from '../components/toast';
 
 import AV from '../utils/av-weapp-min.js';
@@ -74,6 +81,7 @@ import AV from '../utils/av-weapp-min.js';
 
 export default class MyPublish extends wepy.page {
     components = {
+        'empty' : Empty,
         'nav-bar' : NavBar,
         'v-loading' : Loading,
         'footer' : Footer,

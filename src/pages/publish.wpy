@@ -251,22 +251,51 @@ export default class Publish extends wepy.page {
         let filePaths = data.formdata.images;
         let len = filePaths.length;
         var vm = this,imgArr = [],domain = vm.$parent.globalData.domain;
-        for(let i=0;i<len;i++){
-            qiniuUploader.upload(filePaths[i], (res) => {
-              // console.log(res,'upload res');
-              imgArr.push(domain+res.imageURL);
-              if(i == len-1){
-                  // console.log(i,'end',imgArr);
-                  data.formdata.images = imgArr;
-                  vm.saveData(data);
-              }
-            }, (error) => {
-                  console.log('error: ' + error);
-            },{
-                region: 'ECN',
-                uptoken: uploadToken
+        var promiseArr = [];
+        // console.log(filePaths,'filePaths',domain);
+        for(let i=0; i<len; i++){
+            var prom = new Promise(function(resolve, reject){
+                    qiniuUploader.upload(filePaths[i], (res) => {
+                        imgArr.push(domain+res.imageURL);
+                        resolve();
+                    }, (error) => {
+                          reject();
+                    },{
+                        region: 'ECN',
+                        uptoken: uploadToken
+                    });
             });
+            promiseArr.push(prom);
         }
+
+        Promise.all(promiseArr).then(function(){
+            // console.log(imgArr,'imgArr');
+            data.formdata.images = imgArr;
+            vm.saveData(data);
+        }).catch(function(err){
+            console.log(err);
+            vm.hideLoading();
+            vm.$invoke('toast', 'show', {
+                message: '图片上传失败，请重试',
+            });
+        })
+
+        // for(let i=0;i<len;i++){
+        //
+        //     qiniuUploader.upload(filePaths[i], (res) => {
+        //       imgArr.push(domain+res.imageURL);
+        //       if(i == len-1){
+        //           // console.log(i,'end',imgArr);
+        //           data.formdata.images = imgArr;
+        //           vm.saveData(data);
+        //       }
+        //     }, (error) => {
+        //           console.log('error: ' + error);
+        //     },{
+        //         region: 'ECN',
+        //         uptoken: uploadToken
+        //     });
+        // }
 
     }
     saveData(data){

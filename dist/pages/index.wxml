@@ -1,6 +1,6 @@
 
   <view class="container">
-      <scroll-view class="warp scrollPage" scroll-y="true" bindscroll="scroll">
+      <scroll-view class="warp scrollPage" scroll-y="true" bindscroll="scroll" enable-back-to-top="true">
           
   <view class="location-warp">
       <Text class="city-name">{{$location$cityname}}</Text>
@@ -70,10 +70,10 @@
                 <swiper-item>
                   <view class="ad-swiper-item">
                       <view>
-                          <image mode="aspectFit" src="{{item[0].url}}" class="slider" bindtap="$ad$tap" data-wpytap-a="{{item[0].id}}"/>
+                          <image mode="aspectFill" src="{{item[0].url}}" class="slider" bindtap="$ad$tap" data-wpytap-a="{{item[0].id}}"/>
                       </view>
                       <view>
-                          <image mode="aspectFit" src="{{item[1].url}}" class="slider" bindtap="$ad$tap" data-wpytap-a="{{item[1].id}}"/>
+                          <image mode="aspectFill" src="{{item[1].url}}" class="slider" bindtap="$ad$tap" data-wpytap-a="{{item[1].id}}"/>
                       </view>
                   </view>
                 </swiper-item>

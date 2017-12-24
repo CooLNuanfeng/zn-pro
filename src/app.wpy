@@ -81,7 +81,7 @@ export default class extends wepy.app {
     cityid : myConfig.cityid, //城市 id
     themeimg : myConfig.themeimg, //主题路径
     previewData : null, //预览数据
-    domain : 'https://oyo2k3vrc.bkt.clouddn.com', //七牛云上传图片的访问域名
+    domain : 'http://oyo2k3vrc.bkt.clouddn.com', //七牛云上传图片的访问域名
     gridsArr : [  //所有分类
         {"type":"job","name":"招聘信息"},
         {"type":"sale","name":"打折促销"},

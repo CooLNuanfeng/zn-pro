@@ -6,10 +6,10 @@
                 <swiper-item>
                   <view class="ad-swiper-item">
                       <view>
-                          <image mode="aspectFit" src="{{item[0].url}}" class="slider" @tap="tap({{item[0].id}})"/>
+                          <image mode="aspectFill" src="{{item[0].url}}" class="slider" @tap="tap({{item[0].id}})"/>
                       </view>
                       <view>
-                          <image mode="aspectFit" src="{{item[1].url}}" class="slider" @tap="tap({{item[1].id}})"/>
+                          <image mode="aspectFill" src="{{item[1].url}}" class="slider" @tap="tap({{item[1].id}})"/>
                       </view>
                   </view>
                 </swiper-item>
@@ -52,7 +52,7 @@ export default class Ad  extends wepy.component{
     view{
         width: 360rpx;
         height: 150rpx;
-        border-radius: 20rpx;
+        border-radius: 10rpx;
         box-sizing: border-box;
         overflow: hidden;
         background: #fff;

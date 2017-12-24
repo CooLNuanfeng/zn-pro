@@ -1,6 +1,6 @@
 <template>
   <view class="container">
-      <scroll-view class="warp scrollPage" scroll-y="true" @scroll="scroll">
+      <scroll-view class="warp scrollPage" scroll-y="true" @scroll="scroll" enable-back-to-top="true">
           <location/>
           <view class="grids-warp">
               <view class="{{gridsFixed ? 'grid-fixed':''}}">
@@ -131,6 +131,9 @@
               }else{
                   this.gridsFixed = false;
               }
+              // if(ev.detail.scrollTop < -100){
+              //     this.fetch();
+              // }
               console.log('scroll',ev.detail.scrollTop);
           }
       };
