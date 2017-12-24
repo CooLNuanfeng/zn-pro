@@ -42,7 +42,7 @@
                         </view>
                     </view>
                     <view class="user-list">
-                        <view>
+                        <view bindtap="contact">
                             <text>联系开发者</text>
                             <image src="../images/arrow.png"/>
                         </view>

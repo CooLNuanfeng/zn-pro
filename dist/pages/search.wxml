@@ -1,35 +1,18 @@
 
     <view class="container">
-        <view class="warp category">
-            <view class="category-title">
-                <view class="title-l"><text>当前：</text> {{curname}}</view>
-                <view class="title-r {{!slideUp?'active':''}}"><image src="../images/arrow.png" bindtap="slideChange"/></view>
-            </view>
-            <view hidden="{{slideUp}}" class="category-grid">
-                <view  wx:for="{{gridsArr}}" wx:key="wx:key" class="{{curTab== item.type?'active':''}}" bindtap="tabChange" data-wpytabchange-a="{{item.type}}" data-wpytabchange-b="{{item.name}}">{{item.name}}</view>
-                <!-- <view class="{{curTab=='job'?'active':''}}" bindtap="tabChange('job')">招聘信息</view>
-                <view class="{{curTab=='sale'?'active':''}}" bindtap="tabChange('sale')">打折促销</view>
-                <view class="{{curTab=='home'?'active':''}}" bindtap="tabChange('home')">房屋租售</view>
-                <view class="{{curTab=='car'?'active':''}}" bindtap="tabChange('car')">车辆交易</view>
-                <view class="{{curTab=='find'?'active':''}}" bindtap="tabChange('find')">寻人寻物</view>
-                <view class="{{curTab=='food'?'active':''}}" bindtap="tabChange('food')">美食推荐</view>
-                <view class="{{curTab=='friend'?'active':''}}" bindtap="tabChange('friend')">相亲交友</view>
-                <view class="{{curTab=='pet'?'active':''}}" bindtap="tabChange('pet')">宠物领养</view>
-                <view class="{{curTab=='edu'?'active':''}}" bindtap="tabChange('edu')">教育培训</view>
-                <view class="{{curTab=='other'?'active':''}}" bindtap="tabChange('other')">其他消息</view> -->
-            </view>
-            <view  wx:if="{{listData && listData.length}}">
-                <view class="category-nav" wx:if="{{navlist}}">
-                    
-    <scroll-view scroll-x class="nav-container">
-        <view class="{{$navBar$current == 'all'? 'active':''}}" bindtap="$navBar$change" data-wpychange-a="all">全 部</view>
-        <view  wx:for="{{$navBar$navlist}}" wx:key="wx:key" class="{{$navBar$current == item.name ? 'active':''}}" bindtap="$navBar$change" data-wpychange-a="{{item}}">{{item.name}}</view>
-    </scroll-view>
+        
+   <view class="loading" wx:if="{{loading}}">
+       <view hidden="{{!$vLoading$loading}}">加载中...</view>
+       <view hidden="{{$vLoading$loading || !$vLoading$loadend}}">我也是有底线的~</view>
+   </view>
 
-                </view>
-                <scroll-view class="category-body {{navlist?'category-body-pt':''}}" scroll-y="true" scroll-top="{{scrollTop}}" lower-threshold="150" bindscrolltolower="scrollFetch" bindscroll="scroll">
-                    <view class="category-lists">
-                        
+        <view  wx:if="{{!loading}}" class="warp search">
+            <view class="searhc-title">
+                查找到相关于：<text>{{searchText}} </text> 的信息：
+            </view>
+            <view wx:if="{{listData.length}}">
+                <view class="search-lists">
+                    
     <view class="list-contaier">
         <view  wx:for="{{$newsList$lists}}" wx:key="wx:key" class="list-flex" bindtap="$newsList$goDetail" data-wpygodetail-a="{{item.id}}">
             <view class="list-title">
@@ -75,17 +58,10 @@
         </view>-->
     </view>
 
-                        
-   <view class="loading">
-       <view hidden="{{!$vLoading$loading}}">加载中...</view>
-       <view hidden="{{$vLoading$loading || !$vLoading$loadend}}">我也是有底线的~</view>
-   </view>
-
-                    </view>
-                    
+                </view>
+                
     <view class="footer">欢迎来到 {{$footer$cityname}}</view>
 
-                </scroll-view>
             </view>
             <view  wx:elif="wx:elif">
                 
@@ -121,10 +97,6 @@
     <view class="footer">欢迎来到 {{$footer$cityname}}</view>
 
             </view>
-        </view>
-        <view class="category-btn">
-            <image src="../images/publish.png" bindtap="publish"/>
-            <image hidden="{{!goTopStauts}}" src="../images/top.png" bindtap="goTop"/>
         </view>
         
     <view hidden="{{$toast$hidden}}" class="{{!$toast$load ? 'toast':'toast load'}}">{{$toast$infoObj.message}}</view>

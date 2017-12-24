@@ -271,6 +271,11 @@ export default class Detail extends wepy.page {
         doAttention(){
             var vm = this,uid = vm.$parent.globalData.userInfo.objectId;
             var curUser = new UserAttentions();
+
+            if(vm.attentionStatus){
+                return;
+            }
+
             curUser.set('uid',uid);
             curUser.set('pageid',vm.pageId);
             curUser.set('pagedata',vm.pageDate);

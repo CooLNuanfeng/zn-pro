@@ -1,6 +1,6 @@
 
   <view class="container">
-      <scroll-view class="warp scrollPage" scroll-y="true" bindscroll="scroll" enable-back-to-top="true">
+      <view class="warp scrollPage">
           
   <view class="location-warp">
       <Text class="city-name">{{$location$cityname}}</Text>
@@ -134,7 +134,7 @@
                 <view class="empty-text">{{$empty$notice}} O(∩_∩)O ~</view>
             </view>
         </view>
-        <view  wx:if="{{$empty$status==1}}">
+        <view  wx:if="{{$empty$status==1}}" class="empty-news">
             <view class="empty-img">
                 <image src="../images/no-result.png"/>
             </view>
@@ -175,7 +175,7 @@
           
     <view class="footer">欢迎来到 {{$footer$cityname}}</view>
 
-      </scroll-view>
+      </view>
       <view class="publish-btn">
           <image src="../images/help.png" bindtap="contact"/>
           <image src="../images/publish.png" bindtap="publish"/>

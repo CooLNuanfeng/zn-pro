@@ -1,3 +1,42 @@
+<template lang="wxml">
+  <view class="location-warp">
+      <Text class="city-name">{{cityname}}</Text>
+      <view class="search-box">
+          <image src="../images/search.png" class="icon-search" @tap="search"></image>
+          <input type="text" class="city-search" placeholder-style="color:#ccc" placeholder="请输入搜索关键字"  @input="input" value="{{searchText}}"/>
+      </view>
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy';
+
+  export default class Location extends wepy.component {
+        data = {
+            searchText : '',
+            cityname : ''
+        }
+        methods = {
+            input(evt){
+                this.searchText = evt.detail.value;
+            },
+            search(){
+                if(!this.searchText){
+                    this.$emit('search');
+                    return;
+                }
+                wx.navigateTo({
+                    url : 'search?val='+this.searchText
+                });
+                this.searchText = '';
+            }
+        }
+        onLoad(){
+            this.cityname = this.$parent.$parent.globalData.cityname;
+        }
+  }
+</script>
+
 <style lang="scss">
 @import "../sass/_mixin.scss";
 .location-warp{
@@ -39,34 +78,3 @@
     z-index: 10;
 }
 </style>
-<template lang="wxml">
-  <view class="location-warp">
-      <Text class="city-name">{{cityname}}</Text>
-      <view class="search-box">
-          <image src="../images/search.png" class="icon-search" @tap="search"></image>
-          <input type="text" class="city-search" placeholder-style="color:#ccc" placeholder="请输入搜索关键字"  @input="input" value="{{searchText}}"/>
-      </view>
-  </view>
-</template>
-
-<script>
-  import wepy from 'wepy';
-
-  export default class Location extends wepy.component {
-        data = {
-            searchText : '',
-            cityname : ''
-        }
-        methods = {
-            input(evt){
-                this.searchText = evt.detail.value;
-            },
-            search(){
-                console.log(this.searchText,'tap');
-            }
-        }
-        onLoad(){
-            this.cityname = this.$parent.$parent.globalData.cityname;
-        }
-  }
-</script>

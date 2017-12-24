@@ -74,7 +74,9 @@ export default class ListNews extends wepy.component{
         },
         doAttention(item,index){
             console.log('currid',item,index);
-
+            if(item.attentionStatus){
+                return;
+            }
             var vm = this,uid = vm.$parent.$parent.globalData.userInfo.objectId;
             var curUser = new UserAttentions();
             curUser.set('uid',uid);

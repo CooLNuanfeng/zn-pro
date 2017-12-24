@@ -114,7 +114,7 @@
                 <view class="empty-text">{{$empty$notice}} O(∩_∩)O ~</view>
             </view>
         </view>
-        <view  wx:if="{{$empty$status==1}}">
+        <view  wx:if="{{$empty$status==1}}" class="empty-news">
             <view class="empty-img">
                 <image src="../images/no-result.png"/>
             </view>

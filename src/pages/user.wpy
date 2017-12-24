@@ -42,7 +42,7 @@
                         </view>
                     </view>
                     <view class="user-list">
-                        <view>
+                        <view @tap="contact">
                             <text>联系开发者</text>
                             <image src="../images/arrow.png"></image>
                         </view>
@@ -83,7 +83,12 @@ export default class User extends wepy.page {
             wx.navigateTo({
               url: 'mypublish'
             });
-        }
+        },
+        contact(){
+            wx.navigateTo({
+                url : 'contact'
+            });
+        },
     };
     onLoad(){
         this.userInfo = this.$parent.globalData.userNick;

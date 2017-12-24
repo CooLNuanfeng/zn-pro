@@ -1,0 +1,125 @@
+<template>
+    <view class="container">
+        <v-loading wx:if="{{loading}}" :loading.sync="loading" :loadend.sync="loadend"></v-loading>
+        <view wx:if="{{!loading}}" class="warp search">
+            <view class="searhc-title">
+                查找到相关于：<text>{{searchText}} </text> 的信息：
+            </view>
+            <view wx:if="{{listData.length}}">
+                <view class="search-lists">
+                    <news-list :lists.sync="listData"></news-list>
+                </view>
+                <footer/>
+            </view>
+            <view wx:elif>
+                <empty type="result"></empty>
+                <footer/>
+            </view>
+        </view>
+        <toast></toast>
+    </view>
+</template>
+
+<script>
+import wepy from 'wepy';
+import NavBar from '../components/navbar';
+import ListNews from '../components/listnews';
+import Empty from '../components/empty';
+import Footer from '../components/footer'
+import Loading from '../components/loading';
+import Toast from '../components/toast';
+
+
+import AV from '../utils/av-weapp-min.js';
+
+export default class Category extends wepy.page {
+    components = {
+        'nav-bar' : NavBar,
+        'news-list': ListNews,
+        'empty' : Empty,
+        'footer' : Footer,
+        'v-loading': Loading,
+        'toast' : Toast
+    }
+    data = {
+        searchText : '',
+        loading : false,
+        loadend: false,
+        listData : [],
+    }
+    onLoad(options) {
+        console.log(options);
+        this.searchText = options.val;
+        this.fetch();
+    };
+    methods = {
+
+    };
+
+    fetch(){
+        var vm = this;
+        var query = new AV.Query('NewsList');
+        vm.loading = true;
+
+        query.contains('title', this.searchText);
+        query.descending('updatedAt');
+        query.limit(20);
+        query.find().then(function(data){
+            console.log(data,'fetch');
+            vm.loading = false;
+            vm.makeParam(data);
+
+        }).catch(function(err){
+            console.log(err);
+            vm.loading = false;
+            vm.$invoke('toast', 'show', {
+                message: '服务异常，请稍后重试',
+            });
+            vm.$apply();
+        });
+    }
+
+
+    makeParam(data){
+        var len = data.length;
+        // var arr = [];
+        for(let i=0; i<len; i++){
+            let json = data[i].attributes;
+            json.id = data[i].id;
+            json.attentionStatus = 0;
+            json.updatedAt = this.$parent.timeFormate(data[i].updatedAt);
+            this.listData.push(json);
+        }
+        this.checkUserAttentions(this.listData);
+        this.$apply();
+    }
+    checkUserAttentions(arr){
+        var curUserAttentions = this.$parent.globalData.curUserAttention;
+        for(let i=0; i<arr.length; i++){
+            if(curUserAttentions.indexOf(arr[i].id)!= -1){
+                arr[i].attentionStatus = 1;
+            }
+        }
+    }
+}
+</script>
+
+<style lang="scss">
+@import "../sass/_mixin.scss";
+.search-lists{
+    min-height: 65vh;
+}
+.searhc-title{
+    padding: 0 10rpx;
+    height: 80rpx;
+    display: flex;
+    align-items: center;
+    background: #fff;
+    font-size: 26rpx;
+    text{
+        padding-left: 5rpx;
+        padding-right: 10rpx;
+        color: $red;
+    }
+}
+</style>

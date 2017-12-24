@@ -2,14 +2,13 @@
     <view class="container about-page">
         <view class="warp">
             <view class="about-container">
-                <view class="about-title">关于{{cityname}}</view>
-                <view class="about-tags"><text>关于</text></view>
+                <view class="about-tags"><text>关于{{cityname}}</text></view>
                 <view class="about-txt">
-                    卡了快捷按时交付垃圾发来看撒娇傅雷家书离开就是了开发了就  放到酸辣粉离开即可拉伸发 路上大家发
+                    {{cityname}}是一款服务于当地市民的微信小程序，您可以在这里发布、阅读消息
                 </view>
                 <view class="about-tags"><text>声明</text></view>
                 <view class="about-txt">
-                    卡了快捷按时交付垃圾发来看撒娇傅雷家书离开就是了开发了就  放到酸辣粉离开即可拉伸发 路上大家发
+                    <view>1、 用户在使用{{cityname}}小程序服务之前，应当仔细阅读本协议，并同意遵守本协议及所有发布规则后方可发布消息，一旦用户发布成功，则用户与本小程序之间自动形成协议关系，用户应当受本协议及所有发布规则的约束。用户在使用特殊的服务或产品时，应当同意接受相关协议后方能使用。</view>
                 </view>
             </view>
         </view>

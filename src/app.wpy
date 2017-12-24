@@ -39,6 +39,7 @@ export default class extends wepy.app {
       'pages/preview',
       'pages/mypublish',
       'pages/contact',
+      'pages/search',
     ],
     window: {
       backgroundTextStyle: 'light',

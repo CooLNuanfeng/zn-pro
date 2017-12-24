@@ -2,17 +2,19 @@
     <view class="container about-page">
         <view class="warp">
             <view class="about-container">
-                <view class="about-tags"><text>开发者</text></view>
+                <view class="about-tags"><text>开发者留言</text></view>
                 <view class="about-txt">
-                    卡了快捷按时交付垃圾发来看撒娇傅雷家书离开就是了开发了就  放到酸辣粉离开即可拉伸发 路上大家发
+                    
                 </view>
-                <view class="about-tags"><text>声明</text></view>
-                <view class="about-txt">
-                    卡了快捷按时交付垃圾发来看撒娇傅雷家书离开就是了开发了就  放到酸辣粉离开即可拉伸发 路上大家发
-                </view>
+            </view>
+            <view class="about-footer">
+                <button class="about-btn" open-type="contact" bindtap="tap">联系开发者</button>
             </view>
         </view>
         
     <view class="footer">欢迎来到 {{$footer$cityname}}</view>
+
+        
+    <view hidden="{{$toast$hidden}}" class="{{!$toast$load ? 'toast':'toast load'}}">{{$toast$infoObj.message}}</view>
 
     </view>

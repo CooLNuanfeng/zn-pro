@@ -36,6 +36,7 @@
             </view>
         </view>
         <view class="category-btn">
+            <image src="../images/publish.png" @tap="publish"></image>
             <image hidden="{{!goTopStauts}}" src="../images/top.png" @tap="goTop"></image>
         </view>
         <toast></toast>
@@ -102,7 +103,7 @@ export default class Category extends wepy.page {
             this.fetch();
         },
         scroll(ev){
-            if(ev.detail.scrollTop > 500){
+            if(ev.detail.scrollTop > 300){
                 this.goTopStauts = 1;
             }else{
                 this.goTopStauts = 0;
@@ -139,12 +140,18 @@ export default class Category extends wepy.page {
         },
         goTop(){
             this.scrollTop = 0;
+        },
+        publish(){
+            wx.navigateTo({
+                url : 'publish'
+            });
         }
     };
     events = {
         navChange(params){
             console.log(params,'from child');
             this.scrollTop = 0;
+            this.goTopStauts = 0;
             this.filterList(params);
         }
     }

@@ -1,7 +1,7 @@
 <template>
   <view class="container">
-      <scroll-view class="warp scrollPage" scroll-y="true" @scroll="scroll" enable-back-to-top="true">
-          <location/>
+      <view class="warp scrollPage">
+          <location @search.user="searchFn"/>
           <view class="grids-warp">
               <view class="{{gridsFixed ? 'grid-fixed':''}}">
                   <gird></gird>
@@ -66,7 +66,7 @@
               <v-loading :loading.sync="loading" :loadend.sync="loadend"></v-loading>
           </view>
           <footer/>
-      </scroll-view>
+      </view>
       <view class="publish-btn">
           <image src="../images/help.png" @tap="contact"></image>
           <image src="../images/publish.png" @tap="publish"></image>
@@ -108,6 +108,7 @@
           loading : false,
           listNumber : 100,
           gridsFixed : false,
+          // scrollTop : 0,
       };
       methods = {
           goDetail(id){
@@ -125,34 +126,23 @@
                   url : 'contact'
               });
           },
-          scroll(ev){
-              if(ev.detail.scrollTop > 140){
-                  this.gridsFixed = true;
-              }else{
-                  this.gridsFixed = false;
-              }
-              // if(ev.detail.scrollTop < -100){
-              //     this.fetch();
-              // }
-              console.log('scroll',ev.detail.scrollTop);
-          }
+          searchFn(params){
+              this.$invoke('toast', 'show', {
+                  message: '请输入搜索内容',
+              });
+          },
+          // scroll(ev){
+          //     if(ev.detail.scrollTop > 140){
+          //         this.gridsFixed = true;
+          //     }else{
+          //         this.gridsFixed = false;
+          //     }
+          //     // if(ev.detail.scrollTop < -100){
+          //     //     this.fetch();
+          //     // }
+          //     console.log('scroll',ev.detail.scrollTop);
+          // }
       };
-      computed = {
-          textTags(type){
-              // console.log(type,'type');
-              var grids = this.gridsArr;
-              var str = '';
-              if(grids){
-                  for(var i=0; i<grids.length; i++){
-                      if(grids[i].type == type){
-                          str = grids[i].name;
-                          break;
-                      }
-                  }
-              }
-              return str;
-          }
-      }
       onLoad(){
           this.adshow = this.$parent.globalData.ads;
           this.themeimg = this.$parent.globalData.themeimg;
@@ -166,6 +156,13 @@
           if(refresh){
               vm.fetch();
               vm.$parent.globalData.refresh = false;
+          }
+      };
+      onPageScroll(ev){
+          if(ev.scrollTop > 140){
+              this.gridsFixed = true;
+          }else{
+              this.gridsFixed = false;
           }
       };
       onPullDownRefresh(){
@@ -205,7 +202,7 @@
           this.listData = arr;
           this.$apply();
           // console.log(this.listData);
-      }
+      };
   }
 </script>
 

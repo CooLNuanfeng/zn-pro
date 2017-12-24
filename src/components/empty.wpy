@@ -9,7 +9,7 @@
                 <view class="empty-text">{{notice}} O(∩_∩)O ~</view>
             </view>
         </view>
-        <view wx:if="{{status==1}}">
+        <view wx:if="{{status==1}}" class="empty-news">
             <view class="empty-img">
                 <image src="../images/no-result.png"></image>
             </view>
@@ -80,6 +80,7 @@ export default class Empty  extends wepy.component{
 }
 .empty-info{
     text-align: center;
+    font-size: 28rpx;
     view{
         padding-top: 30rpx;
         color: $fontBlack;

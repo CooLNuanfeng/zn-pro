@@ -1,0 +1,7 @@
+@import "./../components/toast.wxss";
+@import "./../components/loading.wxss";
+@import "./../components/footer.wxss";
+@import "./../components/empty.wxss";
+@import "./../components/listnews.wxss";
+@import "./../components/navbar.wxss";
+.search-lists{min-height:65vh}.searhc-title{padding:0 10rpx;height:80rpx;display:flex;align-items:center;background:#fff;font-size:26rpx}.searhc-title text{padding-left:5rpx;padding-right:10rpx;color:#e80505}
