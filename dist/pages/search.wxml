@@ -91,6 +91,15 @@
                 <view>{{$empty$notice}} ~</view>
             </view>
         </view>
+        <view wx:if="{{$empty$status==3}}" class="empty-news">
+            <view class="empty-img">
+                <image src="../images/no-result.png"/>
+            </view>
+            <view class="empty-info">
+                <view>{{$empty$title}}</view>
+                <view>{{$empty$notice}}</view>
+            </view>
+        </view>
     </view>
 
                 

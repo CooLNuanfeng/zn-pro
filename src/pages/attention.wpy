@@ -31,7 +31,7 @@
                                                 <view class="item-att-type">
                                                     <image src="../images/{{themeimg}}{{item.type}}.png"></image>
                                                 </view>
-                                                <view>
+                                                <view @tap.stop="doPhone({{item.phone}})">
                                                     <image src="../images/{{themeimg}}phone.png"></image> 电话
                                                 </view>
                                             </view>
@@ -222,6 +222,11 @@ export default class Attention extends wepy.page {
                 }
                 this.delFetch(arr);
             }
+        },
+        doPhone(phone){
+            wx.makePhoneCall({
+              phoneNumber: phone
+            })
         }
     }
     onLoad(){

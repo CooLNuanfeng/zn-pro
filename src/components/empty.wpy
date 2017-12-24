@@ -25,6 +25,15 @@
                 <view>{{notice}} ~</view>
             </view>
         </view>
+        <view wx:if="{{status==3}}" class="empty-news">
+            <view class="empty-img">
+                <image src="../images/no-result.png"></image>
+            </view>
+            <view class="empty-info">
+                <view>{{title}}</view>
+                <view>{{notice}}</view>
+            </view>
+        </view>
     </view>
 </template>
 
@@ -58,6 +67,11 @@ export default class Empty  extends wepy.component{
         if(type == 'index'){
             this.notice = '沙发与板凳只差一个发布，赶快行动吧';
             this.status = 2;
+        }
+        if(type == 'nopage'){
+            this.title = "非常抱歉，没有查到相关信息"
+            this.notice = '该信息已被发布用户删除';
+            this.status = 3;
         }
     }
 }
