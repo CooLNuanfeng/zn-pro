@@ -11,38 +11,39 @@
                 <view class="warp attention">
                     <view class="attention-body">
                         <view class="attention-list">
-
-                            <view  wx:for="{{lists}}" wx:key="wx:key" class="attention-item {{item.status == 1?'active':''}} {{item.status==-1?'delete':''}}" bindtouchstart="touchstart" bindtouchmove="touchmove" bindtap="goDetail" data-wpytouchmove-a="{{item}}" data-wpytouchmove-b="{{index}}" data-wpygodetail-a="{{item}}">
-                                <view class="item-att-select {{item.selected?'active':''}}" catchtap="selectItem" data-wpyselectitem-a="{{index}}"><text class="select-icon"/></view>
-                                <view class="item-att-main">
-                                    <view class="item-att-l">
-                                        <view class="item-att-title">
-                                            <text wx:if="{{item.formdata.images}}">图</text>
-                                            {{item.title}}
-                                        </view>
-                                        <view class="item-att-body">
-                                            <view class="item-att-info">
-                                                <view>{{item.subtitle}}</view>
-                                                <view class="item-att-price">
-                                                    <text wx:if="{{item.type == 'job'}}" class="price">￥<text class="price-number">{{item.formdata.jobprice}}</text>元起/月</text>
-                                                    <text wx:elif="{{item.type == 'home'}}" class="price">￥<text class="price-number">{{item.formdata.price}}</text>{{item.formdata.typeJson.type==0? '元/月':'万元'}}</text>
-                                                    <text wx:elif="{{item.type == 'car'}}" class="price">￥<text class="price-number">{{item.formdata.price}}</text>万元</text>
-                                                    <text wx:elif="{{item.type == 'food'||item.type == 'edu'}}" class="price">￥<text class="price-number">{{item.formdata.price}}</text>元/人</text>
-                                                    <text wx:elif="{{item.type == 'pet'}}" class="price">￥<text class="price-number">{{item.formdata.price}}</text>元/只</text>
-                                                </view>
-                                                <view class="item-att-time"><text>发布者: {{item.nickname}}</text> <text>{{item.updatedAt}}</text></view>
+                            <view  wx:for="{{lists}}" wx:key="wx:key" class="attention-list-item">
+                                <view class="attention-item {{item.status==-1?'delete':''}}" bindtouchstart="touchstart" bindtouchmove="touchmove" bindtap="goDetail" data-wpytouchmove-a="{{item}}" data-wpytouchmove-b="{{index}}" data-wpygodetail-a="{{item}}">
+                                    <view class="item-att-select {{item.selected?'active':''}}" catchtap="selectItem" data-wpyselectitem-a="{{index}}"><text class="select-icon"/></view>
+                                    <view class="item-att-main">
+                                        <view class="item-main-body">
+                                            <view class="item-att-title">
+                                                <text wx:if="{{item.formdata.images}}">图</text>
+                                                {{item.title}}
                                             </view>
-                                            <view class="item-att-btn">
-                                                <view class="item-att-type">
-                                                    <image src="../images/{{themeimg}}{{item.type}}.png"/>
+                                            <view class="item-att-body">
+                                                <view class="item-att-info">
+                                                    <view>{{item.subtitle}}</view>
+                                                    <view class="item-att-price">
+                                                        <text wx:if="{{item.type == 'job'}}" class="price">￥<text class="price-number">{{item.formdata.jobprice}}</text>元起/月</text>
+                                                        <text wx:elif="{{item.type == 'home'}}" class="price">￥<text class="price-number">{{item.formdata.price}}</text>{{item.formdata.typeJson.type==0? '元/月':'万元'}}</text>
+                                                        <text wx:elif="{{item.type == 'car'}}" class="price">￥<text class="price-number">{{item.formdata.price}}</text>万元</text>
+                                                        <text wx:elif="{{item.type == 'food'||item.type == 'edu'}}" class="price">￥<text class="price-number">{{item.formdata.price}}</text>元/人</text>
+                                                        <text wx:elif="{{item.type == 'pet'}}" class="price">￥<text class="price-number">{{item.formdata.price}}</text>元/只</text>
+                                                    </view>
+                                                    <view class="item-att-time"><text>发布者: {{item.nickname}}</text> <text>{{item.updatedAt}}</text></view>
                                                 </view>
-                                                <view>
-                                                    <image src="../images/{{themeimg}}phone.png"/> 电话
+                                                <view class="item-att-btn">
+                                                    <view class="item-att-type">
+                                                        <image src="../images/{{themeimg}}{{item.type}}.png"/>
+                                                    </view>
+                                                    <view>
+                                                        <image src="../images/{{themeimg}}phone.png"/> 电话
+                                                    </view>
                                                 </view>
                                             </view>
                                         </view>
                                     </view>
-                                    <view class="item-att-r" catchtap="delItem" data-wpydelitem-a="{{item}}" data-wpydelitem-b="{{index}}"><text>删除</text></view>
+                                    <view class="item-att-del" catchtap="delItem" data-wpydelitem-a="{{item}}" data-wpydelitem-b="{{index}}"><text>删除</text></view>
                                 </view>
                             </view>
                         </view>
