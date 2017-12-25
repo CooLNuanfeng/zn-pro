@@ -6,38 +6,39 @@
                 <view class="warp attention">
                     <view class="attention-body">
                         <view class="attention-list">
-
-                            <view wx:for="{{lists}}" wx:key class="attention-item {{item.status == 1?'active':''}} {{item.status==-1?'delete':''}}" @touchstart="touchstart" @touchmove="touchmove({{item}},{{index}})" @tap="goDetail({{item}})">
-                                <view class="item-att-select {{item.selected?'active':''}}" @tap.stop="selectItem({{index}})"><text class="select-icon"></text></view>
-                                <view class="item-att-main">
-                                    <view class="item-att-l">
-                                        <view class="item-att-title">
-                                            <text wx:if="{{item.formdata.images}}">图</text>
-                                            {{item.title}}
-                                        </view>
-                                        <view class="item-att-body">
-                                            <view class="item-att-info">
-                                                <view>{{item.subtitle}}</view>
-                                                <view class="item-att-price">
-                                                    <text wx:if="{{item.type == 'job'}}" class="price">￥<text class="price-number">{{item.formdata.jobprice}}</text>元起/月</text>
-                                                    <text wx:elif="{{item.type == 'home'}}" class="price">￥<text class="price-number">{{item.formdata.price}}</text>{{item.formdata.typeJson.type==0? '元/月':'万元'}}</text>
-                                                    <text wx:elif="{{item.type == 'car'}}" class="price">￥<text class="price-number">{{item.formdata.price}}</text>万元</text>
-                                                    <text wx:elif="{{item.type == 'food'||item.type == 'edu'}}" class="price">￥<text class="price-number">{{item.formdata.price}}</text>元/人</text>
-                                                    <text wx:elif="{{item.type == 'pet'}}" class="price">￥<text class="price-number">{{item.formdata.price}}</text>元/只</text>
-                                                </view>
-                                                <view class="item-att-time"><text>发布者: {{item.nickname}}</text> <text>{{item.updatedAt}}</text></view>
+                            <view wx:for="{{lists}}" wx:key class="attention-list-item">
+                                <view class="attention-item {{item.status==-1?'delete':''}}" @touchstart="touchstart" @touchmove="touchmove({{item}},{{index}})" @tap="goDetail({{item}})">
+                                    <view class="item-att-select {{item.selected?'active':''}}" @tap.stop="selectItem({{index}})"><text class="select-icon"></text></view>
+                                    <view class="item-att-main">
+                                        <view class="item-main-body">
+                                            <view class="item-att-title">
+                                                <text wx:if="{{item.formdata.images}}">图</text>
+                                                {{item.title}}
                                             </view>
-                                            <view class="item-att-btn">
-                                                <view class="item-att-type">
-                                                    <image src="../images/{{themeimg}}{{item.type}}.png"></image>
+                                            <view class="item-att-body">
+                                                <view class="item-att-info">
+                                                    <view>{{item.subtitle}}</view>
+                                                    <view class="item-att-price">
+                                                        <text wx:if="{{item.type == 'job'}}" class="price">￥<text class="price-number">{{item.formdata.jobprice}}</text>元起/月</text>
+                                                        <text wx:elif="{{item.type == 'home'}}" class="price">￥<text class="price-number">{{item.formdata.price}}</text>{{item.formdata.typeJson.type==0? '元/月':'万元'}}</text>
+                                                        <text wx:elif="{{item.type == 'car'}}" class="price">￥<text class="price-number">{{item.formdata.price}}</text>万元</text>
+                                                        <text wx:elif="{{item.type == 'food'||item.type == 'edu'}}" class="price">￥<text class="price-number">{{item.formdata.price}}</text>元/人</text>
+                                                        <text wx:elif="{{item.type == 'pet'}}" class="price">￥<text class="price-number">{{item.formdata.price}}</text>元/只</text>
+                                                    </view>
+                                                    <view class="item-att-time"><text>发布者: {{item.nickname}}</text> <text>{{item.updatedAt}}</text></view>
                                                 </view>
-                                                <view>
-                                                    <image src="../images/{{themeimg}}phone.png"></image> 电话
+                                                <view class="item-att-btn">
+                                                    <view class="item-att-type">
+                                                        <image src="../images/{{themeimg}}{{item.type}}.png"></image>
+                                                    </view>
+                                                    <view>
+                                                        <image src="../images/{{themeimg}}phone.png"></image> 电话
+                                                    </view>
                                                 </view>
                                             </view>
                                         </view>
                                     </view>
-                                    <view class="item-att-r" @tap.stop="delItem({{item}},{{index}})"><text>删除</text></view>
+                                    <view class="item-att-del" @tap.stop="delItem({{item}},{{index}})"><text>删除</text></view>
                                 </view>
                             </view>
                         </view>
@@ -124,8 +125,8 @@ export default class MyPublish extends wepy.page {
             touchMoveY = e.changedTouches[0].clientY,//滑动变化坐标
             //获取滑动角度
             angle = vm.angle({ X: startX, Y: startY }, { X: touchMoveX, Y: touchMoveY });
-            //滑动超过10度角 return
-            if (Math.abs(angle) > 10) return;
+            //滑动超过60度角 return
+            if (Math.abs(angle) > 60) return;
             if (touchMoveX > startX){//右滑
               // vm.initStatus();
               vm.lists[index].status = 0;
@@ -497,12 +498,8 @@ export default class MyPublish extends wepy.page {
 <style lang="scss">
 @import "../sass/_mixin.scss";
 .scrollPage{
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    transform: translate3d(0);
+    width: 100%;
+    height: 100vh;
 }
 .attention{
     overflow-x: hidden;
@@ -510,12 +507,19 @@ export default class MyPublish extends wepy.page {
 .attention-body{
     padding-top: 81rpx;
 }
+.attention-list-item{
+    height: 230rpx;
+    position: relative;
+}
 .attention-item{
-    margin-left: -70rpx;
-    margin-right: -120rpx;
-    display: flex;
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: 0;
     padding: 20rpx 0 0;
     background: #fff;
+    transform: translateX(0);
     transition: all .3s linear;
     &:last-child{
         .item-att-body{
@@ -523,18 +527,43 @@ export default class MyPublish extends wepy.page {
         }
     }
     &.active{
-        transform: translateX(70rpx);
+        transform: translateX(-70rpx);
+        // animation: select .3s forwards;
+        // left : 70rpx;
     }
     &.delete{
         transform: translateX(-120rpx);
+        // animation: del .3s forwards;
+        // right: 120rpx;
+    }
+}
+@keyframes select {
+    0%{
+        left: 0;
+    }
+    100%{
+        left : 70rpx;
+    }
+}
+@keyframes del {
+    0%{
+        right: 0;
+    }
+    100%{
+        right: 120rpx;
     }
 }
 .item-att-select{
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: -70rpx;
     display: flex;
     justify-content: center;
     align-items: center;
     width: 50rpx;
     padding: 10rpx;
+    background: #fff;
     &.active{
         .select-icon{
             background: #fff;
@@ -544,17 +573,25 @@ export default class MyPublish extends wepy.page {
     }
 }
 .item-att-main{
-    flex: 1;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 100%;
     display: flex;
     background: #fff;
 }
-.item-att-l{
+.item-main-body{
+    width: 100%;
     padding: 0 20rpx;
-    flex: 1;
     display: flex;
     flex-direction: column;
 }
-.item-att-r{
+.item-att-del{
+    position: absolute;
+    right: -120rpx;
+    top: 0;
+    bottom: 0;
     width: 120rpx;
     display: flex;
     flex-direction: column;
@@ -707,7 +744,7 @@ export default class MyPublish extends wepy.page {
 .attention-btns{
     position: fixed;
     right: 20rpx;
-    bottom: 40rpx;
+    bottom: 70rpx;
     width: 80rpx;
     image{
         width: 80rpx;
