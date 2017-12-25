@@ -1,6 +1,10 @@
 <template>
     <view class="container">
-        <view>
+        <view wx:if="{{!lists.length && !loading}}">
+            <empty type="publish"></empty>
+            <footer/>
+        </view>
+        <view wx:elif>
             <nav-bar wx:if="{{navlists.length}}" :navlist.sync="navlists"></nav-bar>
             <scroll-view class="scrollPage" scroll-y="true" scroll-top="{{scrollTop}}" lower-threshold="150" @scrolltolower="scrollFetch" @scroll="scroll">
                 <view class="warp attention">
@@ -60,10 +64,6 @@
                     <image hidden="{{!goTopStauts}}" src="../images/top.png" @tap="goTop"></image>
                 </view>
             </scroll-view>
-        </view>
-        <view wx:if="{{!lists.length && !loading}}">
-            <empty type="publish"></empty>
-            <footer/>
         </view>
         <toast></toast>
     </view>
