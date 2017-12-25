@@ -124,8 +124,8 @@ export default class MyPublish extends wepy.page {
             touchMoveY = e.changedTouches[0].clientY,//滑动变化坐标
             //获取滑动角度
             angle = vm.angle({ X: startX, Y: startY }, { X: touchMoveX, Y: touchMoveY });
-            //滑动超过10度角 return
-            if (Math.abs(angle) > 10) return;
+            //滑动超过80度角 return
+            if (Math.abs(angle) > 80) return;
             if (touchMoveX > startX){//右滑
               // vm.initStatus();
               vm.lists[index].status = 0;
@@ -707,7 +707,7 @@ export default class MyPublish extends wepy.page {
 .attention-btns{
     position: fixed;
     right: 20rpx;
-    bottom: 40rpx;
+    bottom: 70rpx;
     width: 80rpx;
     image{
         width: 80rpx;
