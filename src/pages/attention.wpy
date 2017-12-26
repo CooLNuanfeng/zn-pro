@@ -515,12 +515,6 @@ export default class Attention extends wepy.page {
 .scrollPage{
     width: 100%;
     height: 100vh;
-    // position: absolute;
-    // top: 0;
-    // left: 0;
-    // right: 0;
-    // bottom: 0;
-    // transform: translate3d(0);
 }
 .attention{
     overflow-x: hidden;
@@ -532,13 +526,12 @@ export default class Attention extends wepy.page {
     margin-left: -70rpx;
     margin-right: -120rpx;
     display: flex;
-    padding: 20rpx 0 0;
+    padding: 10rpx 0;
     background: #fff;
     transition: all .3s linear;
+    border-bottom: 1rpx solid #efefef;
     &:last-child{
-        .item-att-body{
-            border-bottom: 0;
-        }
+        border-bottom: 0;
     }
     &.active{
         transform: translateX(70rpx);
@@ -584,7 +577,7 @@ export default class Attention extends wepy.page {
 }
 
 .item-att-title{
-    margin-bottom: 10rpx;
+    margin-top: 10rpx;
     font-size: 30rpx;
     color: $fontBlack;
     @include text-overflow(2);
@@ -598,8 +591,6 @@ export default class Attention extends wepy.page {
 }
 .item-att-body{
     display: flex;
-    padding-bottom: 10rpx;
-    border-bottom: 1rpx solid #ebebeb;
 }
 .item-att-info{
     flex: 1;

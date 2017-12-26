@@ -18,7 +18,11 @@
                 <view class="{{curTab=='edu'?'active':''}}" @tap="tabChange('edu')">教育培训</view>
                 <view class="{{curTab=='other'?'active':''}}" @tap="tabChange('other')">其他消息</view> -->
             </view>
-            <view>
+            <view wx:if="{{!listData.length && !loading}}">
+                <empty type="publish"></empty>
+                <footer/>
+            </view>
+            <view wx:elif>
                 <view class="category-nav" wx:if="{{navlist}}">
                     <nav-bar :navlist.sync="navlist"></nav-bar>
                 </view>
@@ -29,10 +33,6 @@
                     </view>
                     <footer/>
                 </scroll-view>
-            </view>
-            <view wx:if="{{!listData.length && !loading}}">
-                <empty type="publish"></empty>
-                <footer/>
             </view>
         </view>
         <view class="category-btn">

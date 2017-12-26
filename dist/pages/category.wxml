@@ -18,8 +18,50 @@
                 <view class="{{curTab=='edu'?'active':''}}" bindtap="tabChange('edu')">教育培训</view>
                 <view class="{{curTab=='other'?'active':''}}" bindtap="tabChange('other')">其他消息</view> -->
             </view>
-            <view>
-                <view class="category-nav"  wx:if="{{navlist}}">
+            <view  wx:if="{{!listData.length && !loading}}">
+                
+    <view class="empty-container">
+        <view  wx:if="{{$empty$status==0}}" class="empty-news">
+            <view class="empty-img">
+                <image src="../images/no-news.png"/>
+            </view>
+            <view class="empty-info">
+                <view>{{$empty$title}}</view>
+                <view class="empty-text">{{$empty$notice}} O(∩_∩)O ~</view>
+            </view>
+        </view>
+        <view  wx:if="{{$empty$status==1}}" class="empty-news">
+            <view class="empty-img">
+                <image src="../images/no-result.png"/>
+            </view>
+            <view class="empty-info">
+                <view>{{$empty$notice}}</view>
+            </view>
+        </view>
+        <view wx:if="{{$empty$status==2}}" class="empty-success">
+            <view class="empty-img">
+                <image src="../images/success.png"/>
+            </view>
+            <view class="empty-info">
+                <view>{{$empty$notice}} ~</view>
+            </view>
+        </view>
+        <view wx:if="{{$empty$status==3}}" class="empty-news">
+            <view class="empty-img">
+                <image src="../images/no-result.png"/>
+            </view>
+            <view class="empty-info">
+                <view>{{$empty$notice}}</view>
+            </view>
+        </view>
+    </view>
+
+                
+    <view class="footer">欢迎来到 {{$footer$cityname}}</view>
+
+            </view>
+            <view wx:elif="wx:elif">
+                <view class="category-nav" wx:if="{{navlist}}">
                     
     <scroll-view scroll-x class="nav-container">
         <view class="{{$navBar$current == 'all'? 'active':''}}" bindtap="$navBar$change" data-wpychange-a="all">全 部</view>
@@ -86,48 +128,6 @@
     <view class="footer">欢迎来到 {{$footer$cityname}}</view>
 
                 </scroll-view>
-            </view>
-            <view  wx:if="{{!listData.length && !loading}}">
-                
-    <view class="empty-container">
-        <view  wx:if="{{$empty$status==0}}" class="empty-news">
-            <view class="empty-img">
-                <image src="../images/no-news.png"/>
-            </view>
-            <view class="empty-info">
-                <view>{{$empty$title}}</view>
-                <view class="empty-text">{{$empty$notice}} O(∩_∩)O ~</view>
-            </view>
-        </view>
-        <view  wx:if="{{$empty$status==1}}" class="empty-news">
-            <view class="empty-img">
-                <image src="../images/no-result.png"/>
-            </view>
-            <view class="empty-info">
-                <view>{{$empty$notice}}</view>
-            </view>
-        </view>
-        <view wx:if="{{$empty$status==2}}" class="empty-success">
-            <view class="empty-img">
-                <image src="../images/success.png"/>
-            </view>
-            <view class="empty-info">
-                <view>{{$empty$notice}} ~</view>
-            </view>
-        </view>
-        <view wx:if="{{$empty$status==3}}" class="empty-news">
-            <view class="empty-img">
-                <image src="../images/no-result.png"/>
-            </view>
-            <view class="empty-info">
-                <view>{{$empty$notice}}</view>
-            </view>
-        </view>
-    </view>
-
-                
-    <view class="footer">欢迎来到 {{$footer$cityname}}</view>
-
             </view>
         </view>
         <view class="category-btn">
