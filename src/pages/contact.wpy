@@ -4,7 +4,10 @@
             <view class="about-container">
                 <view class="about-tags"><text>开发者留言</text></view>
                 <view class="about-txt">
-                    
+                    <view>欢迎访问本小程序，如果您有什么意见和建议，可以给我发送邮件，我会及时给予反馈。在此表示感谢。</view>
+                    <view class="pb">邮箱：1634898698@qq.com</view>
+                    <view>另外，本人承接各类小程序开发，如有需求，可以与我联系，非诚勿扰。</view>
+                    <view>微信号: whs1634898698</view>
                 </view>
             </view>
             <view class="about-footer">
@@ -82,6 +85,13 @@ export default class Contact extends wepy.page {
     padding: 20rpx 0;
     font-size: 28rpx;
     color: $fontBlack
+    view{
+        padding-bottom: 5rpx;
+        font-size: 24rpx;
+    }
+    .pb{
+        padding-bottom: 25rpx;
+    }
 }
 .about-footer{
     padding: 0 20rpx;

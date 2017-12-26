@@ -4,7 +4,7 @@
             <view class="about-container">
                 <view class="about-tags"><text>关于{{cityname}}</text></view>
                 <view class="about-txt">
-                    {{cityname}}是一款服务于当地市民的微信小程序，您可以在这里发布、阅读消息
+                    {{cityname}}是一款服务于当地市民的微信小程序，您可以在这里发布、阅读消息，实时关注最新消息，为您和他人带来便利和帮助。
                 </view>
                 <view class="about-tags"><text>协议声明及守则</text></view>
                 <view class="about-txt">
