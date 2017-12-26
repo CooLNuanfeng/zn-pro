@@ -641,6 +641,7 @@ export default class Attention extends wepy.page {
         color: $themeColor;
         border-radius: 4rpx;
         margin: 10rpx;
+        box-sizing: border-box;
         image{
             width: 25rpx;
             height: 25rpx;

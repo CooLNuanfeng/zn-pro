@@ -204,6 +204,7 @@ export default class ListNews extends wepy.component{
         color: $themeColor;
         border-radius: 4rpx;
         margin: 10rpx;
+        box-sizing: border-box;
         image{
             width: 30rpx;
             height: 30rpx;

@@ -651,6 +651,7 @@ export default class MyPublish extends wepy.page {
         border: 1rpx solid $themeColor;
         color: $themeColor;
         border-radius: 4rpx;
+        box-sizing: border-box;
         margin: 10rpx;
         image{
             width: 25rpx;
