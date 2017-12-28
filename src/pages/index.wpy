@@ -152,7 +152,7 @@
       onShow(){
           var vm = this;
           var refresh = vm.$parent.globalData.refresh;
-          console.log(refresh,'refresh');
+          // console.log(refresh,'refresh');
           if(refresh){
               vm.fetch();
               vm.$parent.globalData.refresh = false;
@@ -182,7 +182,7 @@
               vm.makeParam(data);
               wx.stopPullDownRefresh();
           }).catch(function(err){
-              console.log(err);
+              // console.log(err);
               vm.loading = false;
               vm.$invoke('toast', 'show', {
                   message: '服务异常，请稍后重试',

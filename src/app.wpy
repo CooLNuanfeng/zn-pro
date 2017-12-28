@@ -119,31 +119,33 @@ export default class extends wepy.app {
     AV.User.loginWithWeapp().then(user => {
         var uid;
         this.globalData.userInfo = user.toJSON();
-        console.log(user.toJSON());
+        // console.log(user.toJSON());
         uid = this.globalData.userInfo.objectId;
         vm.findUserAttentions(uid);
         vm.findUserPublishNumber(uid);
-    }).catch(console.error);
+    }).catch(function(err){
+        // console.error
+    });
 
   }
   //用户发布
   findUserPublishNumber(uid){
       var listsQuery = new AV.Query('NewsList'),vm = this;
-      console.log(uid,'uid');
+      // console.log(uid,'uid');
       //查询用户关发布数,减少api请求
       listsQuery.equalTo('uid',uid);
       listsQuery.count().then(function(count){
           vm.globalData.curUserPublishNum = count;
-          console.log(vm.globalData.curUserPublishNum,'curUserPublishNum');
+          // console.log(vm.globalData.curUserPublishNum,'curUserPublishNum');
       }).catch(function(err){
-          console.log(err);
+          // console.log(err);
       });
   }
 
   //用户关注
   findUserAttentions(uid){
       var userAttentQuery = new AV.Query('UserAttentions'),vm = this;
-      console.log(uid,'uid');
+      // console.log(uid,'uid');
       //查询用户关注数组,减少api请求
       userAttentQuery.equalTo('uid',uid);
       userAttentQuery.find().then(function(res){
@@ -154,10 +156,10 @@ export default class extends wepy.app {
               vm.globalData.curUserAttentJsonArr.push(json);
               vm.globalData.curUserAttention.push(item.attributes.pageid);
           });
-          console.log(vm.globalData.curUserAttention,'curUserAttention');
-          console.log(vm.globalData.curUserAttentJsonArr,'curUserAttentJsonArr');
+          // console.log(vm.globalData.curUserAttention,'curUserAttention');
+          // console.log(vm.globalData.curUserAttentJsonArr,'curUserAttentJsonArr');
       }).catch(function(err){
-          console.log(err);
+          // console.log(err);
       });
   }
 

@@ -177,7 +177,7 @@ export default class Attention extends wepy.page {
         },
         delItem(item,index){
             // this.delArrIds = [item.id];
-            console.log(item.pid,item.id);
+            // console.log(item.pid,item.id);
             this.delFetch([{pid:item.pid,id:item.id}]);
         },
         doAllSelect(flag){
@@ -271,7 +271,7 @@ export default class Attention extends wepy.page {
         query.descending('updatedAt');
         query.limit(vm.pageSize);
         query.find().then(function(data){
-            console.log(data,'data');
+            // console.log(data,'data');
             vm.loading = false;
             vm.hideLoading();
             if(data.length == 0){
@@ -306,7 +306,7 @@ export default class Attention extends wepy.page {
         query.limit(vm.pageSize);
         query.skip((vm.page-1)*vm.pageSize);
         query.find().then(function(data){
-            console.log(data,'data');
+            // console.log(data,'data');
             vm.loading = false;
             if(data.length == 0){
                 vm.loadend = false;
@@ -319,7 +319,7 @@ export default class Attention extends wepy.page {
             vm.page++;
             vm.makeParam(data);
         }).catch(function(err){
-            console.log(err);
+            // console.log(err);
             vm.loading = false;
             vm.$invoke('toast', 'show', {
                 message: '服务异常，请稍后重试',
@@ -327,7 +327,7 @@ export default class Attention extends wepy.page {
         });
     }
     delFetch(arr){
-        console.log(arr,'del');
+        // console.log(arr,'del');
         var objectsArr = [],vm = this,
             delPidArr = [],
             curUserAttentions = vm.$parent.globalData.curUserAttention;
@@ -366,7 +366,7 @@ export default class Attention extends wepy.page {
         }, function (err) {
             vm.delPedding = false;
             vm.hideLoading();
-            console.log(err);
+            // console.log(err);
             vm.$invoke('toast', 'show', {
                 message: '服务异常，请稍后重试',
             });
@@ -448,7 +448,7 @@ export default class Attention extends wepy.page {
         }
         this.initLists = this.lists;
         this.initNavList();
-        console.log(this.lists,'list');
+        // console.log(this.lists,'list');
         this.$apply();
     }
     initNavList(){
@@ -628,7 +628,7 @@ export default class Attention extends wepy.page {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    width: 150rpx;
+    width: 156rpx;
     padding: 0 20rpx;
     view{
         display: flex;
@@ -637,7 +637,7 @@ export default class Attention extends wepy.page {
         width: 140rpx;
         height: 50rpx;
         font-size: 26rpx;
-        border: 1rpx solid $themeColor;
+        border: 1.5rpx solid $themeColor;
         color: $themeColor;
         border-radius: 4rpx;
         margin: 10rpx;

@@ -224,7 +224,7 @@ export default class Detail extends wepy.page {
     onLoad(){
         var vm = this,
         data = vm.$parent.globalData.previewData;
-        console.log(data,'preview');
+        // console.log(data,'preview');
         vm.title = data.title;
         vm.subtitle = data.subtitle;
         vm.nickname = data.nickname;
@@ -241,7 +241,7 @@ export default class Detail extends wepy.page {
             wx.navigateBack();
         }
     }
-    
+
 }
 </script>
 

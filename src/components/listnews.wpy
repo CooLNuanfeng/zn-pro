@@ -74,7 +74,7 @@ export default class ListNews extends wepy.component{
           });
         },
         doAttention(item,index){
-            console.log('currid',item,index);
+            // console.log('currid',item,index);
             if(item.attentionStatus || this.ajaxPedding){
                 return;
             }
@@ -95,7 +95,7 @@ export default class ListNews extends wepy.component{
                 vm.$parent.$parent.globalData.attrefresh = true;
                 vm.$apply();
             }).catch(function(err){
-                console.log(err);
+                // console.log(err);
                 vm.hideLoading();
                 vm.ajaxPedding = false;
                 vm.$invoke('toast', 'show', {
@@ -191,7 +191,7 @@ export default class ListNews extends wepy.component{
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    width: 150rpx;
+    width: 156rpx;
     padding: 0 20rpx;
     view{
         display: flex;
@@ -200,7 +200,7 @@ export default class ListNews extends wepy.component{
         width: 140rpx;
         height: 50rpx;
         font-size: 26rpx;
-        border: 1rpx solid $themeColor;
+        border: 1.5rpx solid $themeColor;
         color: $themeColor;
         border-radius: 4rpx;
         margin: 10rpx;

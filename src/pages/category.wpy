@@ -123,7 +123,7 @@ export default class Category extends wepy.page {
             query.limit(vm.pageSize);
             query.skip((vm.page-1)*vm.pageSize);
             query.find().then(function(data){
-                console.log(data,'scrollFetch');
+                // console.log(data,'scrollFetch');
                 vm.loading = false;
                 if(data.length == 0){
                     vm.loadend = false;
@@ -136,7 +136,7 @@ export default class Category extends wepy.page {
                 vm.page++;
                 vm.makeParam(data);
             }).catch(function(err){
-                console.log(err);
+                // console.log(err);
                 vm.loading = false;
                 vm.$invoke('toast', 'show', {
                     message: '服务异常，请稍后重试',
@@ -155,7 +155,7 @@ export default class Category extends wepy.page {
     };
     events = {
         navChange(params){
-            console.log(params,'from child');
+            // console.log(params,'from child');
             this.scrollTop = 0;
             this.goTopStauts = 0;
             this.filterList(params);
@@ -171,7 +171,7 @@ export default class Category extends wepy.page {
         query.descending('updatedAt');
         query.limit(vm.pageSize);
         query.find().then(function(data){
-            console.log(data,'fetch');
+            // console.log(data,'fetch');
             vm.loading = false;
             if(data.length == 0){
                 vm.loadend = false;
@@ -184,7 +184,7 @@ export default class Category extends wepy.page {
             vm.page++;
             vm.makeParam(data);
         }).catch(function(err){
-            console.log(err);
+            // console.log(err);
             vm.loading = false;
             vm.$invoke('toast', 'show', {
                 message: '服务异常，请稍后重试',
@@ -239,7 +239,7 @@ export default class Category extends wepy.page {
         this.$apply();
     }
     makeNavlist(data){
-        console.log('navlist',data);
+        // console.log('navlist',data);
         var tab = this.curTab;
         var obj = {},len = data.length,arr=[];
         for(let i=0; i<len; i++){

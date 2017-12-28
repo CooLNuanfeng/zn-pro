@@ -95,7 +95,7 @@ export default class User extends wepy.page {
         this.cityname = this.$parent.globalData.cityname;
     };
     onShow(){
-        console.log('change 计算 关注数 发布数');
+        // console.log('change 计算 关注数 发布数');
         this.publishnum = this.$parent.globalData.curUserPublishNum;
         this.attentionsnum = this.$parent.globalData.curUserAttention.length;
     }

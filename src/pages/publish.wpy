@@ -273,7 +273,7 @@ export default class Publish extends wepy.page {
             data.formdata.images = imgArr;
             vm.saveData(data);
         }).catch(function(err){
-            console.log(err);
+            // console.log(err);
             vm.hideLoading();
             vm.$invoke('toast', 'show', {
                 message: '图片上传失败，请重试',
@@ -321,7 +321,7 @@ export default class Publish extends wepy.page {
                 url : 'success'
             });
         }).catch(function(err){
-            console.log(err);
+            // console.log(err);
             vm.hideLoading();
             vm.$invoke('toast', 'show', {
                 message: '发布失败，请重试',

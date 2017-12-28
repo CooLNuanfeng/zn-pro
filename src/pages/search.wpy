@@ -48,7 +48,7 @@ export default class Category extends wepy.page {
         listData : [],
     }
     onLoad(options) {
-        console.log(options);
+        // console.log(options);
         this.searchText = options.val;
         this.fetch();
     };
@@ -65,12 +65,12 @@ export default class Category extends wepy.page {
         query.descending('updatedAt');
         query.limit(20);
         query.find().then(function(data){
-            console.log(data,'fetch');
+            // console.log(data,'fetch');
             vm.loading = false;
             vm.makeParam(data);
 
         }).catch(function(err){
-            console.log(err);
+            // console.log(err);
             vm.loading = false;
             vm.$invoke('toast', 'show', {
                 message: '服务异常，请稍后重试',

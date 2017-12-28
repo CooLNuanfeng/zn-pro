@@ -30,10 +30,8 @@ export default class Swiper extends wepy.component{
                 this.dots = true;
                 this.autoplay = true;
                 this.$apply();
-                console.log(this.dots,this.autoplay);
+                // console.log(this.dots,this.autoplay);
             }
-            // console.log(newValue);
-            // newValue.push('http://oyo2k3vrc.bkt.clouddn.com/pic1.jpg')
         }
     }
 }
