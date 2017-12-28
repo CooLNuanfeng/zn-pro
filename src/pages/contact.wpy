@@ -10,9 +10,9 @@
                     <view>微信号: whs1634898698</view>
                 </view>
             </view>
-            <view class="about-footer">
-                <button class="about-btn" open-type="contact" @tap="tap">联系开发者</button>
-            </view>
+            <!-- <view class="about-footer">
+                <view class="about-btn" @tap="tap">拨打开发者电话</view>
+            </view> -->
         </view>
         <footer></footer>
         <toast></toast>
@@ -34,11 +34,9 @@ export default class Contact extends wepy.page {
     };
     methods = {
         tap(){
-            if(!wx.canIUse('contact-button')){
-                this.$invoke('toast', 'show', {
-                    message: '当前微信版本过低，无法使用该功能，请升级到最新微信版本后重试'
-                });
-            }
+            wx.makePhoneCall({
+              phoneNumber: '18601583176'
+            })
         }
     }
     onLoad(){
