@@ -18,9 +18,9 @@ import AV from './utils/av-weapp-min.js';
 
 //themeColor
 var myConfig = {
-    themeColor : '#51e886',
+    themeColor : '#ABC327',
     themeimg : 'green/',
-    cityname : 'My City',
+    cityname : '智慧莱阳',
     cityid : '370682',
     ads : true,
 }
@@ -44,12 +44,12 @@ export default class extends wepy.app {
     window: {
       backgroundTextStyle: 'light',
       navigationBarBackgroundColor: '#fff',
-      navigationBarTitleText: 'My City',
+      navigationBarTitleText: '智慧莱阳',
       navigationBarTextStyle: 'black'
      },
      tabBar: {
           color: '#999',
-          selectedColor : '#51e886', //themeColor
+          selectedColor : '#ABC327', //themeColor
           backgroundColor : '#fff',
           list: [
               {
