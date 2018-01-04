@@ -1,7 +1,7 @@
 <template>
    <view class="loading">
        <view hidden="{{!loading}}">加载中...</view>
-       <view hidden="{{loading || !loadend}}">我也是有底线的~</view>
+       <view hidden="{{loading || !loadend}}">做人做事要有底线~</view>
    </view>
 </template>
 

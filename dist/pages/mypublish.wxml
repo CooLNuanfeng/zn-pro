@@ -119,7 +119,7 @@
                     
    <view class="loading">
        <view hidden="{{!$vLoading$loading}}">加载中...</view>
-       <view hidden="{{$vLoading$loading || !$vLoading$loadend}}">我也是有底线的~</view>
+       <view hidden="{{$vLoading$loading || !$vLoading$loadend}}">做人做事要有底线~</view>
    </view>
 
                 </view>

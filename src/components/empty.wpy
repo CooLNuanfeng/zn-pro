@@ -122,6 +122,6 @@ export default class Empty  extends wepy.component{
 .empty-news{
     padding-bottom: 80rpx;
     background: #fff;
-    margin-bottom: 372rpx;
+    margin-bottom: 340rpx;
 }
 </style>
